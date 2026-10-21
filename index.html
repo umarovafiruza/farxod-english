@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Speak Up</title>
+<style>
+:root {
+  box-sizing: border-box;
+  --bg: #ffffff;
+  --ink: #111111;
+  --mute: #8a8a8a;
+  --line: #e8e8e8;
+  --accent: #1f3fd1;
+  --accent-light: #eef2ff;
+  --surface: #fbfbfb;
+  --btn-sec-bg: #f0f0f0;
+  --btn-sec-hover: #e4e4e4;
+  color-scheme: light;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+button:focus-visible, input[type=range]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Home view */
+#home {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: clamp(28px, 6vh, 64px) clamp(16px, 4vw, 28px) clamp(36px, 8vh, 72px);
+  padding-top: calc(clamp(28px, 6vh, 64px) + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(clamp(36px, 8vh, 72px) + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(clamp(16px, 4vw, 28px) + env(safe-area-inset-left, 0px));
+  padding-right: calc(clamp(16px, 4vw, 28px) + env(safe-area-inset-right, 0px));
+}
+
+h1 {
+  font-size: clamp(28px, 6vw, 42px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.sub {
+  color: var(--mute);
+  font-size: clamp(15px, 2.5vw, 17px);
+  line-height: 1.5;
+  margin-bottom: clamp(24px, 5vh, 38px);
+}
+
+/* Topics list */
+#list {
+  display: flex;
+  flex-direction: column;
+}
+
+.topic {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 3vw, 18px);
+  width: 100%;
+  text-align: left;
+  padding: clamp(14px, 2.5vh, 20px) 6px;
+  border-top: 1px solid var(--line);
+  transition: padding-left 0.2s ease, background-color 0.15s ease;
+  min-height: 52px;
+  border-radius: 6px;
+}
+
+.topic:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.topic:hover {
+  padding-left: 12px;
+  background-color: var(--surface);
+}
+
+.topic:active {
+  background-color: var(--line);
+}
+
+.topic .n {
+  color: var(--mute);
+  font-size: 14px;
+  font-weight: 500;
+  width: 22px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.topic .t {
+  flex: 1;
+  font-size: clamp(16px, 2.8vw, 21px);
+  font-weight: 500;
+  color: var(--ink);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.topic .l {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 3px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* Reader view */
+#reader {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  background: var(--bg);
+  z-index: 100;
+  overflow: hidden;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+#reader.on {
+  display: flex;
+}
+
+/* Reader Top Header */
+.top-wrap {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.top {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  min-height: 54px;
+  gap: 16px;
+}
+
+#back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 10px 14px;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 8px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+#back svg {
+  flex-shrink: 0;
+}
+
+#back:hover {
+  background-color: var(--surface);
+  color: var(--accent);
+}
+
+#back:active {
+  background-color: var(--line);
+}
+
+.top .ttl {
+  color: var(--mute);
+  font-size: clamp(14px, 2.5vw, 16px);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  flex: 1;
+  max-width: 65%;
+}
+
+/* Reading Stage */
+#stage {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  -webkit-mask-image: linear-gradient(transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+
+.stage-inner {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  height: 100%;
+}
+
+#fl {
+  position: absolute;
+  left: 50%;
+  width: clamp(38px, 8vw, 52px);
+  height: 2px;
+  transform: translateX(-50%);
+  background: var(--accent);
+  z-index: 2;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(31, 63, 209, 0.4);
+  pointer-events: none;
+}
+
+#lines {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  text-align: center;
+  will-change: transform;
+}
+
+.ln {
+  font-family: Georgia, Cambria, "Times New Roman", serif;
+  font-size: clamp(24px, 5.5vw, 52px);
+  line-height: 1.45;
+  white-space: nowrap;
+  padding: 0 clamp(16px, 4vw, 32px);
+  transition: opacity 0.1s ease, color 0.15s ease;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ln:hover {
+  color: var(--accent);
+}
+
+#msg {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  text-align: center;
+  z-index: 3;
+  font-size: clamp(19px, 4vw, 26px);
+  font-weight: 500;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+#msg.on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reader Control Bar */
+.bar-wrap {
+  width: 100%;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.bar {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 20px 18px;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 22px;
+  border-radius: 22px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: #ffffff;
+  min-width: 88px;
+}
+
+.btn-primary:hover {
+  background: #2a2a2a;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  background: #444444;
+}
+
+.btn-secondary {
+  background: var(--btn-sec-bg);
+  color: var(--ink);
+  min-width: 84px;
+  font-weight: 500;
+}
+
+.btn-secondary:hover {
+  background: var(--btn-sec-hover);
+}
+
+.btn-secondary:active {
+  background: #d8d8d8;
+}
+
+.sp {
+  flex: 1;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.sp-label {
+  font-size: 13px;
+  color: var(--mute);
+  font-weight: 500;
+  user-select: none;
+}
+
+.sp-val {
+  font-size: 14px;
+  color: var(--mute);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  min-width: 68px;
+  text-align: right;
+  font-weight: 500;
+  user-select: none;
+}
+
+input[type=range] {
+  flex: 1;
+  min-width: 80px;
+  height: 36px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+}
+
+input[type=range]::-moz-range-track {
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  margin-top: -9px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.22);
+  transition: transform 0.1s ease;
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.22);
+}
+
+input[type=range]:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+/* Responsive adjustments for Tablets & Mobile Phones */
+@media (max-width: 620px) {
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+  .sp {
+    max-width: 100%;
+    order: 1;
+  }
+  .btn-group {
+    order: 2;
+    width: 100%;
+    gap: 10px;
+  }
+  .btn {
+    flex: 1;
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 360px) {
+  .sp-label {
+    display: none;
+  }
+  .bar {
+    padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .topic {
+    gap: 10px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="home">
+  <h1>Speak Up</h1>
+  <p class="sub">Choose a text. Read it out loud, as it moves.</p>
+  <div id="list"></div>
+</div>
+
+<div id="reader">
+  <header class="top-wrap">
+    <div class="top">
+      <button id="back" aria-label="Back to topics list">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Back</span>
+      </button>
+      <span class="ttl" id="ttl"></span>
+    </div>
+  </header>
+
+  <main id="stage" role="region" aria-label="Reading prompter">
+    <div class="stage-inner">
+      <div id="msg" role="status" aria-live="polite"></div>
+      <div id="fl" aria-hidden="true"></div>
+      <div id="lines" aria-live="off"></div>
+    </div>
+  </main>
+
+  <footer class="bar-wrap">
+    <div class="bar">
+      <div class="btn-group">
+        <button class="btn btn-primary" id="go" aria-label="Start or pause scrolling">Start</button>
+        <button class="btn btn-secondary" id="re" aria-label="Restart from beginning">Restart</button>
+      </div>
+      <div class="sp">
+        <label for="spd" class="sp-label">Speed</label>
+        <input type="range" id="spd" min="40" max="260" step="5" value="120" aria-label="Speed in words per minute">
+        <span id="sv" class="sp-val">120 wpm</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+var T = [
+  {t:"Tired today",l:"A1",x:"You are tired today. That is okay. You do not have to be strong all the time. Sit down and breathe slowly. You did many hard things before. You are still here, and that is strong. Rest a little. Tomorrow is a new day. You can try again. Now, be kind to yourself."},
+  {t:"Small steps",l:"A1",x:"Start small. Do one small thing today. Read one page. Say one sentence. Walk for five minutes. Small steps are still steps. You do not need to be perfect. You only need to begin. Every big dream starts with one small day. Today can be that day. Say it with me: I can begin now."},
+  {t:"You are not alone",l:"A2",x:"Maybe you feel alone tonight. But listen to me. You are not the only one. Many people feel this way, and they are brave too. Your feelings are real, and they matter. This feeling will not stay forever. It will pass, like rain. Until then, I am here with you, word by word."},
+  {t:"A bad day",l:"A2",x:"Today was not easy, was it? Maybe things went wrong. Maybe you wanted to give up. That is fine. A bad day does not make a bad life. You are learning, and learning is hard. Put this day down now. Breathe in, breathe out. You are doing better than you think."},
+  {t:"Your dream",l:"A2",x:"Do you remember your dream? The big one, the one you hide? Do not forget it. It lives in you for a reason. Maybe it feels far away today. But every day you move a little closer. Keep going, even when it is slow. One day, you will look back and smile."},
+  {t:"Your English",l:"A1",x:"Your English is growing. You may not see it, but it is true. Yesterday you knew less. Today you know more. Every word you say out loud makes you stronger. Do not be afraid of mistakes. Speak, speak, and speak again. Your voice is important. The world wants to hear it."},
+  {t:"Mistakes are fine",l:"A2",x:"You made a mistake. So what? Everyone does. Even the best speakers made thousands of mistakes. A mistake is not a failure. It is proof that you are trying. Laugh a little, fix it, and move on. Do not stop. Brave people are not perfect people. They are people who keep trying."},
+  {t:"Believe in yourself",l:"B1",x:"Sometimes you do not believe in yourself, and that is hard. But look at how far you have come. You have survived every bad day until now. That is a perfect record. You are more capable than you feel right now. Trust yourself a little more today. The person you want to become is already inside you."},
+  {t:"Tonight",l:"A1",x:"It is night now. The day is over. You did enough today. Really, you did. Close your eyes for a moment. Think of one good thing from today. Just one. Maybe a smile, or a warm drink. Let the rest go. You can sleep now. You deserve to rest. Good night."},
+  {t:"New morning",l:"B1",x:"Good morning. A new day is waiting for you, and it is completely empty. Nothing has gone wrong yet. You can choose how to begin. Take a deep breath and stand up tall. Say to yourself: today I will try my best. You do not need a perfect plan. You only need the courage to take the first step."}
+];
+
+var $ = function(id) { return document.getElementById(id); };
+var list = $("list"), reader = $("reader"), stage = $("stage"), linesEl = $("lines"), fl = $("fl"), msg = $("msg"), go = $("go"), spd = $("spd");
+
+var rows = [], lines = [], words = [];
+var lh = 60, off = 0, run = false, last = 0, raf = 0, sess = 0, focusY = 0, cur = 0;
+var wordPos = 0; // Continuous word progress (preserves exact reading spot across resizes)
+
+// Offscreen canvas for accurate text measurement during responsive reformatting
+var _measCanvas = document.createElement("canvas");
+var _ctx = _measCanvas.getContext("2d");
+
+// Build topic list on home screen
+T.forEach(function(item, index){
+  var btn = document.createElement("button");
+  btn.className = "topic";
+  btn.innerHTML = '<span class="n">' + (index + 1) + '</span><span class="t">' + item.t + '</span><span class="l">' + item.l + '</span>';
+  btn.onclick = function() { open(index); };
+  list.appendChild(btn);
+});
+
+// Speed settings
+function speed() {
+  var v = +spd.value;
+  $("sv").textContent = v + " wpm";
+  try { localStorage.setItem("su_spd", v); } catch(e) {}
+}
+try {
+  var saved = localStorage.getItem("su_spd");
+  if (saved) spd.value = saved;
+} catch(e) {}
+spd.oninput = speed;
+speed();
+
+// Font calculation helper matching CSS clamp(24px, 5.5vw, 52px)
+function getTargetFont() {
+  var sample = linesEl.firstElementChild;
+  if (sample) {
+    var cs = window.getComputedStyle(sample);
+    if (cs.fontSize) {
+      return (cs.fontStyle || "normal") + " " + (cs.fontWeight || "400") + " " + cs.fontSize + " " + (cs.fontFamily || "Georgia, serif");
+    }
+  }
+  var w = stage.clientWidth || window.innerWidth;
+  var fs = Math.max(24, Math.min(52, Math.round(w * 0.055)));
+  return "400 " + fs + "px Georgia, serif";
+}
+
+// Adaptive text chunker: reformats words into lines according to viewport width and reading margins
+function chunkWords(wordList, availWidth) {
+  _ctx.font = getTargetFont();
+  // Ensure comfortable reading breathing room: text width capped to 88% of container or 640px
+  var maxW = Math.max(180, Math.min(availWidth - 48, 640) * 0.88);
+
+  // Responsive max words per line
+  var maxWords;
+  if (availWidth < 380) {
+    maxWords = 3; // Ultra-narrow mobile: 2-3 words
+  } else if (availWidth < 560) {
+    maxWords = 3; // Standard mobile: 3 words
+  } else if (availWidth < 800) {
+    maxWords = 4; // Tablet: 3-4 words
+  } else {
+    maxWords = 4; // Desktop / Large monitor: 4 words
+  }
+
+  var result = [];
+  var curChunk = [];
+  var curStart = 0;
+
+  for (var i = 0; i < wordList.length; i++) {
+    var testChunk = curChunk.concat([wordList[i]]);
+    var testStr = testChunk.join(" ");
+    var testW = _ctx.measureText(testStr).width;
+
+    if (curChunk.length > 0 && (testW > maxW || curChunk.length >= maxWords)) {
+      result.push({
+        text: curChunk.join(" "),
+        startWord: curStart,
+        endWord: i,
+        wordCount: curChunk.length
+      });
+      curChunk = [wordList[i]];
+      curStart = i;
+    } else {
+      curChunk.push(wordList[i]);
+    }
+  }
+
+  if (curChunk.length > 0) {
+    result.push({
+      text: curChunk.join(" "),
+      startWord: curStart,
+      endWord: wordList.length,
+      wordCount: curChunk.length
+    });
+  }
+
+  return result;
+}
+
+// Converts continuous word position to vertical pixel scroll offset
+function wordPosToOffset(pos) {
+  if (!lines.length) return 0;
+  if (pos <= 0) return 0;
+  if (pos >= words.length) {
+    return lines.length * lh;
+  }
+
+  for (var j = 0; j < lines.length; j++) {
+    var line = lines[j];
+    if (pos >= line.startWord && pos < line.endWord) {
+      var frac = (pos - line.startWord) / line.wordCount;
+      return (j + frac) * lh;
+    }
+  }
+  return (lines.length - 1) * lh;
+}
+
+// Rebuild line DOM nodes based on current screen dimensions
+function rebuildLines() {
+  if (cur < 0 || cur >= T.length) return;
+  var availW = stage.clientWidth || window.innerWidth;
+  lines = chunkWords(words, availW);
+
+  linesEl.innerHTML = "";
+  rows = [];
+
+  for (var k = 0; k < lines.length; k++) {
+    var d = document.createElement("div");
+    d.className = "ln";
+    d.textContent = lines[k].text;
+    (function(idx) {
+      d.onclick = function() {
+        jumpToLine(idx);
+      };
+    })(k);
+    linesEl.appendChild(d);
+    rows.push(d);
+  }
+
+  // End banner
+  var endEl = document.createElement("div");
+  endEl.className = "ln";
+  endEl.textContent = "Well done.";
+  endEl.style.color = "var(--accent)";
+  endEl.style.fontWeight = "600";
+  linesEl.appendChild(endEl);
+  rows.push(endEl);
+}
+
+function jumpToLine(idx) {
+  if (idx >= 0 && idx < lines.length) {
+    wordPos = lines[idx].startWord;
+    off = wordPosToOffset(wordPos);
+    paint();
+  }
+}
+
+function build(i) {
+  cur = i;
+  words = T[i].x.split(/\s+/);
+  wordPos = 0;
+  off = 0;
+  rebuildLines();
+  layout();
+}
+
+function layout() {
+  focusY = Math.round(stage.clientHeight * 0.4);
+  if (rows.length && rows[0].offsetHeight) {
+    lh = rows[0].offsetHeight;
+  } else {
+    lh = 56;
+  }
+  fl.style.top = (focusY - 2) + "px";
+  msg.style.top = Math.max(12, focusY - 56) + "px";
+
+  // Re-map wordPos to offset so position is preserved
+  off = wordPosToOffset(wordPos);
+  paint();
+}
+
+function paint() {
+  linesEl.style.transform = "translate3d(0," + (focusY - off).toFixed(2) + "px,0)";
+  var curLine = lh > 0 ? (off / lh) : 0;
+  for (var i = 0; i < rows.length; i++) {
+    var d = i - curLine;
+    var o = d < 0 ? Math.max(0.08, 1 + d * 0.55) : Math.max(0.12, 1 - d * 0.32);
+    rows[i].style.opacity = o.toFixed(3);
+  }
+}
+
+var cs = 0;
+function tick(t) {
+  if (!run) return;
+  var dt = Math.min(0.05, (t - last) / 1000);
+  last = t;
+
+  cs += ((+spd.value) - cs) * (1 - Math.exp(-dt * 3));
+  // Words per minute / 60 = words per second
+  var wordsThisFrame = (cs / 60) * dt;
+  wordPos += wordsThisFrame;
+
+  off = wordPosToOffset(wordPos);
+  var maxOff = lines.length * lh;
+
+  if (wordPos >= words.length || off >= maxOff) {
+    wordPos = words.length;
+    off = maxOff;
+    run = false;
+    go.textContent = "Start";
+    paint();
+    return;
+  }
+
+  paint();
+  raf = requestAnimationFrame(tick);
+}
+
+function play() {
+  cs = 0;
+  run = true;
+  go.textContent = "Pause";
+  last = performance.now();
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(tick);
+}
+
+function pause() {
+  run = false;
+  cancelAnimationFrame(raf);
+  go.textContent = "Start";
+}
+
+function say(done) {
+  var fired = false;
+  var fin = function() {
+    if (!fired) {
+      fired = true;
+      done();
+    }
+  };
+
+  if (!("speechSynthesis" in window)) {
+    setTimeout(fin, 1500);
+    return;
+  }
+
+  try {
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance("Speak fast and clear");
+    u.lang = "en-US";
+    u.rate = 1.05;
+    u.pitch = 1.15;
+    var f = speechSynthesis.getVoices().filter(function(v) {
+      return /^en/i.test(v.lang) && /female|samantha|zira|aria|jenny|karen|susan|serena|tessa|moira|google us english/i.test(v.name);
+    })[0];
+    if (f) u.voice = f;
+    u.onend = fin;
+    u.onerror = fin;
+    setTimeout(fin, 4000);
+    speechSynthesis.speak(u);
+  } catch(e) {
+    setTimeout(fin, 1500);
+  }
+}
+
+function begin() {
+  var my = ++sess;
+  pause();
+  wordPos = 0;
+  off = 0;
+  paint();
+  msg.textContent = "Speak fast and clear";
+  msg.classList.add("on");
+
+  say(function() {
+    if (my !== sess) return;
+    msg.classList.remove("on");
+    setTimeout(function() {
+      if (my === sess) play();
+    }, 450);
+  });
+}
+
+function open(i) {
+  cur = i;
+  $("ttl").textContent = T[i].t;
+  document.getElementById("home").style.display = "none";
+  reader.classList.add("on");
+  build(i);
+  begin();
+}
+
+go.onclick = function() {
+  if (run) {
+    pause();
+  } else {
+    if (wordPos >= words.length) {
+      wordPos = 0;
+      off = 0;
+    }
+    sess++;
+    msg.classList.remove("on");
+    try { speechSynthesis.cancel(); } catch(e) {}
+    play();
+  }
+};
+
+$("re").onclick = function() {
+  begin();
+};
+
+$("back").onclick = function() {
+  sess++;
+  pause();
+  try { speechSynthesis.cancel(); } catch(e) {}
+  msg.classList.remove("on");
+  reader.classList.remove("on");
+  document.getElementById("home").style.display = "";
+};
+
+// Responsive Resize Handling: reformats text and maintains reading state seamlessly
+var resizePending = false;
+function handleResize() {
+  if (!reader.classList.contains("on")) return;
+  rebuildLines();
+  layout();
+}
+
+window.addEventListener("resize", function() {
+  if (!reader.classList.contains("on")) return;
+  if (!resizePending) {
+    resizePending = true;
+    requestAnimationFrame(function() {
+      resizePending = false;
+      handleResize();
+    });
+  }
+});
+
+// Keyboard controls for Laptop and Desktop users
+window.addEventListener("keydown", function(e) {
+  if (!reader.classList.contains("on")) return;
+  if (e.target && e.target.tagName === "INPUT") return;
+
+  if (e.code === "Space") {
+    e.preventDefault();
+    go.click();
+  } else if (e.code === "KeyR") {
+    e.preventDefault();
+    $("re").click();
+  } else if (e.code === "Escape") {
+    e.preventDefault();
+    $("back").click();
+  } else if (e.code === "ArrowUp" || e.code === "ArrowRight") {
+    e.preventDefault();
+    spd.value = Math.min(260, +spd.value + 5);
+    speed();
+  } else if (e.code === "ArrowDown" || e.code === "ArrowLeft") {
+    e.preventDefault();
+    spd.value = Math.max(40, +spd.value - 5);
+    speed();
+  }
+});
+
+if ("speechSynthesis" in window) speechSynthesis.getVoices();
+</script>
+</body>
+</html>
