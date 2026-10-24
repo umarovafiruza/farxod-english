@@ -54,7 +54,7 @@ button {
   user-select: none;
 }
 
-button:focus-visible, input[type=range]:focus-visible {
+button:focus-visible, input[type=range]:focus-visible, input[type=text]:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -136,6 +136,15 @@ h1 {
   word-break: break-word;
 }
 
+.topic .badges-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .topic .l {
   font-size: 12px;
   font-weight: 600;
@@ -144,6 +153,28 @@ h1 {
   padding: 3px 8px;
   border-radius: 10px;
   letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.topic .b2-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0f6a15;
+  background: #eafbe7;
+  padding: 3px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.topic .r-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1952a5;
+  background: #eef4ff;
+  padding: 3px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.02em;
   flex-shrink: 0;
 }
 
@@ -183,7 +214,7 @@ h1 {
   align-items: center;
   padding: 8px 16px;
   min-height: 54px;
-  gap: 16px;
+  gap: 12px;
 }
 
 #back {
@@ -193,11 +224,12 @@ h1 {
   font-size: 15px;
   font-weight: 500;
   color: var(--ink);
-  padding: 10px 14px;
-  min-height: 44px;
-  min-width: 44px;
+  padding: 8px 12px;
+  min-height: 40px;
+  min-width: 40px;
   border-radius: 8px;
   transition: background-color 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
 }
 
 #back svg {
@@ -213,16 +245,49 @@ h1 {
   background-color: var(--line);
 }
 
+/* Tab Switcher in Header */
+.tab-group {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  padding: 6px 13px;
+  border-radius: 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--mute);
+  transition: all 0.15s ease;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--ink);
+}
+
+.tab-btn.active {
+  background: var(--ink);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
 .top .ttl {
   color: var(--mute);
-  font-size: clamp(14px, 2.5vw, 16px);
+  font-size: clamp(13px, 2.2vw, 15px);
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: right;
   flex: 1;
-  max-width: 65%;
+  max-width: 35%;
 }
 
 /* Reading Stage */
@@ -445,6 +510,636 @@ input[type=range]:active::-webkit-slider-thumb {
   transform: scale(1.15);
 }
 
+/* Vocabulary View */
+.vocab-wrap {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(18px, 2.5vh, 28px) clamp(16px, 4vw, 28px) clamp(36px, 6vh, 60px);
+}
+
+.vocab-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.vocab-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.vocab-title {
+  font-size: clamp(20px, 4vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.vocab-sub {
+  font-size: 14px;
+  color: var(--mute);
+  line-height: 1.4;
+}
+
+.vocab-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.vocab-badge-level {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0d5f07;
+  background: #eafbe7;
+  border: 1px solid #b7ebb1;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.vocab-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Search and Filters */
+.vocab-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.vocab-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.vocab-search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--mute);
+  pointer-events: none;
+}
+
+.vocab-search-input {
+  width: 100%;
+  padding: 11px 38px 11px 40px;
+  font-size: 14.5px;
+  font-family: inherit;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 12px;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.vocab-search-input:focus {
+  background: #ffffff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31, 63, 209, 0.12);
+}
+
+.vocab-search-clear {
+  position: absolute;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--line);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.vocab-search-clear:hover {
+  background: #d4d4d4;
+}
+
+.vocab-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.vocab-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.v-filter-btn {
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--mute);
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.v-filter-btn:hover {
+  color: var(--ink);
+  border-color: #cbd5e1;
+}
+
+.v-filter-btn.active {
+  background: var(--ink);
+  color: #ffffff;
+  border-color: var(--ink);
+}
+
+.vocab-empty {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--mute);
+  font-size: 15px;
+}
+
+.vocab-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.v-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: clamp(14px, 2.5vw, 18px) clamp(16px, 3vw, 20px);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.v-card:hover {
+  border-color: #d0d5dd;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+}
+
+.v-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.v-word-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.v-word {
+  font-size: clamp(18px, 3vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.v-pos {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--mute);
+}
+
+.v-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.v-audio-btn svg {
+  flex-shrink: 0;
+}
+
+.v-audio-btn:hover {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: scale(1.06);
+}
+
+.v-audio-btn:active {
+  transform: scale(0.95);
+}
+
+.v-audio-btn.speaking {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  animation: pulse-audio 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-audio {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+.v-tr {
+  font-size: clamp(15px, 2.5vw, 16px);
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.v-ex-box {
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.v-ex {
+  font-family: Georgia, Cambria, "Times New Roman", serif;
+  font-size: clamp(14px, 2.5vw, 16px);
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.v-ex strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.v-ex-tr {
+  font-size: 13px;
+  color: var(--mute);
+  line-height: 1.4;
+}
+
+/* ========================================================
+   Reading & Comprehension Styles
+   ======================================================== */
+.reading-wrap {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(18px, 2.5vh, 28px) clamp(16px, 4vw, 28px) clamp(40px, 7vh, 70px);
+}
+
+.reading-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.r-passage-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.r-passage-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.r-level-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1952a5;
+  background: #eef4ff;
+  padding: 3px 8px;
+  border-radius: 8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.r-title {
+  font-size: clamp(20px, 3.8vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.r-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.r-time-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mute);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 5px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+
+.r-passage-text {
+  font-family: Georgia, Cambria, "Times New Roman", serif;
+  font-size: clamp(16px, 2.6vw, 18px);
+  line-height: 1.7;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.r-passage-text p {
+  text-align: justify;
+}
+
+/* Quiz Section */
+.r-quiz-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.r-quiz-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.r-quiz-title {
+  font-size: clamp(18px, 3vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.r-quiz-sub {
+  font-size: 13.5px;
+  color: var(--mute);
+}
+
+.r-quiz-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.r-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.r-q-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: clamp(14px, 2.5vw, 18px) clamp(16px, 3vw, 20px);
+  transition: border-color 0.15s ease;
+}
+
+.r-q-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.r-q-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-light);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.r-q-text {
+  font-size: clamp(15px, 2.5vw, 16.5px);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.r-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.r-opt-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 14.5px;
+  color: var(--ink);
+  transition: all 0.15s ease;
+}
+
+.r-opt-btn:hover:not(:disabled) {
+  background: #f4f6fa;
+  border-color: #cbd5e1;
+}
+
+.r-opt-letter {
+  font-weight: 700;
+  color: var(--mute);
+  font-size: 13px;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.r-opt-text {
+  flex: 1;
+}
+
+.r-opt-btn.correct {
+  background: #eefbe8;
+  border-color: #70c961;
+  color: #126307;
+  font-weight: 600;
+}
+
+.r-opt-btn.correct .r-opt-letter {
+  color: #126307;
+}
+
+.r-opt-btn.incorrect {
+  background: #fdf0f0;
+  border-color: #f19a9a;
+  color: #b71919;
+}
+
+.r-opt-btn.incorrect .r-opt-letter {
+  color: #b71919;
+}
+
+.r-opt-btn:disabled {
+  cursor: default;
+}
+
+.r-explanation {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.45;
+  display: none;
+}
+
+.r-explanation.show {
+  display: block;
+  animation: fadeInExp 0.25s ease;
+}
+
+.r-explanation-title {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+@keyframes fadeInExp {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Score Summary Box */
+.r-score-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 8px;
+}
+
+.r-score-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.r-score-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.r-score-info {
+  flex: 1;
+  min-width: 180px;
+}
+
+.r-score-heading {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.r-score-message {
+  font-size: 14px;
+  color: var(--mute);
+}
+
+.r-retry-btn {
+  padding: 10px 22px;
+  background: var(--ink);
+  color: #ffffff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.r-retry-btn:hover {
+  background: #2a2a2a;
+  transform: translateY(-1px);
+}
+
 /* Responsive adjustments for Tablets & Mobile Phones */
 @media (max-width: 620px) {
   .bar {
@@ -468,6 +1163,20 @@ input[type=range]:active::-webkit-slider-thumb {
   }
 }
 
+@media (max-width: 520px) {
+  .top .ttl {
+    display: none;
+  }
+  .tab-btn {
+    padding: 6px 9px;
+    font-size: 11.5px;
+  }
+  .vocab-header, .r-passage-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 @media (max-width: 360px) {
   .sp-label {
     display: none;
@@ -485,7 +1194,7 @@ input[type=range]:active::-webkit-slider-thumb {
 
 <div id="home">
   <h1>Speak Up</h1>
-  <p class="sub">Choose a text. Read it out loud, as it moves.</p>
+  <p class="sub">Choose a text. Read it out loud, master 100 B2 words, and test your reading comprehension.</p>
   <div id="list"></div>
 </div>
 
@@ -496,6 +1205,11 @@ input[type=range]:active::-webkit-slider-thumb {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         <span>Back</span>
       </button>
+      <div class="tab-group" role="tablist" aria-label="Switch mode">
+        <button class="tab-btn active" id="tab-practice" role="tab" aria-selected="true">Practice</button>
+        <button class="tab-btn" id="tab-vocab" role="tab" aria-selected="false">Vocabulary</button>
+        <button class="tab-btn" id="tab-reading" role="tab" aria-selected="false">Reading</button>
+      </div>
       <span class="ttl" id="ttl"></span>
     </div>
   </header>
@@ -508,7 +1222,87 @@ input[type=range]:active::-webkit-slider-thumb {
     </div>
   </main>
 
-  <footer class="bar-wrap">
+  <!-- Vocabulary View -->
+  <section id="vocab" class="vocab-wrap" style="display: none;" aria-label="Vocabulary list">
+    <div class="vocab-inner">
+      <div class="vocab-header">
+        <div>
+          <h2 id="vocab-title" class="vocab-title">Vocabulary</h2>
+          <p class="vocab-sub">100 curated B2 Upper-Intermediate words, phrases, and collocations</p>
+        </div>
+        <div class="vocab-badges">
+          <span class="vocab-badge-level">B2 Level</span>
+          <span id="vocab-count" class="vocab-badge">100 words</span>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="vocab-controls">
+        <div class="vocab-search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="vocab-search-icon" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="vocab-search" class="vocab-search-input" placeholder="Search words or Uzbek translations..." aria-label="Search vocabulary">
+          <button id="vocab-search-clear" class="vocab-search-clear" aria-label="Clear search" style="display: none;">&times;</button>
+        </div>
+        <div class="vocab-filters" id="vocab-filters">
+          <button class="v-filter-btn active" data-filter="all">All (100)</button>
+          <button class="v-filter-btn" data-filter="n">Nouns</button>
+          <button class="v-filter-btn" data-filter="v">Verbs</button>
+          <button class="v-filter-btn" data-filter="adj">Adjectives</button>
+          <button class="v-filter-btn" data-filter="phrase">Phrases / Idioms</button>
+        </div>
+      </div>
+
+      <div id="vocab-cards" class="vocab-cards"></div>
+      <div id="vocab-empty" class="vocab-empty" style="display: none;">
+        <p>No matching words found.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reading & Comprehension View -->
+  <section id="reading" class="reading-wrap" style="display: none;" aria-label="Reading comprehension">
+    <div class="reading-inner">
+      <!-- Reading Passage Card -->
+      <article class="r-passage-card">
+        <div class="r-passage-header">
+          <div class="r-passage-header-left">
+            <span class="r-level-tag">Reading & Comprehension</span>
+            <h2 id="r-title" class="r-title">Reading Passage</h2>
+          </div>
+          <div class="r-meta-row">
+            <span id="r-time" class="r-time-badge">⏱️ 1.5 min read</span>
+          </div>
+        </div>
+        <div id="r-text" class="r-passage-text"></div>
+      </article>
+
+      <!-- Quiz Section -->
+      <section class="r-quiz-section" aria-label="Comprehension Questions">
+        <div class="r-quiz-header">
+          <div>
+            <h3 class="r-quiz-title">Comprehension Check</h3>
+            <p id="r-quiz-sub" class="r-quiz-sub">Answer the questions based on the passage to test your understanding</p>
+          </div>
+          <span id="r-quiz-progress" class="r-quiz-badge">5 Questions</span>
+        </div>
+
+        <div id="r-questions" class="r-questions-list"></div>
+
+        <div id="r-score-box" class="r-score-box" style="display: none;">
+          <div class="r-score-content">
+            <div id="r-score-circle" class="r-score-circle">5/5</div>
+            <div class="r-score-info">
+              <h4 id="r-score-heading" class="r-score-heading">Well done!</h4>
+              <p id="r-score-message" class="r-score-message">You answered all questions correctly.</p>
+            </div>
+            <button id="r-retry-btn" class="r-retry-btn">Retry Quiz</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <footer class="bar-wrap" id="bar-wrap">
     <div class="bar">
       <div class="btn-group">
         <button class="btn btn-primary" id="go" aria-label="Start or pause scrolling">Start</button>
@@ -523,26 +1317,292 @@ input[type=range]:active::-webkit-slider-thumb {
   </footer>
 </div>
 
+<!-- 1,000 B2 Vocabulary Dataset (100 words per topic) -->
+<script src="vocab_data.js"></script>
+<!-- 50 Reading Passages & Comprehension Quizzes -->
+<script src="reading_data.js"></script>
+
 <script>
 var T = [
-  {t:"Tired today",l:"A1",x:"You are tired today. That is okay. You do not have to be strong all the time. Sit down and breathe slowly. You did many hard things before. You are still here, and that is strong. Rest a little. Tomorrow is a new day. You can try again. Now, be kind to yourself."},
-  {t:"Small steps",l:"A1",x:"Start small. Do one small thing today. Read one page. Say one sentence. Walk for five minutes. Small steps are still steps. You do not need to be perfect. You only need to begin. Every big dream starts with one small day. Today can be that day. Say it with me: I can begin now."},
-  {t:"You are not alone",l:"A2",x:"Maybe you feel alone tonight. But listen to me. You are not the only one. Many people feel this way, and they are brave too. Your feelings are real, and they matter. This feeling will not stay forever. It will pass, like rain. Until then, I am here with you, word by word."},
-  {t:"A bad day",l:"A2",x:"Today was not easy, was it? Maybe things went wrong. Maybe you wanted to give up. That is fine. A bad day does not make a bad life. You are learning, and learning is hard. Put this day down now. Breathe in, breathe out. You are doing better than you think."},
-  {t:"Your dream",l:"A2",x:"Do you remember your dream? The big one, the one you hide? Do not forget it. It lives in you for a reason. Maybe it feels far away today. But every day you move a little closer. Keep going, even when it is slow. One day, you will look back and smile."},
-  {t:"Your English",l:"A1",x:"Your English is growing. You may not see it, but it is true. Yesterday you knew less. Today you know more. Every word you say out loud makes you stronger. Do not be afraid of mistakes. Speak, speak, and speak again. Your voice is important. The world wants to hear it."},
-  {t:"Mistakes are fine",l:"A2",x:"You made a mistake. So what? Everyone does. Even the best speakers made thousands of mistakes. A mistake is not a failure. It is proof that you are trying. Laugh a little, fix it, and move on. Do not stop. Brave people are not perfect people. They are people who keep trying."},
-  {t:"Believe in yourself",l:"B1",x:"Sometimes you do not believe in yourself, and that is hard. But look at how far you have come. You have survived every bad day until now. That is a perfect record. You are more capable than you feel right now. Trust yourself a little more today. The person you want to become is already inside you."},
-  {t:"Tonight",l:"A1",x:"It is night now. The day is over. You did enough today. Really, you did. Close your eyes for a moment. Think of one good thing from today. Just one. Maybe a smile, or a warm drink. Let the rest go. You can sleep now. You deserve to rest. Good night."},
-  {t:"New morning",l:"B1",x:"Good morning. A new day is waiting for you, and it is completely empty. Nothing has gone wrong yet. You can choose how to begin. Take a deep breath and stand up tall. Say to yourself: today I will try my best. You do not need a perfect plan. You only need the courage to take the first step."}
+  {
+    "t": "Tired today",
+    "l": "A1",
+    "x": "You are tired today. That is okay. You do not have to be strong all the time. Sit down and breathe slowly. You did many hard things before. You are still here, and that is strong. Rest a little. Tomorrow is a new day. You can try again. Now, be kind to yourself."
+  },
+  {
+    "t": "Small steps",
+    "l": "A1",
+    "x": "Start small. Do one small thing today. Read one page. Say one sentence. Walk for five minutes. Small steps are still steps. You do not need to be perfect. You only need to begin. Every big dream starts with one small day. Today can be that day. Say it with me: I can begin now."
+  },
+  {
+    "t": "You are not alone",
+    "l": "A2",
+    "x": "Maybe you feel alone tonight. But listen to me. You are not the only one. Many people feel this way, and they are brave too. Your feelings are real, and they matter. This feeling will not stay forever. It will pass, like rain. Until then, I am here with you, word by word."
+  },
+  {
+    "t": "A bad day",
+    "l": "A2",
+    "x": "Today was not easy, was it? Maybe things went wrong. Maybe you wanted to give up. That is fine. A bad day does not make a bad life. You are learning, and learning is hard. Put this day down now. Breathe in, breathe out. You are doing better than you think."
+  },
+  {
+    "t": "Your dream",
+    "l": "A2",
+    "x": "Do you remember your dream? The big one, the one you hide? Do not forget it. It lives in you for a reason. Maybe it feels far away today. But every day you move a little closer. Keep going, even when it is slow. One day, you will look back and smile."
+  },
+  {
+    "t": "Your English",
+    "l": "A1",
+    "x": "Your English is growing. You may not see it, but it is true. Yesterday you knew less. Today you know more. Every word you say out loud makes you stronger. Do not be afraid of mistakes. Speak, speak, and speak again. Your voice is important. The world wants to hear it."
+  },
+  {
+    "t": "Mistakes are fine",
+    "l": "A2",
+    "x": "You made a mistake. So what? Everyone does. Even the best speakers made thousands of mistakes. A mistake is not a failure. It is proof that you are trying. Laugh a little, fix it, and move on. Do not stop. Brave people are not perfect people. They are people who keep trying."
+  },
+  {
+    "t": "Believe in yourself",
+    "l": "B1",
+    "x": "Sometimes you do not believe in yourself, and that is hard. But look at how far you have come. You have survived every bad day until now. That is a perfect record. You are more capable than you feel right now. Trust yourself a little more today. The person you want to become is already inside you."
+  },
+  {
+    "t": "Tonight",
+    "l": "A1",
+    "x": "It is night now. The day is over. You did enough today. Really, you did. Close your eyes for a moment. Think of one good thing from today. Just one. Maybe a smile, or a warm drink. Let the rest go. You can sleep now. You deserve to rest. Good night."
+  },
+  {
+    "t": "New morning",
+    "l": "B1",
+    "x": "Good morning. A new day is waiting for you, and it is completely empty. Nothing has gone wrong yet. You can choose how to begin. Take a deep breath and stand up tall. Say to yourself: today I will try my best. You do not need a perfect plan. You only need the courage to take the first step."
+  },
+  {
+    "t": "The Power of Silence",
+    "l": "B1",
+    "x": "Silence is not emptiness. It is a quiet space where your mind heals. In a noisy world, quiet moments give you clarity. Turn off the noise for ten minutes today. Sit still and listen to your own breathing. Silence will give you the answers that loud thoughts cannot find."
+  },
+  {
+    "t": "Digital Detox",
+    "l": "B1",
+    "x": "Your smartphone is a powerful tool, but it should not control your life. Every ping and buzz pulls you away from the present moment. Today, try putting your phone in another room for one hour. Notice how your mind feels. Real life is happening right in front of you, not on a glass screen."
+  },
+  {
+    "t": "Learning to Say No",
+    "l": "B2",
+    "x": "Saying yes to everything means saying no to your own peace. You cannot please everyone in this world, and you do not need to. A clear, polite no protects your time, your energy, and your health. When you value your boundaries, others learn to respect them too. Protect your priorities."
+  },
+  {
+    "t": "The Courage to Begin",
+    "l": "A2",
+    "x": "The start is always the hardest part. The blank page, the first step, the first new word—they all feel scary. But do not wait for the fear to disappear before you start. Feel the fear and take one step anyway. The moment you begin, the mountain looks a little smaller. You can start now."
+  },
+  {
+    "t": "Daily Gratitude",
+    "l": "A2",
+    "x": "It is easy to see what is missing in life. Our eyes quickly notice problems and empty spaces. But turn your eyes around today. Look at what you already have. Warm clothes, clean water, a working mind, and people who care. When you thank life for small gifts, big joy begins to grow."
+  },
+  {
+    "t": "The Art of Listening",
+    "l": "B2",
+    "x": "Most people do not listen to understand; they listen only to reply. While the other person talks, their mind prepares the next argument. Try something different today. Put your thoughts aside and give someone your full attention. Real listening is a rare gift that heals hearts and builds bridges."
+  },
+  {
+    "t": "Overcoming Procrastination",
+    "l": "B1",
+    "x": "Procrastination is not laziness. It is usually fear. We delay tasks because we fear making mistakes or feeling uncomfortable. Break the big task into tiny pieces. Do just two minutes today. Action creates energy. Once you begin, the heavy weight turns into easy motion."
+  },
+  {
+    "t": "Empathy in Action",
+    "l": "B2",
+    "x": "Empathy is seeing with the eyes of another, listening with the ears of another, and feeling with the heart of another. It costs nothing to be kind. When someone is angry or cold, remember that they may be fighting a secret battle. Be gentle with people today."
+  },
+  {
+    "t": "Embracing Uncertainty",
+    "l": "B2",
+    "x": "We want life to be predictable. We want guarantees for tomorrow. But life does not give guarantees. Uncertainty is not your enemy; it is the space where all new possibilities are born. When you stop fighting the unknown, you can learn to dance with it."
+  },
+  {
+    "t": "The Nature of True Friendship",
+    "l": "B1",
+    "x": "You do not need a hundred friends. You only need a few real ones. A true friend is someone who knows your flaws and loves you anyway. They celebrate your victories without jealousy and sit with you in silence when you are hurting. Cherish your genuine companions."
+  },
+  {
+    "t": "Finding Your Flow",
+    "l": "B2",
+    "x": "Have you ever been so focused on something that time seemed to stop? That state is called flow. When your skill meets a good challenge, all distractions vanish. Find what puts you into flow. It is where your best work and deepest happiness meet."
+  },
+  {
+    "t": "Deep Work",
+    "l": "B2",
+    "x": "Shallow work is easy, but it changes nothing. Checking messages and replying to notifications keeps you busy, but not productive. Deep work requires quiet hours and undivided attention. Close the door, turn off the internet, and do the hard work that matters."
+  },
+  {
+    "t": "Mindful Walking",
+    "l": "A2",
+    "x": "Walking is more than just getting from one place to another. It is a way to return to yourself. Leave your headphones at home today. Walk slowly. Feel your feet on the ground and the wind on your face. A simple walk can clear your head better than any medicine."
+  },
+  {
+    "t": "The Strength in Vulnerability",
+    "l": "B2",
+    "x": "We often wear heavy masks to look strong. We pretend we have no doubts, no fears, and no tears. But hiding your feelings takes too much energy. True strength is having the courage to show your real face. When you are honest about your struggles, you give others permission to be real too."
+  },
+  {
+    "t": "Joy in the Ordinary",
+    "l": "A1",
+    "x": "We often wait for big holidays to be happy. We wait for a new job, a new house, or a special date. But life is made of ordinary days. A warm breakfast, a clean room, a bird singing on your window—these small things are real life. Look closely at today. You will find small joys everywhere."
+  },
+  {
+    "t": "The Mirror of Self-Talk",
+    "l": "B1",
+    "x": "Listen to the voice inside your head. How does it talk to you? Would you talk to your best friend the way you talk to yourself? If the answer is no, it is time to change. Be kind to yourself in your thoughts. Your mind hears everything you say."
+  },
+  {
+    "t": "Patience in a Rushed World",
+    "l": "B1",
+    "x": "Everything around us wants speed. Fast food, fast internet, fast replies. But nature does not hurry, and yet everything is accomplished. An oak tree takes decades to grow strong. Your dreams take time too. Breathe deeply and do not rush. Good things take time."
+  },
+  {
+    "t": "Building Healthy Boundaries",
+    "l": "B2",
+    "x": "Good fences make good neighbors. Boundaries are not walls to keep people out; they are doors that let the right things in. When you clearly state what you will accept and what you will not, relationships become honest and safe. Respect your peace of mind."
+  },
+  {
+    "t": "The Freedom of Forgiveness",
+    "l": "B2",
+    "x": "Carrying anger is like drinking poison and expecting the other person to get sick. It only hurts you. Forgiveness does not mean that what happened was okay. It means you refuse to let past pain control your present. Set yourself free today. Let the anger go."
+  },
+  {
+    "t": "The Habit of Curiosity",
+    "l": "B1",
+    "x": "When was the last time you learned something just for fun? Children ask questions all day long. Why is the sky blue? How do birds fly? As we grow up, we forget to ask. Wake up your curiosity today. Read an unfamiliar topic, ask a question, and look at the world with fresh eyes."
+  },
+  {
+    "t": "The Science of Memory & Learning",
+    "l": "B2",
+    "x": "Your brain is not a static recorder; it is a dynamic muscle that constantly rewires itself. When you learn something new, neurons create fresh electrical pathways. To remember anything for life, use spaced repetition and active recall. Reviewing information right before you forget it strengthens memory forever."
+  },
+  {
+    "t": "Exploring Polar Regions & Icebergs",
+    "l": "B2",
+    "x": "The Arctic and Antarctic are among the most mysterious frontiers on our planet. Enormous ice sheets reflect sunlight back into space, regulating Earth's global temperature. Beneath miles of ancient ice lie frozen secrets and untold scientific wonders. Protecting polar ecosystems is vital for our collective future."
+  },
+  {
+    "t": "The Art of Negotiation & Persuasion",
+    "l": "B2",
+    "x": "Negotiation is not about defeating the person across the table; it is about uncovering shared interests. True persuasion begins with deep listening. When you understand someone's core desires and fears, you can craft solutions where both sides win. Master empathy, and you master negotiation."
+  },
+  {
+    "t": "Wildlife Conservation & Endangered Species",
+    "l": "B2",
+    "x": "Every creature on Earth plays an essential role in the web of life. When one species disappears, the entire ecosystem feels the shockwave. From saving African elephants to protecting tiny honeybees, conservation is not a luxury; it is our responsibility to future generations. Respect nature and preserve biodiversity."
+  },
+  {
+    "t": "The Philosophy of Time Management",
+    "l": "B2",
+    "x": "Time is the only asset you spend without knowing how much you have left. Managing your hours is not about packing every second with chores; it is about ruthless intentionality. Say no to the trivial so you can wholeheartedly say yes to what matters most. Own your calendar before others own it for you."
+  },
+  {
+    "t": "The Rise of Remote Work & Digital Nomads",
+    "l": "B2",
+    "x": "The traditional office was once the center of our working lives. Today, high-speed internet and portable laptops allow millions to work from anywhere on the globe. You can write code from a cafe in Bali or manage clients from a mountain cabin. Freedom brings flexibility, but it requires fierce self-discipline."
+  },
+  {
+    "t": "Human Resilience & Surviving Adversity",
+    "l": "B2",
+    "x": "Adversity is an inevitable guest in every human life. When tragedy or heartbreak strikes, some people collapse while others rebuild themselves stronger than before. Resilience is not the absence of pain; it is the courage to stand up one more time. Your scars are living proof of your strength."
+  },
+  {
+    "t": "The World of Botany & Plant Communication",
+    "l": "B2",
+    "x": "Plants seem silent and motionless to the naked eye, but under the soil, an underground internet is humming. Trees communicate through fungal networks, sharing sugars and warning neighbors of insect attacks. In nature, cooperation is just as powerful as competition. Listen to the silent wisdom of the forest."
+  },
+  {
+    "t": "The Impact of Social Media on Well-being",
+    "l": "B2",
+    "x": "Social networks promised to bring the world closer together, yet loneliness rates have never been higher. Scrolling through highlight reels of other people's lives creates unhealthy comparisons. Guard your mental space. Unfollow accounts that make you feel inadequate, and invest in real, face-to-face connections."
+  },
+  {
+    "t": "The Evolution of Cinema & Filmmaking",
+    "l": "B2",
+    "x": "Cinema is the empathy machine of our era. A great movie allows you to step into the shoes of a stranger from another era or culture. From black-and-white silent reels to mind-bending visual effects, movies reflect humanity's deepest dreams, fears, and triumphs. Watch stories that broaden your perspective."
+  },
+  {
+    "t": "Nutrition, Gut Health & the Brain",
+    "l": "B2",
+    "x": "You are quite literally what you eat. Scientists now refer to our digestive system as our 'second brain'. Trillions of gut microbes produce crucial neurotransmitters like serotonin, shaping your mood, anxiety levels, and focus. Feed your body wholesome, fiber-rich food, and your mind will thank you."
+  },
+  {
+    "t": "The Economics of Everyday Choices",
+    "l": "B2",
+    "x": "Every time you spend money, you are voting for the kind of world you want. Economics is not just about Wall Street graphs and banking regulations; it is the study of human decision-making under scarcity. Understanding opportunity costs will transform the way you spend your money and your life."
+  },
+  {
+    "t": "Modern Robotics & Autonomous Systems",
+    "l": "B2",
+    "x": "Robots are no longer science fiction characters confined to cinema screens. From automated surgical arms to self-driving delivery vehicles, robots are reshaping industry, health, and daily convenience. As machines handle repetitive physical labor, human creativity and ethical leadership will matter more than ever."
+  },
+  {
+    "t": "The Psychology of Happiness & Contentment",
+    "l": "B2",
+    "x": "Many spend their lives chasing happiness, believing it awaits at the finish line of their next promotion or paycheck. But true joy is not a destination; it is an inner attitude. Learn to savor the present moment, cultivate genuine gratitude, and you will find that contentment was beside you all along."
+  },
+  {
+    "t": "Cultural Etiquette & Global Diplomacy",
+    "l": "B2",
+    "x": "In an interconnected world, what is polite in one country might be deeply offensive in another. In Japan, bowing shows deep respect; in parts of Europe, a firm handshake seals a bond. Cross-cultural intelligence is the bridge that unites humanity across linguistic and national borders."
+  },
+  {
+    "t": "The Renaissance & the Spark of Humanism",
+    "l": "B2",
+    "x": "Between the fourteenth and seventeenth centuries, Europe awoke from a thousand years of slumber. The Renaissance ignited an explosion of art, science, philosophy, and literature. Thinkers like Leonardo da Vinci and Michelangelo proved that human potential has no limits. Dare to dream boldly."
+  },
+  {
+    "t": "The Art of Public Speaking",
+    "l": "B2",
+    "x": "Public speaking is often cited as humanity's number one fear, ranking above illness and even death. But a speech is not an exam; it is a gift you give to your audience. When you shift your mindset from 'evaluating myself' to 'serving my listeners', your fear vanishes into genuine enthusiasm."
+  },
+  {
+    "t": "Sustainable Fashion & Conscious Living",
+    "l": "B2",
+    "x": "The clothes you wear tell a story about who you are, but fast fashion has created an ecological disaster. Millions of tons of synthetic textiles end up in landfills each year. Buy less, choose quality, and make clothes last. True elegance never goes out of style."
+  },
+  {
+    "t": "The Wonders of Human Anatomy",
+    "l": "B2",
+    "x": "Right now, your heart is beating without you having to think about it. Your lungs breathe in air, and billions of cells repair themselves automatically. The human body is the most sophisticated biological machine in the known universe. Treat your body with respect and give it the care it deserves."
+  },
+  {
+    "t": "The Philosophy of Stoicism for Modern Life",
+    "l": "B2",
+    "x": "You cannot control the weather, the economy, or what other people say about you. But you can always control your own actions and reactions. Stoicism teaches us that peace comes not from mastering the world, but from mastering ourselves. Focus on what is within your power, and let go of the rest."
+  }
 ];
+
+// Populate 100 B2 words per topic from VOCAB_DATA
+if (window.VOCAB_DATA && Array.isArray(window.VOCAB_DATA)) {
+  for (var idx = 0; idx < T.length; idx++) {
+    T[idx].v = window.VOCAB_DATA[idx] || [];
+  }
+}
 
 var $ = function(id) { return document.getElementById(id); };
 var list = $("list"), reader = $("reader"), stage = $("stage"), linesEl = $("lines"), fl = $("fl"), msg = $("msg"), go = $("go"), spd = $("spd");
+var tabPractice = $("tab-practice"), tabVocab = $("tab-vocab"), tabReading = $("tab-reading"), vocabWrap = $("vocab"), readingWrap = $("reading"), barWrap = $("bar-wrap");
+var vocabTitle = $("vocab-title"), vocabCount = $("vocab-count"), vocabCards = $("vocab-cards");
+var vocabSearch = $("vocab-search"), vocabSearchClear = $("vocab-search-clear"), vocabFilters = $("vocab-filters"), vocabEmpty = $("vocab-empty");
+
+// Reading elements
+var rTitle = $("r-title"), rTime = $("r-time"), rQuizSub = $("r-quiz-sub"), rText = $("r-text");
+var rQuestions = $("r-questions"), rQuizProgress = $("r-quiz-progress"), rScoreBox = $("r-score-box");
+var rScoreCircle = $("r-score-circle"), rScoreHeading = $("r-score-heading"), rScoreMessage = $("r-score-message"), rRetryBtn = $("r-retry-btn");
 
 var rows = [], lines = [], words = [];
 var lh = 60, off = 0, run = false, last = 0, raf = 0, sess = 0, focusY = 0, cur = 0;
 var wordPos = 0; // Continuous word progress (preserves exact reading spot across resizes)
+var curTab = "practice";
+var currentFilter = "all";
+var currentSearchQuery = "";
+
+// Reading Quiz State
+var quizUserAnswers = {};
 
 // Offscreen canvas for accurate text measurement during responsive reformatting
 var _measCanvas = document.createElement("canvas");
@@ -552,7 +1612,14 @@ var _ctx = _measCanvas.getContext("2d");
 T.forEach(function(item, index){
   var btn = document.createElement("button");
   btn.className = "topic";
-  btn.innerHTML = '<span class="n">' + (index + 1) + '</span><span class="t">' + item.t + '</span><span class="l">' + item.l + '</span>';
+  var countBadge = (item.v && item.v.length) ? item.v.length + " B2 words" : "100 B2 words";
+  btn.innerHTML = '<span class="n">' + (index + 1) + '</span>' +
+                  '<span class="t">' + item.t + '</span>' +
+                  '<span class="badges-row">' +
+                    '<span class="l">' + item.l + '</span>' +
+                    '<span class="b2-badge">' + countBadge + '</span>' +
+                    '<span class="r-badge">Reading & Quiz</span>' +
+                  '</span>';
   btn.onclick = function() { open(index); };
   list.appendChild(btn);
 });
@@ -587,19 +1654,17 @@ function getTargetFont() {
 // Adaptive text chunker: reformats words into lines according to viewport width and reading margins
 function chunkWords(wordList, availWidth) {
   _ctx.font = getTargetFont();
-  // Ensure comfortable reading breathing room: text width capped to 88% of container or 640px
   var maxW = Math.max(180, Math.min(availWidth - 48, 640) * 0.88);
 
-  // Responsive max words per line
   var maxWords;
   if (availWidth < 380) {
-    maxWords = 3; // Ultra-narrow mobile: 2-3 words
+    maxWords = 3;
   } else if (availWidth < 560) {
-    maxWords = 3; // Standard mobile: 3 words
+    maxWords = 3;
   } else if (availWidth < 800) {
-    maxWords = 4; // Tablet: 3-4 words
+    maxWords = 4;
   } else {
-    maxWords = 4; // Desktop / Large monitor: 4 words
+    maxWords = 4;
   }
 
   var result = [];
@@ -637,7 +1702,6 @@ function chunkWords(wordList, availWidth) {
   return result;
 }
 
-// Converts continuous word position to vertical pixel scroll offset
 function wordPosToOffset(pos) {
   if (!lines.length) return 0;
   if (pos <= 0) return 0;
@@ -655,7 +1719,6 @@ function wordPosToOffset(pos) {
   return (lines.length - 1) * lh;
 }
 
-// Rebuild line DOM nodes based on current screen dimensions
 function rebuildLines() {
   if (cur < 0 || cur >= T.length) return;
   var availW = stage.clientWidth || window.innerWidth;
@@ -677,7 +1740,6 @@ function rebuildLines() {
     rows.push(d);
   }
 
-  // End banner
   var endEl = document.createElement("div");
   endEl.className = "ln";
   endEl.textContent = "Well done.";
@@ -714,7 +1776,6 @@ function layout() {
   fl.style.top = (focusY - 2) + "px";
   msg.style.top = Math.max(12, focusY - 56) + "px";
 
-  // Re-map wordPos to offset so position is preserved
   off = wordPosToOffset(wordPos);
   paint();
 }
@@ -736,7 +1797,6 @@ function tick(t) {
   last = t;
 
   cs += ((+spd.value) - cs) * (1 - Math.exp(-dt * 3));
-  // Words per minute / 60 = words per second
   var wordsThisFrame = (cs / 60) * dt;
   wordPos += wordsThisFrame;
 
@@ -822,11 +1882,401 @@ function begin() {
   });
 }
 
+// Vocabulary Rendering, Search, Filtering and Audio
+function highlightWord(text, word) {
+  if (!word) return text;
+  var cleanWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(\\b' + cleanWord + '[a-z]*\\b)', 'gi');
+  if (re.test(text)) {
+    return text.replace(re, '<strong>$1</strong>');
+  }
+  return text;
+}
+
+function playWordAudio(word, btnEl) {
+  if (!("speechSynthesis" in window)) return;
+  try {
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(word);
+    u.lang = "en-US";
+    u.rate = 0.88;
+    var f = speechSynthesis.getVoices().filter(function(v) {
+      return /^en/i.test(v.lang) && /female|samantha|zira|aria|jenny|karen|susan|serena|tessa|moira|google us english/i.test(v.name);
+    })[0];
+    if (f) u.voice = f;
+
+    if (btnEl) {
+      btnEl.classList.add("speaking");
+      var clearSpeaking = function() {
+        btnEl.classList.remove("speaking");
+      };
+      u.onend = clearSpeaking;
+      u.onerror = clearSpeaking;
+      setTimeout(clearSpeaking, 3500);
+    }
+    speechSynthesis.speak(u);
+  } catch(e) {}
+}
+
+function applyVocabFilters() {
+  if (cur < 0 || cur >= T.length) return;
+  var allWords = T[cur].v || [];
+  var q = currentSearchQuery.trim().toLowerCase();
+
+  var filtered = allWords.filter(function(item) {
+    // POS filter
+    if (currentFilter !== "all") {
+      var pos = (item.pos || "").toLowerCase();
+      if (currentFilter === "phrase") {
+        if (!pos.includes("phrase") && !pos.includes("idiom") && !pos.includes("phr")) {
+          return false;
+        }
+      } else {
+        if (!pos.includes(currentFilter)) {
+          return false;
+        }
+      }
+    }
+
+    // Text search
+    if (q) {
+      var inWord = (item.w || "").toLowerCase().includes(q);
+      var inTr = (item.tr || "").toLowerCase().includes(q);
+      var inEx = (item.ex || "").toLowerCase().includes(q);
+      var inExTr = (item.exTr || "").toLowerCase().includes(q);
+      return inWord || inTr || inEx || inExTr;
+    }
+
+    return true;
+  });
+
+  // Update badge count
+  if (q || currentFilter !== "all") {
+    vocabCount.textContent = filtered.length + " of " + allWords.length + " words";
+  } else {
+    vocabCount.textContent = allWords.length + " words";
+  }
+
+  // Render cards
+  vocabCards.innerHTML = "";
+  if (filtered.length === 0) {
+    vocabEmpty.style.display = "block";
+  } else {
+    vocabEmpty.style.display = "none";
+    renderCardsList(filtered);
+  }
+}
+
+function renderCardsList(list) {
+  var frag = document.createDocumentFragment();
+
+  list.forEach(function(vocabItem) {
+    var card = document.createElement("div");
+    card.className = "v-card";
+
+    var top = document.createElement("div");
+    top.className = "v-top";
+
+    var wordRow = document.createElement("div");
+    wordRow.className = "v-word-row";
+
+    var wEl = document.createElement("span");
+    wEl.className = "v-word";
+    wEl.textContent = vocabItem.w;
+
+    var posEl = document.createElement("span");
+    posEl.className = "v-pos";
+    posEl.textContent = "(" + vocabItem.pos + ")";
+
+    wordRow.appendChild(wEl);
+    wordRow.appendChild(posEl);
+
+    var audioBtn = document.createElement("button");
+    audioBtn.className = "v-audio-btn";
+    audioBtn.setAttribute("aria-label", "Listen to " + vocabItem.w);
+    audioBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>';
+    audioBtn.onclick = function() {
+      playWordAudio(vocabItem.w, audioBtn);
+    };
+
+    top.appendChild(wordRow);
+    top.appendChild(audioBtn);
+
+    var trEl = document.createElement("div");
+    trEl.className = "v-tr";
+    trEl.textContent = vocabItem.tr;
+
+    var exBox = document.createElement("div");
+    exBox.className = "v-ex-box";
+
+    var exEl = document.createElement("div");
+    exEl.className = "v-ex";
+    exEl.innerHTML = highlightWord(vocabItem.ex, vocabItem.w);
+
+    var exTrEl = document.createElement("div");
+    exTrEl.className = "v-ex-tr";
+    exTrEl.textContent = vocabItem.exTr;
+
+    exBox.appendChild(exEl);
+    exBox.appendChild(exTrEl);
+
+    card.appendChild(top);
+    card.appendChild(trEl);
+    card.appendChild(exBox);
+
+    frag.appendChild(card);
+  });
+
+  vocabCards.appendChild(frag);
+}
+
+function renderVocab(topicIndex) {
+  var item = T[topicIndex];
+  if (!item) return;
+
+  vocabTitle.textContent = item.t + " — B2 Vocabulary";
+  currentFilter = "all";
+  currentSearchQuery = "";
+  if (vocabSearch) vocabSearch.value = "";
+  if (vocabSearchClear) vocabSearchClear.style.display = "none";
+
+  // Reset filter buttons
+  var filterBtns = vocabFilters.querySelectorAll(".v-filter-btn");
+  filterBtns.forEach(function(b) {
+    if (b.getAttribute("data-filter") === "all") {
+      b.classList.add("active");
+      b.textContent = "All (" + (item.v ? item.v.length : 0) + ")";
+    } else {
+      b.classList.remove("active");
+    }
+  });
+
+  applyVocabFilters();
+}
+
+// Search and filter listeners
+vocabSearch.oninput = function() {
+  currentSearchQuery = vocabSearch.value;
+  vocabSearchClear.style.display = currentSearchQuery ? "flex" : "none";
+  applyVocabFilters();
+};
+
+vocabSearchClear.onclick = function() {
+  vocabSearch.value = "";
+  currentSearchQuery = "";
+  vocabSearchClear.style.display = "none";
+  vocabSearch.focus();
+  applyVocabFilters();
+};
+
+vocabFilters.onclick = function(e) {
+  var btn = e.target.closest(".v-filter-btn");
+  if (!btn) return;
+  vocabFilters.querySelectorAll(".v-filter-btn").forEach(function(b) { b.classList.remove("active"); });
+  btn.classList.add("active");
+  currentFilter = btn.getAttribute("data-filter") || "all";
+  applyVocabFilters();
+};
+
+// ========================================================
+// Reading & Comprehension Logic
+// ========================================================
+function renderReading(topicIndex) {
+  if (!window.READING_DATA || !window.READING_DATA[topicIndex]) return;
+  var data = window.READING_DATA[topicIndex];
+
+  rTitle.textContent = data.title;
+  rTime.textContent = "⏱️ " + (data.readTime || "1.5 min read");
+
+  // Render paragraphs
+  rText.innerHTML = "";
+  data.paragraphs.forEach(function(pText) {
+    var p = document.createElement("p");
+    p.textContent = pText;
+    rText.appendChild(p);
+  });
+
+  // Reset quiz state
+  quizUserAnswers = {};
+  renderQuizQuestions(data.questions);
+}
+
+function renderQuizQuestions(questions) {
+  rQuestions.innerHTML = "";
+  rScoreBox.style.display = "none";
+  rQuizProgress.textContent = questions.length + " Questions";
+  if (rQuizSub) {
+    rQuizSub.textContent = "Answer these " + questions.length + " questions based on the passage to test your understanding";
+  }
+
+  questions.forEach(function(q, qIdx) {
+    var card = document.createElement("div");
+    card.className = "r-q-card";
+    card.id = "q-card-" + q.id;
+
+    var head = document.createElement("div");
+    head.className = "r-q-head";
+
+    var num = document.createElement("span");
+    num.className = "r-q-num";
+    num.textContent = (qIdx + 1);
+
+    var qText = document.createElement("div");
+    qText.className = "r-q-text";
+    qText.textContent = q.question;
+
+    head.appendChild(num);
+    head.appendChild(qText);
+    card.appendChild(head);
+
+    var optList = document.createElement("div");
+    optList.className = "r-options-list";
+
+    var letters = ["A", "B", "C", "D"];
+    q.options.forEach(function(optStr, optIdx) {
+      var btn = document.createElement("button");
+      btn.className = "r-opt-btn";
+
+      var letter = document.createElement("span");
+      letter.className = "r-opt-letter";
+      letter.textContent = (q.type === "tf") ? (optIdx === 0 ? "✓" : "✗") : letters[optIdx];
+
+      var txt = document.createElement("span");
+      txt.className = "r-opt-text";
+      txt.textContent = optStr;
+
+      btn.appendChild(letter);
+      btn.appendChild(txt);
+
+      btn.onclick = function() {
+        handleAnswer(q, optIdx, card, questions);
+      };
+
+      optList.appendChild(btn);
+    });
+
+    card.appendChild(optList);
+
+    // Explanation box
+    var exp = document.createElement("div");
+    exp.className = "r-explanation";
+    exp.innerHTML = '<div class="r-explanation-title">Explanation</div><div>' + q.explanation + '</div>';
+    card.appendChild(exp);
+
+    rQuestions.appendChild(card);
+  });
+}
+
+function handleAnswer(q, chosenIdx, card, allQuestions) {
+  if (quizUserAnswers[q.id]) return; // already answered
+
+  var isCorrect = (chosenIdx === q.answer);
+  quizUserAnswers[q.id] = { chosen: chosenIdx, isCorrect: isCorrect };
+
+  var buttons = card.querySelectorAll(".r-opt-btn");
+  buttons.forEach(function(btn, idx) {
+    btn.disabled = true;
+    if (idx === q.answer) {
+      btn.classList.add("correct");
+    } else if (idx === chosenIdx && !isCorrect) {
+      btn.classList.add("incorrect");
+    }
+  });
+
+  var exp = card.querySelector(".r-explanation");
+  if (exp) exp.classList.add("show");
+
+  // Check if all questions answered
+  var answeredCount = Object.keys(quizUserAnswers).length;
+  rQuizProgress.textContent = answeredCount + " of " + allQuestions.length + " answered";
+
+  if (answeredCount === allQuestions.length) {
+    showQuizScore(allQuestions);
+  }
+}
+
+function showQuizScore(allQuestions) {
+  var correctCount = 0;
+  allQuestions.forEach(function(q) {
+    if (quizUserAnswers[q.id] && quizUserAnswers[q.id].isCorrect) {
+      correctCount++;
+    }
+  });
+
+  var pct = Math.round((correctCount / allQuestions.length) * 100);
+  rScoreCircle.textContent = correctCount + "/" + allQuestions.length;
+
+  if (pct === 100) {
+    rScoreHeading.textContent = "Perfect Score! 🎉";
+    rScoreMessage.textContent = "Outstanding reading comprehension. You answered all 5 questions correctly!";
+  } else if (pct >= 80) {
+    rScoreHeading.textContent = "Great Job! 👏";
+    rScoreMessage.textContent = "You scored " + pct + "% (" + correctCount + " of " + allQuestions.length + " correct). Well done!";
+  } else if (pct >= 60) {
+    rScoreHeading.textContent = "Good Effort! 👍";
+    rScoreMessage.textContent = "You scored " + pct + "%. Review the passage explanations and try again to master it.";
+  } else {
+    rScoreHeading.textContent = "Keep Practicing! 💪";
+    rScoreMessage.textContent = "You scored " + pct + "%. Re-read the passage carefully and retry the quiz.";
+  }
+
+  rScoreBox.style.display = "block";
+  rRetryBtn.onclick = function() {
+    renderReading(cur);
+    rScoreBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+}
+
+function switchTab(mode) {
+  curTab = mode;
+  pause();
+  try { speechSynthesis.cancel(); } catch(e) {}
+  msg.classList.remove("on");
+
+  tabPractice.classList.remove("active");
+  tabPractice.setAttribute("aria-selected", "false");
+  tabVocab.classList.remove("active");
+  tabVocab.setAttribute("aria-selected", "false");
+  tabReading.classList.remove("active");
+  tabReading.setAttribute("aria-selected", "false");
+
+  if (mode === "vocab") {
+    stage.style.display = "none";
+    barWrap.style.display = "none";
+    readingWrap.style.display = "none";
+    vocabWrap.style.display = "block";
+    tabVocab.classList.add("active");
+    tabVocab.setAttribute("aria-selected", "true");
+    renderVocab(cur);
+  } else if (mode === "reading") {
+    stage.style.display = "none";
+    barWrap.style.display = "none";
+    vocabWrap.style.display = "none";
+    readingWrap.style.display = "block";
+    tabReading.classList.add("active");
+    tabReading.setAttribute("aria-selected", "true");
+    renderReading(cur);
+  } else {
+    vocabWrap.style.display = "none";
+    readingWrap.style.display = "none";
+    stage.style.display = "flex";
+    barWrap.style.display = "block";
+    tabPractice.classList.add("active");
+    tabPractice.setAttribute("aria-selected", "true");
+    layout();
+  }
+}
+
+tabPractice.onclick = function() { switchTab("practice"); };
+tabVocab.onclick = function() { switchTab("vocab"); };
+tabReading.onclick = function() { switchTab("reading"); };
+
 function open(i) {
   cur = i;
   $("ttl").textContent = T[i].t;
   document.getElementById("home").style.display = "none";
   reader.classList.add("on");
+  switchTab("practice");
   build(i);
   begin();
 }
@@ -857,14 +2307,17 @@ $("back").onclick = function() {
   msg.classList.remove("on");
   reader.classList.remove("on");
   document.getElementById("home").style.display = "";
+  switchTab("practice");
 };
 
 // Responsive Resize Handling: reformats text and maintains reading state seamlessly
 var resizePending = false;
 function handleResize() {
   if (!reader.classList.contains("on")) return;
-  rebuildLines();
-  layout();
+  if (curTab === "practice") {
+    rebuildLines();
+    layout();
+  }
 }
 
 window.addEventListener("resize", function() {
@@ -881,7 +2334,47 @@ window.addEventListener("resize", function() {
 // Keyboard controls for Laptop and Desktop users
 window.addEventListener("keydown", function(e) {
   if (!reader.classList.contains("on")) return;
-  if (e.target && e.target.tagName === "INPUT") return;
+  if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+
+  if (e.code === "Escape") {
+    e.preventDefault();
+    $("back").click();
+    return;
+  }
+
+  if (curTab === "vocab") {
+    if (e.code === "KeyP") {
+      e.preventDefault();
+      switchTab("practice");
+    } else if (e.code === "KeyD") {
+      e.preventDefault();
+      switchTab("reading");
+    }
+    return;
+  }
+
+  if (curTab === "reading") {
+    if (e.code === "KeyP") {
+      e.preventDefault();
+      switchTab("practice");
+    } else if (e.code === "KeyV") {
+      e.preventDefault();
+      switchTab("vocab");
+    }
+    return;
+  }
+
+  if (e.code === "KeyV") {
+    e.preventDefault();
+    switchTab("vocab");
+    return;
+  }
+
+  if (e.code === "KeyD") {
+    e.preventDefault();
+    switchTab("reading");
+    return;
+  }
 
   if (e.code === "Space") {
     e.preventDefault();
@@ -889,9 +2382,6 @@ window.addEventListener("keydown", function(e) {
   } else if (e.code === "KeyR") {
     e.preventDefault();
     $("re").click();
-  } else if (e.code === "Escape") {
-    e.preventDefault();
-    $("back").click();
   } else if (e.code === "ArrowUp" || e.code === "ArrowRight") {
     e.preventDefault();
     spd.value = Math.min(260, +spd.value + 5);
