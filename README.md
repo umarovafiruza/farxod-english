@@ -1,105 +1,85 @@
-# Farxod English — 6-in-1 English Mastery Studio
+# Farxod English — Reading, Listening & Writing Studio
 
-Ingliz tilini har tomonlama mustahkamlash, erkin gapirish, tinglab tushunish, so‘z boyligini oshirish, grammatikani sinash va sun'iy intellekt bilan jonli ovozli muloqot qilish uchun yaratilgan 6 ta maxsus bo‘limdan iborat to‘liq web studiya.
-
----
-
-## 🌟 6 Asosiy Bo‘lim (Categories & Modes)
-
-### 1. 🎙️ Shadowing — Matnni ovoz chiqarib o‘qish, smooth scroll
-* **Silliq siljish (Smooth scroll)**: 30 dan 250 WPM gacha sozlanadigan, bir tekis ravon harakatlanuvchi matn.
-* **✨ Fokus effekti darajalari**:
-  - `✨ Kuchli (Deep)`: Markazdagi qator o‘ta to‘q qora va ravshan, yuqori va pastki qatorlar chuqur xiralashadi.
-  - `✨ O‘rtacha (Medium)`: Muvozanatli standart optik fokus.
-  - `✨ Mayin (Soft)`: Yengil xiralashish.
-  - `✨ Oddiy (Off)`: Fokus maskasisiz toza matn.
-* **🌧️ Fon atmosferasi darajalari**:
-  - `🌧️ Yomg‘ir (Rain)`: Mayin lofi yomg‘ir tomchilari.
-  - `❄️ Qor (Snow)`: Sekin tushuvchi qor parchalari.
-  - `✨ Mayin (Glow)`: Mayin suzuvchi lofi nurlari.
-  - `🚫 O‘chiq (Off)`: Chalg‘itmaydigan toza fon.
-* **🧘 Breathe (Nafas mashqi)**:
-  - O‘qish va Shadowingdan oldin nutqni erkinlashtirish va ovoz titrashini yo‘qotish uchun interaktiv nafas mashqi (`4s Nafas olish -> 2s Ushlab turish -> 4s Sekin chiqarish`).
-* **Interaktiv qurollar**:
-  - `[ 🎙️ Shadowing ]`: Namuna ovozi bilan bir vaqtda matnga ergashib ovoz chiqarib o‘qish.
-  - `[ 🎤 Ovoz bilan ]`: Jimlikni sezuvchi mikrofon (gapirsangiz siljiydi, 1.5s jim qolsangiz to‘xtaydi).
-  - `[ 🔴 Yozish ]`: O‘z ovozingizni yozib olib, xatolaringizni qayta eshitish.
-  - `[ 🎵 Lofi on ]`: 5 xil foniy ambient musiqa generatori.
+Ingliz tilini mustahkamlash, imtihonlarga (IELTS / CEFR) tayyorlanish va erkin til ko‘nikmalarini shakllantirish uchun maxsus ishlab chiqilgan 3 ta asosiy bo‘limdan iborat to‘liq va qulay web studiya: **Reading**, **Listening** va **Writing**.
 
 ---
 
-### 2. 🎧 Listening — Audio tinglash va savollarga javob berish
-* **50 ta boyitilgan audio mavzu**: Real hayotiy, dolzarb va qiziqarli mavzulardagi matnlar (~150–200 so‘z).
-* **Audio pleyer**: Toza inglizcha talaffuz (TTS Audio), tinglash tezligini boshqarish (`0.85x`, `1.0x`, `1.15x`) va vizual to‘lqin animatsiyasi.
-* **Matnni tushunish savollari (Comprehension Questions)**:
-  - 170 ta test savoli (Multiple Choice va True / False).
-  - Tanlangan javob darhol yashil (to‘g‘ri) yoki qizil (noto‘g‘ri) rangga kiradi.
-  - Har bir savol ostida matnga asoslangan batafsil tushuntirish (*Explanation*) chiqadi.
+## 🌟 3 Asosiy Ustun (Core Pillars)
+
+### 1. 📖 Reading Studio — Matn O‘qish, Tahlil va Tushunish
+* **50 ta boyitilgan mavzu**: Ilm-fan, texnologiya, psixologiya, tabiat va hayotiy mavzulardagi B2/C1 matnlar.
+* **⏱️ O‘qish tezligi (WPM Stopwatch Tracker)**:
+  - `[ ⏱️ O‘qishni boshlash ]` tugmasi bilan vaqt hisoblanadi, o‘qib bo‘lgach `[ ✓ O‘qib bo‘ldim ]` bosiladi.
+  - Tizim sizning aniq o‘qish tezligingizni (WPM — so‘z/daqiqa) hisoblab beradi (masalan, `🚀 240 WPM`).
+* **🔊 Matnni ovoz chiqarib o‘qitish (Audio Narration)**:
+  - AI tabiiy inglizcha ovozda matnni to‘liq o‘qib beradi.
+* **🔍 So‘z ustiga bosish (Clickable Word & Instant Glossary)**:
+  - Matndagi har bir so‘z bosiladigan qilingan. Bosilganda so‘zning talaffuzi eshitiladi va uning tarjimasi hamda namunaviy jumlasi ko‘rsatiladi.
+* **📚 Mavzuning eng muhim so‘zlari (Topic Vocabulary Bank)**:
+  - Matn ostida ushbu mavzuga oid 4–6 ta asosiy B2 so‘zlar kartochkasi, tarjimasi, so‘z turkumi va audio talaffuzi bilan joylashgan.
+* **📝 Tushunishni tekshirish testlari**:
+  - Matn bo‘yicha test savollari (Multiple Choice va True/False), lahzalik to‘g‘ri/noto‘g‘ri ranglar, ball va batafsil tushuntirishlar.
+* **A- / A+ Shrift boshqaruvi**: Matn hajmini kattalashtirish va kichiklashtirish.
 
 ---
 
-### 3. 📚 Vocabulary — So‘zlar, misollar va tarjimalar
-* **1,200 ta B2 darajadagi so‘z**: 50 ta mavzu bo‘yicha to‘liq taqsimlangan boy lug‘at bazasi.
-* **Har bir so‘z kartochkasida**:
-  - So‘z va uning so‘z turkumi (*noun, verb, adjective, phrase*).
-  - **🔊 Audio talaffuz tugmasi**: Toza inglizcha talaffuzni eshitish.
-  - **O‘zbekcha aniq tarjimasi**.
-  - **Inglizcha misol jumla**.
-  - **Misol jumlaning o‘zbekcha tarjimasi**.
-* **Tezkor qidiruv & Filtrlar**: So‘z yoki tarjima bo‘yicha lahzalik qidiruv hamda so‘z turkumi bo‘yicha filtrlar.
+### 2. 🎧 Listening Studio — Audio Tinglash, Diktant va Savollar
+* **50 ta audio darslik**: Real va dolzarb mavzulardagi professional audio matnlar.
+* **Kengaytirilgan Audio Pleyer**:
+  - `0.75x`, `0.85x`, `1.0x (Normal)`, `1.15x`, `1.25x` tezlik rejimlari.
+  - `[ ⏪ -5s ]` va `[ ⏩ +5s ]`: 5 soniyaga orqaga qaytarish yoki oldinga surish.
+  - Dinamik audio to‘lqin animatsiyasi (`audio-wave`).
+* **👁️ Transkriptni ko‘rsatish / yashirish (Exam Mode)**:
+  - Haqiqiy imtihon muhitini yaratish uchun transkriptni yashirib, faqat quloqqa tayanib tinglash imkoniyati.
+* **🎧 Diktant Mashqi (Dictation Challenge — Eshitib Yozish!)**:
+  - Audio matndan asosiy jumlalardan biri tanlanadi.
+  - `[ 🔊 Jumlani eshitish ]` tugmasi orqali jumlani tinglab, kiritish maydoniga yozasiz.
+  - `[ ✓ Tekshirish ]` tugmasi xatolarni va to‘g‘ri variantni ko‘rsatib beradi.
+* **Tushunish testlari**: Audio bo‘yicha savollar va ularning to‘liq izohlari.
 
 ---
 
-### 4. 📖 Reading — Matn o‘qish va tushunishni tekshirish
-* **50 ta o‘qish matni**: Qiziqarli ilmiy, psixologik va hayotiy mavzulardagi to‘liq matnlar.
-* **O‘qish tezligi o‘lchagichi (Reading Speed / WPM Tracker)**:
-  - `[ ⏱️ O‘qishni boshlash ]` tugmasi bilan taymer boshlanadi.
-  - O‘qib bo‘lgach `[ ✓ O‘qib bo‘ldim ]` bosiladi va ilova sizning aniq o‘qish tezligingizni (WPM — so‘z/daqiqa) hisoblab beradi (masalan, `🚀 220 WPM`).
-* **Tushunishni tekshirish savollari**: Matn yuzasidan savollarga javob berib, tushunish foizini bilib olish.
-
----
-
-### 5. ⚡ Quiz — Grammatika va lug‘at bo‘yicha testlar (Tezlik rejimi bilan)
-* **Tezlik / Vaqt chegarasi (Speed Mode)**:
-  - `⚡ 10 soniya (Tez)`
-  - `⏱️ 20 soniya (O‘rta)`
-  - `⏳ 30 soniya (Sekin)`
+### 3. ✍️ Writing Studio — Insho, Fikr Bayoni va Professional Yozish
+* **15+ IELTS Task 2 & CEFR Mavzulari**:
+  - *Opinion Essays* (AI in Education, Social Media and Mental Health).
+  - *Problem & Solution* (Traffic Congestion and Urban Smog).
+  - *Advantages & Disadvantages* (Remote Work vs Office Life).
+  - *Discussion Essays* (Higher Education vs Direct Work Experience).
+  - `[ 🎲 Boshqa mavzu ]` tasodifiy mavzuni ochish tugmasi.
+* **⏱️ Imtihon Vaqt Taymeri (Countdown Timer)**:
+  - `⚡ 20 daqiqa (Task 1)`
+  - `⏱️ 40 daqiqa (Task 2)`
   - `♾️ Cheklovsiz`
-* **Test turlari**:
-  - `🔥 Aralash`: Grammatika va yangi so‘zlar aralash holda.
-  - `📚 Lug‘at`: So‘z ma’nosi va kontekstdagi bo‘shliqni to‘ldirish.
-  - `📝 Grammatika`: Zamonlar, Conditionals, Passive voice, Inversion, Gerunds va iboralar.
-* **Jonli taymer & Streak**: Har bir savol uchun rangini o‘zgartiruvchi vaqt chizig‘i, ketma-ket to‘g‘ri javoblar streaki (`🔥 Streak: 5`), tushuntirishlar va yakuniy ball.
-
----
-
-### 6. 🎯 Topshiriq — Jonli Ovozli Muloqot & Lofi Musiqa
-* **🎵 Foniy Lofi musiqa jo‘rligi**: Suhbat davomida mayin lofi musiqasi yangrab turadi, bu esa suhbatdagi hayajonni bosib diqqatni jamlashga yordam beradi.
-* **🔊 AI ovoz chiqarib gapiradi (TTS Voice)**: Har bir topshiriq bo‘yicha Sarah (AI ustozi) inglizcha savollarni toza va tabiiy ovozda aytib beradi, qator yonida audio to‘lqin harakatlanadi va qayta tinglash imkoniyati bor.
-* **🎙️ Jonli ikki tomonlama muloqot (Real-time Speech Recognition)**:
-  - Mikrofonda bevosita inglizcha gapirishingiz mumkin — ilova nutqingizni taniydi va suhbatga yozadi.
-  - Shuningdek, boshlovchilar uchun har bir bosqichda aqlli tavsiya qilingan javob tugmalari mavjud.
-* **4 ta amaliy interaktiv topshiriq**:
-  1. `Introduce Yourself & Hobbies`: O‘zingizni tanishtirish, yashash joyingiz va qiziqishlaringiz haqida suhbat.
-  2. `Cozy Coffee Shop Order`: Qahvaxonada barista bilan buyurtma berish va muloqot.
-  3. `Overcoming a Tough Day`: Charchagan kunda dildan suhbatlashib, ruhiy quvvat va motivatsiya olish.
-  4. `Job Interview Practice`: Ish intervyusidagi professional savollarga aniq va ishonchli javob berish.
-* **🎉 Mukofot va yutuq**: Topshiriq to‘liq yakunlanganda zarrachalar mushakbozligi (`createParticles`) va 5 yulduzli g‘alaba kartochkasi ko‘rsatiladi.
+* **Jonli Statistikalar**:
+  - **So‘zlar soni**: `0 / 250` (IELTS talabi: kam bo‘lsa qizil/sariq, 250+ yashil).
+  - **Belgilar soni**, **Gaplar soni** va **O‘rtacha gap uzunligi**.
+* **🔗 Bog‘lovchi So‘zlar Palitrasi (Linking Words & Transitions Cheat Sheet)**:
+  - `Firstly,`, `Furthermore,`, `However,`, `On the other hand,`, `For instance,`, `In conclusion,` va boshqalar.
+  - Bitta bosish bilan kursor turgan joyga qo‘shiladi!
+* **⭐ Namuna Insho (Band 8.5 - 9.0 Model Answer)**:
+  - Har bir mavzu bo‘yicha professional yozilgan insho va uning tuzilishi.
+* **📊 Inshoni Aqlli Tahlil Qilish (Analyze Essay)**:
+  - So‘zlar soni, leksik xilma-xillik (takrorlanmagan so‘zlar foizi), bog‘lovchi so‘zlar soni va amaliy tavsiyalar.
+* **🔊 Inshoimni Ovoz Chiqarib Eshitish (Read Aloud My Essay)**:
+  - AI o‘quvchining yozgan inshosini ravon ovozda o‘qib beradi, bu orqali uslub va ohangdagi xatolar quloq bilan aniqlanadi.
+* **💾 Avtomatik Saqlash & 📥 Yuklab Olish (.txt)**:
+  - `LocalStorage` ga har soniyada saqlanadi.
+  - Kompyuterga `.txt` fayl shaklida bitta tugma bilan yuklab olish mumkin.
 
 ---
 
 ## 🛠️ Optimallashtirilgan Arxitektura
 
-- **`createParticles(x, y, color, count, type)`**: Qotmasdan va xotirani band qilmasdan ishlovchi yengil zarrachalar generatori.
-- **`animate(now)`**: 60fps to‘liq apparat tezlanishidagi birlashgan animatsiya sikli (`requestAnimationFrame`).
-- **`breathe(action)`**: Ovoz erkinligi va nafasni to‘g‘rilash uchun interaktiv vizual mashq boshqaruvi.
-- **`speakAiMessage(text, callback)`**: Toza ayol diktor ovozidagi sun'iy intellekt nutq sintezi.
+- **`createParticles(x, y, color, count, type)`**: Yengil zarrachalar generatori (60fps).
+- **`animate(now)`**: Apparat tezlanishidagi birlashgan animatsiya sikli.
+- **`breathe(action)`**: Nutq va diqqatni jamlash uchun nafas olish mashqi.
+- **`startMusic()` / `stopMusic()`**: Web Audio API asosidagi tinchlantiruvchi lofi musiqa.
 
 ---
 
 ## 🚀 Ishga tushirish
 
-Ilovani to‘g‘ridan-to‘g‘ri brauzerda ochishingiz yoki mahalliy server orqali ishlatishingiz mumkin:
+Mahalliy server orqali ishlatish:
 ```bash
 python -m http.server 3000
 ```
