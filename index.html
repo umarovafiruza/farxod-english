@@ -801,6 +801,180 @@ button:active{transform:scale(.98)}
   background:#fefce8;
 }
 
+
+/* ========================================================
+   6. TOPSHIRIQ & MULOQOT STYLES (Interactive Spoken Dialogue)
+   ======================================================== */
+.mission-grid{display:flex;flex-direction:column;gap:.65rem}
+.mission-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1.15rem 1.25rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:1rem;
+  cursor:pointer;
+  transition:all .15s ease;
+  text-align:left;
+  width:100%;
+}
+.mission-card:hover{border-color:var(--mute);background:var(--bg);transform:translateY(-1px)}
+.m-info{display:flex;flex-direction:column;gap:.25rem;flex:1}
+.m-title{font-size:1.05rem;font-weight:700;color:var(--fg)}
+.m-desc{font-size:.84rem;color:var(--mute);line-height:1.45}
+.m-tag{font-size:.7rem;font-weight:700;padding:.2em .6em;border-radius:6px;background:var(--primary-bg);color:var(--primary);width:fit-content}
+
+/* Dialogue Arena */
+.dialogue-arena{
+  display:none;
+  flex-direction:column;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  min-height:480px;
+}
+.dialogue-arena.active{display:flex}
+
+.dialogue-top{
+  padding:.85rem 1.2rem;
+  background:var(--bg);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:.6rem;
+  flex-wrap:wrap;
+}
+.dialogue-chat-box{
+  flex:1;
+  padding:1.2rem;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:.85rem;
+  max-height:380px;
+  min-height:260px;
+  scroll-behavior:smooth;
+}
+
+.chat-bubble{
+  display:flex;
+  gap:.65rem;
+  max-width:85%;
+  align-items:flex-start;
+}
+.chat-bubble.ai{align-self:flex-start}
+.chat-bubble.user{align-self:flex-end;flex-direction:row-reverse}
+
+.chat-avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--primary-bg);
+  color:var(--primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  flex-shrink:0;
+}
+.chat-bubble.user .chat-avatar{background:var(--active);color:var(--active-fg)}
+
+.chat-content{
+  display:flex;
+  flex-direction:column;
+  gap:.3rem;
+}
+.chat-text{
+  padding:.8rem 1.1rem;
+  border-radius:14px;
+  font-size:.92rem;
+  line-height:1.5;
+  background:var(--bg);
+  border:1px solid var(--line);
+  color:var(--fg);
+}
+.chat-bubble.ai .chat-text{border-top-left-radius:3px}
+.chat-bubble.user .chat-text{
+  background:var(--primary);
+  color:#ffffff;
+  border-color:var(--primary);
+  border-top-right-radius:3px;
+}
+.chat-action{
+  font-size:.75rem;
+  color:var(--mute);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:.25rem;
+}
+.chat-action:hover{color:var(--fg)}
+
+/* Dialogue Input & Mic Controls */
+.dialogue-ctrl-bar{
+  padding:1rem 1.2rem;
+  background:var(--bg);
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+}
+.suggest-chips{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.3rem;scrollbar-width:none}
+.suggest-chips::-webkit-scrollbar{display:none}
+.sug-chip{
+  flex-shrink:0;
+  padding:.35em .8em;
+  font-size:.78rem;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--mute);
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.sug-chip:hover{border-color:var(--primary);color:var(--primary)}
+
+.dialogue-mic-row{display:flex;justify-content:space-between;align-items:center;gap:.6rem}
+.mic-speak-btn{
+  flex:1;
+  min-height:48px;
+  border-radius:12px;
+  background:var(--primary);
+  color:#ffffff;
+  border:0;
+  font-weight:700;
+  font-size:.95rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.mic-speak-btn.recording{
+  background:var(--danger);
+  animation:pulse 1.2s infinite;
+}
+.dialogue-status-text{font-size:.82rem;color:var(--mute)}
+
+.dialogue-done-card{
+  display:none;
+  background:var(--success-bg);
+  border:1px solid var(--success);
+  border-radius:14px;
+  padding:1.4rem;
+  text-align:center;
+  flex-direction:column;
+  align-items:center;
+  gap:.65rem;
+  margin-top:.8rem;
+}
+.dialogue-done-card.show{display:flex}
+
 </style>
 </head>
 <body>
@@ -822,6 +996,7 @@ button:active{transform:scale(.98)}
       <button class="main-tab" id="tabVocab" type="button">📚 Vocabulary</button>
       <button class="main-tab" id="tabReading" type="button">📖 Reading</button>
       <button class="main-tab" id="tabQuiz" type="button">⚡ Quiz</button>
+      <button class="main-tab" id="tabMission" type="button">🎯 Topshiriq</button>
     </nav>
   </header>
 
@@ -1080,6 +1255,62 @@ button:active{transform:scale(.98)}
       <button class="solid small" id="quizRestartBtn" type="button">↺ Qaytadan boshlash</button>
     </div>
   </section>
+  <!-- ============================================== -->
+  <!-- 6. TOPSHIRIQ & MULOQOT VIEW (Interactive Spoken Mission) -->
+  <!-- ============================================== -->
+  <section class="view-panel" id="viewMission">
+    <div class="view-head">
+      <h2 class="view-title">Topshiriq — Jonli Ovozli Muloqot</h2>
+      <p class="view-desc">Muloqot topshirig‘ini tanlang. Foniy Lofi musiqa jo‘rligida AI sizga inglizcha gapiradi, siz esa mikrofonda javob berasiz va jonli suhbat qurasiz.</p>
+    </div>
+
+    <!-- Missions List Container -->
+    <div id="missionListContainer">
+      <div class="mission-grid" id="missionGrid"></div>
+    </div>
+
+    <!-- Active Dialogue Arena -->
+    <div class="dialogue-arena" id="dialogueArena">
+      <div class="dialogue-top">
+        <div style="display:flex;align-items:center;gap:.6rem;">
+          <button class="ghost small" id="backToMissionsBtn" type="button">← Topshiriqlar</button>
+          <span style="font-weight:700;font-size:.92rem" id="activeMissionTitle"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;">
+          <button class="ghost small" id="dialogueMusicBtn" type="button">🎵 Lofi on</button>
+          <div class="audio-wave" id="dialogueWave" style="display:none;"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+
+      <!-- Chat messages -->
+      <div class="dialogue-chat-box" id="dialogueChatBox"></div>
+
+      <!-- Interactive Controls -->
+      <div class="dialogue-ctrl-bar">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:.78rem;font-weight:600;color:var(--mute)">Tavsiya etilgan javoblar (ayting yoki bosing):</span>
+          <span class="dialogue-status-text" id="dialogueStatusText">Tinglashga tayyor</span>
+        </div>
+        <div class="suggest-chips" id="dialogueSuggestions"></div>
+
+        <div class="dialogue-mic-row">
+          <button class="mic-speak-btn" id="dialogueMicBtn" type="button">
+            <span>🎤</span>
+            <span id="dialogueMicBtnText">Gapirish uchun bosing</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mission Done Card -->
+      <div class="dialogue-done-card" id="dialogueDoneCard">
+        <div style="font-size:1.35rem;font-weight:800;color:var(--success)">🎉 Topshiriq a'lo darajada bajarildi!</div>
+        <p style="font-size:.9rem;color:var(--mute)">Siz barcha suhbat bosqichlaridan muvaffaqiyatli o‘tdingiz va ravon muloqot qildingiz!</p>
+        <div style="font-size:1.2rem">⭐⭐⭐⭐⭐</div>
+        <button class="solid small" id="dialogueDoneReturnBtn" type="button">Boshqa topshiriqni tanlash</button>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <!-- ============================================== -->
@@ -1228,14 +1459,16 @@ const tabs = {
   listening: $('tabListening'),
   vocab: $('tabVocab'),
   reading: $('tabReading'),
-  quiz: $('tabQuiz')
+  quiz: $('tabQuiz'),
+  mission: $('tabMission')
 };
 const views = {
   shadowing: $('viewShadowing'),
   listening: $('viewListening'),
   vocab: $('viewVocab'),
   reading: $('viewReading'),
-  quiz: $('viewQuiz')
+  quiz: $('viewQuiz'),
+  mission: $('viewMission')
 };
 
 function switchMainTab(mode){
@@ -1255,6 +1488,7 @@ function switchMainTab(mode){
   else if(mode === 'vocab') initVocabView();
   else if(mode === 'reading') initReadingView();
   else if(mode === 'quiz') initQuizView();
+  else if(mode === 'mission') initMissionView();
 }
 
 Object.keys(tabs).forEach(k => {
@@ -2923,6 +3157,428 @@ function playReferenceAudio(){
 if($('playRefDone')){
   $('playRefDone').onclick = playReferenceAudio;
 }
+
+
+// ==============================================
+// 6. TOPSHIRIQ & MULOQOT LOGIC (Spoken Dialogue & Music)
+// ==============================================
+const MISSIONS_DATA = [
+  {
+    id: "intro",
+    title: "1. Introduce Yourself & Hobbies",
+    titleUz: "O‘zingizni tanishtiring va qiziqishingiz haqida so‘zlang",
+    desc: "AI suhbatdoshingiz bilan salomlashing, ismingiz, yashash joyingiz va bo‘sh vaqtingizdagi mashg‘ulotlar haqida jonli muloqot qiling.",
+    steps: [
+      {
+        ai: "Hello! Welcome to our speaking practice. My name is Sarah. What is your name, and where are you from?",
+        aiUz: "Salom! Muloqot mashg‘ulotimizga xush kelibsiz. Mening ismim Sarah. Ismingiz nima va qayerdansiz?",
+        suggestions: [
+          "Hi Sarah! My name is Farxod, and I am from Uzbekistan.",
+          "Hello! Nice to meet you. I am Farxod from Tashkent.",
+          "Good day! My name is Farxod, glad to be here."
+        ]
+      },
+      {
+        ai: "It is wonderful to meet you! Tell me, what do you love doing in your free time when you want to relax?",
+        aiUz: "Tanishganimdan juda xursandman! Ayting-chi, bo‘sh vaqtingizda dam olish uchun nimalar qilishni yoqtirasiz?",
+        suggestions: [
+          "In my free time, I really enjoy reading books and coding.",
+          "I love listening to calm lofi music and learning English.",
+          "I like taking slow walks in the evening and learning new skills."
+        ]
+      },
+      {
+        ai: "That sounds truly rewarding! Having a passion that calms your mind is so important. How long have you been studying English?",
+        aiUz: "Bu ajoyib mashg‘ulot! Zehningizni tinchlantiruvchi qiziqishingiz bo‘lishi juda muhim. Qancha vaqtdan beri ingliz tilini o‘rganmoqdasiz?",
+        suggestions: [
+          "I have been studying English for about a year, and I practice every day.",
+          "I started learning recently, but I really want to speak fluently.",
+          "I have studied for a few months and I love speaking practice."
+        ]
+      },
+      {
+        ai: "You are doing an exceptional job! Your pronunciation is clear and confident. Keep speaking every single day, and you will achieve all your dreams!",
+        aiUz: "Siz ajoyib natija ko‘rsatmoqdasiz! Talaffuzingiz aniq va ishonchli. Har kuni gapirishda davom eting va albatta orzularingizga erishasiz!",
+        final: true
+      }
+    ]
+  },
+  {
+    id: "cafe",
+    title: "2. Cozy Coffee Shop Order",
+    titleUz: "Qahvaxonada buyurtma va samimiy suhbat",
+    desc: "Shinam qahvaxonaga kiring, xushmuomala barista bilan muloqot qilib, sevimli ichimlik va shirinlikka buyurtma bering.",
+    steps: [
+      {
+        ai: "Good afternoon! Welcome to the Sunrise Cafe. The weather is lovely today. What can I get started for you?",
+        aiUz: "Xayrli kun! Sunrise qahvaxonasiga xush kelibsiz. Bugun havo ajoyib. Sizga nima buyurtma qilaylik?",
+        suggestions: [
+          "Good afternoon! Could I please get a hot cappuccino?",
+          "Hi! I would love an iced latte with oat milk, please.",
+          "Hello! What kind of tea or coffee would you recommend today?"
+        ]
+      },
+      {
+        ai: "Excellent choice! We brew our coffee with fresh aromatic beans. Would you like a warm butter croissant or chocolate pastry with that?",
+        aiUz: "Ajoyib tanlov! Biz qahvamizni yangi xushbo‘y donalardan tayyorlaymiz. Unga issiq kruassan yoki shokoladli pechenye qo‘shib beraymi?",
+        suggestions: [
+          "Yes, a warm butter croissant sounds delicious, thank you!",
+          "No thanks, just the coffee for me today.",
+          "I will take a chocolate cookie, please!"
+        ]
+      },
+      {
+        ai: "Perfect! Will that be for here to enjoy our quiet music, or to go?",
+        aiUz: "Ajoyib! Bu yerda mayin musiqa tinglab ichasizmi yoki olib ketasizmi?",
+        suggestions: [
+          "For here, please. I would love to sit by the window.",
+          "To go, please. I have a short walk ahead.",
+          "For here, I want to relax for a while."
+        ]
+      },
+      {
+        ai: "Here is your fresh hot coffee and pastry! Take a seat, relax, and enjoy your wonderful day!",
+        aiUz: "Mana yangi issiq qahvangiz va shirinligingiz! Marhamat, o‘tiring, dam oling va kuningiz ajoyib o‘tsin!",
+        final: true
+      }
+    ]
+  },
+  {
+    id: "motivation",
+    title: "3. Overcoming a Tough Day",
+    titleUz: "Qiyin kunni yengish va dildan samimiy suhbat",
+    desc: "Charchagan yoki qiyin kundan keyin dildan suhbatlashib, ruhiy quvvat va motivatsiya oling.",
+    steps: [
+      {
+        ai: "Hey my friend. You seem like you have been carrying so much on your shoulders today. How are you honestly feeling right now?",
+        aiUz: "Salom do‘stim. Bugun yelkangizda juda ko‘p yuk ko‘tarib yurgandek ko‘rinasiz. Hozir o‘zingizni qanday his qilyapsiz?",
+        suggestions: [
+          "Honestly, I feel a little bit tired, but I am doing my best.",
+          "Today was quite challenging and full of questions.",
+          "I am okay, just taking a moment to breathe and rest."
+        ]
+      },
+      {
+        ai: "I hear you deeply. Feeling tired is not a weakness; it is proof that you fought hard and gave your best. What was the hardest part of your day?",
+        aiUz: "Sizni chin dildan tushunaman. Charchash — zaiflik emas; bu qattiq kurashganingiz va bor kuchingizni berganingiz isboti. Kuningizning eng qiyin qismi nima bo‘ldi?",
+        suggestions: [
+          "I had so many tasks to finish and felt a bit overwhelmed.",
+          "Work was very busy and I did not have much time to rest.",
+          "Just balancing everything and keeping my focus."
+        ]
+      },
+      {
+        ai: "You survived today, and that alone is a tremendous victory. Storms always run out of rain, and tomorrow the sun will rise again. What is one kind thing you will do for yourself tonight?",
+        aiUz: "Siz bugungi kunni yengib o‘tdingiz va buning o‘zi katta g‘alaba. Bo‘ronlar albatta o‘tadi, ertaga esa yana quyosh chiqadi. Bugun kechqurun o‘zingiz uchun qanday yaxshilik qilasiz?",
+        suggestions: [
+          "I will listen to peaceful lofi music and get a good night sleep.",
+          "I will drink warm tea and let my mind completely rest.",
+          "I will put my phone down and spend quiet time with myself."
+        ]
+      },
+      {
+        ai: "That is the spirit. Be proud of who you are and how far you have come. Rest well, you are truly enough!",
+        aiUz: "Mana bu haqiqiy iroda! Kim ekanligingiz va qanchalik uzoq yo‘l bosib o‘tganingiz bilan faxrlaning. Yaxshi dam oling, siz kuchlisiz!",
+        final: true
+      }
+    ]
+  },
+  {
+    id: "interview",
+    title: "4. Job Interview Speaking Practice",
+    titleUz: "Ish suhbati bo‘yicha mashg‘ulot",
+    desc: "Ingliz tilidagi intervyu savollariga ishonch bilan, professional tarzda javob berishni mashq qiling.",
+    steps: [
+      {
+        ai: "Welcome to our interview session. Thank you for taking the time to speak with us today. Could you briefly introduce your background?",
+        aiUz: "Intervyu mashg‘ulotimizga xush kelibsiz. Bugun biz bilan suhbatlashishga vaqt ajratganingiz uchun rahmat. O‘zingiz va tajribangiz haqida qisqacha aytib bersangiz?",
+        suggestions: [
+          "Hello! I am a passionate learner with a strong background in technology.",
+          "Good morning. I have been developing my skills and solving real problems.",
+          "Thank you for having me. I am excited to share my experience with you."
+        ]
+      },
+      {
+        ai: "Impressive! In any professional role, teamwork is vital. Can you describe a situation where you had to solve a difficult problem with others?",
+        aiUz: "Ajoyib! Har qanday professional sohada jamoada ishlash muhim. Boshqalar bilan birga qiyin muammoni hal qilgan vaziyatingizni aytib bera olasizmi?",
+        suggestions: [
+          "We faced a tight deadline, so we divided tasks clearly and supported each other.",
+          "We had different opinions, but we listened respectfully and found the best solution.",
+          "I communicated openly with my team and we succeeded together."
+        ]
+      },
+      {
+        ai: "Outstanding response. Clear communication is the key to leadership. Where do you see your career in the next three years?",
+        aiUz: "Zo‘r javob. Aniq muloqot — yetakchilik kalitidir. Keyingi uch yilda o‘z faoliyatingizni qanday tasavvur qilasiz?",
+        suggestions: [
+          "I see myself taking on greater responsibilities and helping my team grow.",
+          "I want to become an expert in my field and create meaningful projects.",
+          "I aim to master advanced skills and contribute to global initiatives."
+        ]
+      },
+      {
+        ai: "You answered with tremendous poise and articulate clarity. You are thoroughly prepared to impress any interview panel!",
+        aiUz: "Siz o‘ta vazmin va chiroyli aniqlik bilan javob berdingiz. Har qanday intervyuda g‘alaba qozonishga to‘liq tayyorsiz!",
+        final: true
+      }
+    ]
+  }
+];
+
+let currentMission = null;
+let currentMissionStepIdx = 0;
+let isDialogueMicListening = false;
+let speechRecognizer = null;
+
+function initMissionView(){
+  const grid = $('missionGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+
+  MISSIONS_DATA.forEach((m, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'mission-card';
+    card.innerHTML = `
+      <div class="m-info">
+        <span class="m-tag">Topshiriq #${idx + 1}</span>
+        <div class="m-title">${m.title}</div>
+        <div class="m-desc">${m.titleUz}</div>
+      </div>
+      <button class="solid small" type="button">Boshlash →</button>
+    `;
+    card.onclick = () => startMission(m);
+    grid.appendChild(card);
+  });
+}
+
+function startMission(m){
+  currentMission = m;
+  currentMissionStepIdx = 0;
+
+  $('missionListContainer').style.display = 'none';
+  $('dialogueArena').classList.add('active');
+  $('activeMissionTitle').textContent = m.title;
+  $('dialogueDoneCard').classList.remove('show');
+
+  const chatBox = $('dialogueChatBox');
+  chatBox.innerHTML = '';
+
+  // Start background Lofi music for atmosphere!
+  if(musicOn){
+    startMusic();
+    $('dialogueMusicBtn').textContent = '🎵 Lofi on';
+    $('dialogueMusicBtn').classList.add('solid');
+  }
+
+  loadMissionStep(0);
+}
+
+function loadMissionStep(stepIdx){
+  if(!currentMission || stepIdx >= currentMission.steps.length) return;
+  currentMissionStepIdx = stepIdx;
+  const step = currentMission.steps[stepIdx];
+
+  // Render AI bubble
+  appendChatBubble('ai', step.ai, step.aiUz);
+
+  // AI speaks out loud! (ovozi chiqsin)
+  speakAiMessage(step.ai, () => {
+    if(step.final){
+      // Mission completed!
+      finishMission();
+    }
+  });
+
+  // Render suggestion chips
+  const sugBox = $('dialogueSuggestions');
+  sugBox.innerHTML = '';
+  if(step.suggestions){
+    step.suggestions.forEach(sugText => {
+      const chip = document.createElement('button');
+      chip.className = 'sug-chip';
+      chip.type = 'button';
+      chip.textContent = `"${sugText}"`;
+      chip.onclick = () => submitUserDialogue(sugText);
+      sugBox.appendChild(chip);
+    });
+  }
+
+  $('dialogueStatusText').textContent = step.final ? "Topshiriq yakunlandi!" : "Sizning navbatingiz (gapiring yoki bosing)...";
+}
+
+function appendChatBubble(sender, text, translation){
+  const chatBox = $('dialogueChatBox');
+  const bubble = document.createElement('div');
+  bubble.className = `chat-bubble ${sender}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'chat-avatar';
+  avatar.textContent = sender === 'ai' ? '👩‍🏫' : '👤';
+
+  const content = document.createElement('div');
+  content.className = 'chat-content';
+
+  const textDiv = document.createElement('div');
+  textDiv.className = 'chat-text';
+  textDiv.textContent = text;
+  content.appendChild(textDiv);
+
+  if(sender === 'ai' && translation){
+    const trDiv = document.createElement('div');
+    trDiv.style.fontSize = '0.78rem';
+    trDiv.style.color = 'var(--mute)';
+    trDiv.style.paddingLeft = '0.3rem';
+    trDiv.textContent = translation;
+    content.appendChild(trDiv);
+
+    const replayBtn = document.createElement('span');
+    replayBtn.className = 'chat-action';
+    replayBtn.innerHTML = '🔊 Qayta tinglash';
+    replayBtn.onclick = () => speakAiMessage(text);
+    content.appendChild(replayBtn);
+  }
+
+  bubble.appendChild(avatar);
+  bubble.appendChild(content);
+  chatBox.appendChild(bubble);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function speakAiMessage(text, onEndCallback){
+  if(!('speechSynthesis' in window)) return;
+  if(speechSynthesis.speaking) speechSynthesis.cancel();
+  loadFemaleVoice();
+
+  const u = new SpeechSynthesisUtterance(text);
+  if(femaleVoice) u.voice = femaleVoice;
+  u.lang = 'en-US';
+  u.rate = 0.95;
+
+  u.onstart = () => {
+    const wave = $('dialogueWave');
+    if(wave) wave.style.display = 'inline-flex';
+  };
+  u.onend = () => {
+    const wave = $('dialogueWave');
+    if(wave) wave.style.display = 'none';
+    if(onEndCallback) onEndCallback();
+  };
+  u.onerror = () => {
+    const wave = $('dialogueWave');
+    if(wave) wave.style.display = 'none';
+    if(onEndCallback) onEndCallback();
+  };
+
+  speechSynthesis.speak(u);
+}
+
+function submitUserDialogue(userText){
+  if(!userText || !currentMission) return;
+
+  // Append user bubble
+  appendChatBubble('user', userText);
+  createParticles(window.innerWidth / 2, window.innerHeight / 2, '#2563eb', 6, 'float');
+
+  // Clear suggestions
+  $('dialogueSuggestions').innerHTML = '';
+  $('dialogueStatusText').textContent = "Sarah javob bermoqda...";
+
+  // Move to next AI step with realistic slight pause
+  setTimeout(() => {
+    loadMissionStep(currentMissionStepIdx + 1);
+  }, 750);
+}
+
+function finishMission(){
+  $('dialogueDoneCard').classList.add('show');
+  createParticles(window.innerWidth / 2, window.innerHeight / 2, '#22c55e', 24, 'burst');
+  $('dialogueStatusText').textContent = "Topshiriq muvaffaqiyatli yakunlandi! 🏆";
+}
+
+$('dialogueDoneReturnBtn').onclick = () => {
+  $('backToMissionsBtn').click();
+};
+
+$('backToMissionsBtn').onclick = () => {
+  if('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
+  if(isDialogueMicListening) stopDialogueMic();
+  $('dialogueArena').classList.remove('active');
+  $('missionListContainer').style.display = 'block';
+  currentMission = null;
+};
+
+// Toggle Music in Dialogue
+$('dialogueMusicBtn').onclick = () => {
+  musicOn = !musicOn;
+  $('dialogueMusicBtn').textContent = musicOn ? '🎵 Lofi on' : '🎵 Lofi off';
+  $('dialogueMusicBtn').classList.toggle('solid', musicOn);
+  if(musicOn) startMusic();
+  else stopMusic();
+};
+
+// Web Speech Recognition for Real-time Dialogue
+function initSpeechRecognizer(){
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRec) return null;
+  const sr = new SpeechRec();
+  sr.lang = 'en-US';
+  sr.continuous = false;
+  sr.interimResults = false;
+
+  sr.onstart = () => {
+    isDialogueMicListening = true;
+    $('dialogueMicBtn').classList.add('recording');
+    $('dialogueMicBtnText').textContent = "Eshitmoqda... (Gapiring)";
+    $('dialogueStatusText').textContent = "Ovozingiz tinglanmoqda...";
+  };
+
+  sr.onresult = (e) => {
+    const transcript = e.results[0][0].transcript;
+    if(transcript){
+      submitUserDialogue(transcript);
+    }
+  };
+
+  sr.onerror = () => {
+    stopDialogueMic();
+  };
+
+  sr.onend = () => {
+    stopDialogueMic();
+  };
+
+  return sr;
+}
+
+function startDialogueMic(){
+  if(!speechRecognizer) speechRecognizer = initSpeechRecognizer();
+  if(!speechRecognizer){
+    alert("Brauzeringizda nutqni aniqlash (Speech Recognition) mavjud emas. Tavsiya etilgan javoblardan foydalanishingiz mumkin.");
+    return;
+  }
+  try{
+    speechRecognizer.start();
+  }catch(e){
+    stopDialogueMic();
+  }
+}
+
+function stopDialogueMic(){
+  isDialogueMicListening = false;
+  $('dialogueMicBtn').classList.remove('recording');
+  $('dialogueMicBtnText').textContent = "Gapirish uchun bosing";
+  $('dialogueStatusText').textContent = "Tinglashga tayyor";
+}
+
+$('dialogueMicBtn').onclick = () => {
+  if(isDialogueMicListening){
+    if(speechRecognizer) speechRecognizer.stop();
+    stopDialogueMic();
+  } else {
+    startDialogueMic();
+  }
+};
+
 
 // Initial UI sync
 updateStatsDashboardUI();
