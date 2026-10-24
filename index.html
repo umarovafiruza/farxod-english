@@ -749,6 +749,58 @@ button:active{transform:scale(.98)}
   border:1px solid var(--line);
 }
 
+
+/* Fluency Stats Dashboard (Samaradorlik paneli) */
+.stats-dashboard{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:.5rem;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:.75rem .9rem;
+  margin-bottom:1.1rem;
+}
+.stat-box{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.15rem}
+.stat-num{font-size:1.15rem;font-weight:800;color:var(--fg);font-variant-numeric:tabular-nums}
+.stat-lbl{font-size:.68rem;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.03em}
+
+/* Pronunciation Comparison Bar in #done */
+.compare-audio-wrap{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1rem 1.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  width:100%;
+  max-width:380px;
+}
+.compare-title{font-size:.85rem;font-weight:700;color:var(--fg);display:flex;align-items:center;justify-content:center;gap:.4rem}
+.compare-btns-row{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+
+/* Star Button on Vocab Cards */
+.v-star-btn{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--bg);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.9rem;
+  color:var(--mute);
+  transition:all .15s ease;
+}
+.v-star-btn.starred{
+  color:#eab308;
+  border-color:#eab308;
+  background:#fefce8;
+}
+
 </style>
 </head>
 <body>
@@ -772,6 +824,27 @@ button:active{transform:scale(.98)}
       <button class="main-tab" id="tabQuiz" type="button">⚡ Quiz</button>
     </nav>
   </header>
+
+  <!-- Samaradorlik va Natijalar Paneli -->
+  <div class="stats-dashboard" id="statsDashboard" title="Sizning o‘rganish natijalaringiz">
+    <div class="stat-box">
+      <span class="stat-num" id="statAvgWpm">120</span>
+      <span class="stat-lbl">🚀 Tezlik WPM</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num" id="statReadCount">0</span>
+      <span class="stat-lbl">📖 O‘qildi</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num" id="statQuizAccuracy">100%</span>
+      <span class="stat-lbl">🎯 Test ball</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num" id="statStarredCount">0</span>
+      <span class="stat-lbl">⭐ Saqlangan</span>
+    </div>
+  </div>
+
 
   <!-- ============================================== -->
   <!-- 1. SHADOWING VIEW -->
@@ -879,6 +952,7 @@ button:active{transform:scale(.98)}
       <button class="v-pill" data-pos="v" type="button">Fe'l (Verbs)</button>
       <button class="v-pill" data-pos="adj" type="button">Sifat (Adjectives)</button>
       <button class="v-pill" data-pos="phr" type="button">Iboralar (Phrases)</button>
+      <button class="v-pill" data-pos="starred" type="button" style="color:#eab308">⭐ Saqlanganlar</button>
     </div>
 
     <div class="vocab-grid" id="vocabGrid"></div>
@@ -1031,8 +1105,12 @@ button:active{transform:scale(.98)}
     </div>
     <div id="done">
       <span>Ajoyib o‘qidingiz!</span>
-      <div id="recPlayerDone" style="display:none;" class="rec-player">
-        <button class="solid" id="playRecDone" type="button">▶ O‘z ovozingizni eshiting</button>
+      <div id="recPlayerDone" style="display:none;" class="compare-audio-wrap">
+        <div class="compare-title">🎧 Talaffuzni solishtiring:</div>
+        <div class="compare-btns-row">
+          <button class="ghost small" id="playRefDone" type="button">👩‍🏫 1. Namuna ovozi</button>
+          <button class="solid small" id="playRecDone" type="button">🎙️ 2. Sizning ovozingiz</button>
+        </div>
       </div>
       <button class="solid" id="again" type="button">Qaytadan o‘qish</button>
       <button class="ghost" id="backDone" type="button">Bosh sahifaga qaytish</button>
@@ -1097,6 +1175,7 @@ button:active{transform:scale(.98)}
 // ==============================================
 const TOPICS=[
   // Shadowing: matnni ovoz chiqarib o'qish, smooth scroll
+  ["The Science of Fluency: Small Daily Habits","A2","shadowing","Every master was once a disaster. When you practice speaking for just ten minutes every day, your brain creates new neural connections. You do not notice the change on the very first day. But week after week, your tongue moves faster, your ears catch every sound, and speaking English feels natural. Trust the daily practice. Small steps create extraordinary fluency."],
   ["Shadowing: Rhythm & Flow","A1","shadowing","Listen to my voice. Speak each word with me. Do not wait for me to finish. Speak at the same time. Feel the rhythm of the words. English moves like a song. Up and down, smooth and clear. You are doing it. Keep going."],
   ["Shadowing: Natural Connections","A2","shadowing","Words in English connect together. We do not stop after every word. The words dance into one another. Listen closely to how they flow. Repeat right behind me. One small step, one clear breath. Your pronunciation gets sharper every minute. Trust your ear and shadow along."],
   ["Shadowing: The Power of Pauses","B1","shadowing","Great speakers know how to pause. A pause gives you time to breathe and think. Notice where my voice slows down, and notice where it gently rises. Follow my tempo. Do not worry about mistakes; your tongue is building new muscle memory right now. Shadow each sentence with calm certainty."],
@@ -1321,6 +1400,9 @@ function tick(t){
   if(run&&!ended&&pos>=max-.5){
     ended=true;
     toggle(false);
+    userStats.readCount++;
+    if(cur && cur[3]) userStats.totalWordsRead += cur[3].split(/\s+/).length;
+    saveUserStats();
     stopRecording();
     if('speechSynthesis' in window)speechSynthesis.cancel();
     $('done').style.display='flex';
@@ -1836,14 +1918,25 @@ function renderVocabCards(){
   const grid = $('vocabGrid');
   grid.innerHTML = '';
 
-  if(!window.VOCAB_DATA || !window.VOCAB_DATA[currentVocabTopicIdx]){
-    grid.innerHTML = '<div style="color:var(--mute);text-align:center;padding:2rem;">Lug‘at ma’lumotlari yuklanmadi.</div>';
+  const starredList = getStarredWords();
+  const isStarredFilter = (currentVocabPos === 'starred');
+
+  let list = [];
+  if(isStarredFilter){
+    list = starredList;
+  } else if(window.VOCAB_DATA && window.VOCAB_DATA[currentVocabTopicIdx]){
+    list = window.VOCAB_DATA[currentVocabTopicIdx];
+  }
+
+  if(!list || list.length === 0){
+    grid.innerHTML = isStarredFilter 
+      ? '<div style="color:var(--mute);text-align:center;padding:2.5rem 1rem;">Hozircha saqlangan so‘zlar yo‘q.<br><small style="opacity:.8">Kartadagi yulduzcha (☆) tugmasini bosib so‘zlarni bu yerga saqlashingiz mumkin.</small></div>'
+      : '<div style="color:var(--mute);text-align:center;padding:2rem;">Lug‘at ma’lumotlari topilmadi.</div>';
     return;
   }
 
-  const list = window.VOCAB_DATA[currentVocabTopicIdx];
   const filtered = list.filter(item => {
-    if(currentVocabPos !== 'all' && item.pos !== currentVocabPos) return false;
+    if(!isStarredFilter && currentVocabPos !== 'all' && item.pos !== currentVocabPos) return false;
     if(currentVocabSearch){
       const matchWord = item.w.toLowerCase().includes(currentVocabSearch);
       const matchTr = item.tr.toLowerCase().includes(currentVocabSearch);
@@ -1854,7 +1947,7 @@ function renderVocabCards(){
   });
 
   if(filtered.length === 0){
-    grid.innerHTML = '<div style="color:var(--mute);text-align:center;padding:2rem;">Hech qanday so‘z topilmadi.</div>';
+    grid.innerHTML = '<div style="color:var(--mute);text-align:center;padding:2rem;">Mos so‘z topilmadi.</div>';
     return;
   }
 
@@ -1871,15 +1964,37 @@ function renderVocabCards(){
     wordWrap.className = 'v-word-wrap';
     wordWrap.innerHTML = `<span class="v-word">${item.w}</span><span class="v-pos">(${posLabels[item.pos]||item.pos})</span>`;
 
+    const btnsWrap = document.createElement('div');
+    btnsWrap.style.display = 'flex';
+    btnsWrap.style.alignItems = 'center';
+    btnsWrap.style.gap = '.4rem';
+
+    const isStarred = starredList.some(s => s.w.toLowerCase() === item.w.toLowerCase());
+    const starBtn = document.createElement('button');
+    starBtn.className = 'v-star-btn' + (isStarred ? ' starred' : '');
+    starBtn.type = 'button';
+    starBtn.title = isStarred ? 'Saqlanganlardan o‘chirish' : 'Lug‘atga saqlash';
+    starBtn.innerHTML = isStarred ? '★' : '☆';
+    starBtn.onclick = (e) => {
+      e.stopPropagation();
+      toggleStarWord(item);
+    };
+
     const speakBtn = document.createElement('button');
     speakBtn.className = 'v-speak-btn';
     speakBtn.type = 'button';
     speakBtn.title = 'Talaffuzni eshitish';
     speakBtn.innerHTML = '🔊';
-    speakBtn.onclick = () => speakSingleWord(item.w);
+    speakBtn.onclick = (e) => {
+      e.stopPropagation();
+      speakSingleWord(item.w);
+    };
+
+    btnsWrap.appendChild(starBtn);
+    btnsWrap.appendChild(speakBtn);
 
     top.appendChild(wordWrap);
-    top.appendChild(speakBtn);
+    top.appendChild(btnsWrap);
     card.appendChild(top);
 
     const trans = document.createElement('div');
@@ -2367,6 +2482,14 @@ function finishQuizRound(){
   
   const total = currentQuizRound.length;
   const pct = Math.round((quizScore / total) * 100);
+
+  // Update persistent stats
+  userStats.quizAttempts = (userStats.quizAttempts || 0) + total;
+  userStats.quizCorrect = (userStats.quizCorrect || 0) + quizScore;
+  saveUserStats();
+  if(pct >= 80 && typeof createParticles === 'function'){
+    createParticles(window.innerWidth / 2, window.innerHeight / 2, '#22c55e', 14, 'burst');
+  }
   $('quizFinalScoreTitle').textContent = `🎯 Test yakunlandi: ${quizScore} / ${total} (${pct}%)`;
   
   let msg = "";
@@ -2665,6 +2788,144 @@ function animate(now){
   requestAnimationFrame(animate);
 })();
 
+
+
+// ==============================================
+// 7. USER STATS & PERSISTENCE (Samaradorlik ko'rsatkichlari)
+// ==============================================
+let userStats = {
+  readCount: 0,
+  totalWordsRead: 0,
+  totalTimeSec: 0,
+  quizAttempts: 0,
+  quizCorrect: 0
+};
+
+function loadUserStats(){
+  try {
+    const s = localStorage.getItem('fe_user_stats');
+    if(s) {
+      const parsed = JSON.parse(s);
+      userStats = { ...userStats, ...parsed };
+    }
+  } catch(e){}
+}
+loadUserStats();
+
+function saveUserStats(){
+  try {
+    localStorage.setItem('fe_user_stats', JSON.stringify(userStats));
+  } catch(e){}
+  updateStatsDashboardUI();
+}
+
+function updateStatsDashboardUI(){
+  const countEl = $('statReadCount');
+  if(countEl) countEl.textContent = userStats.readCount || 0;
+
+  const wpmEl = $('statAvgWpm');
+  if(wpmEl){
+    if(userStats.totalTimeSec > 0 && userStats.totalWordsRead > 0){
+      const avgWpm = Math.round((userStats.totalWordsRead / userStats.totalTimeSec) * 60);
+      wpmEl.textContent = avgWpm;
+    } else {
+      wpmEl.textContent = (typeof wpm !== 'undefined' ? wpm : 100);
+    }
+  }
+
+  const accEl = $('statQuizAccuracy');
+  if(accEl){
+    if(userStats.quizAttempts > 0){
+      const acc = Math.round((userStats.quizCorrect / userStats.quizAttempts) * 100);
+      accEl.textContent = `${acc}%`;
+    } else {
+      accEl.textContent = '100%';
+    }
+  }
+
+  const starredEl = $('statStarredCount');
+  if(starredEl){
+    starredEl.textContent = getStarredWords().length;
+  }
+}
+
+// ==============================================
+// 8. STARRED VOCABULARY (Saqlangan so'zlar)
+// ==============================================
+function getStarredWords(){
+  try{
+    const st = localStorage.getItem('fe_starred_words');
+    return st ? JSON.parse(st) : [];
+  }catch(e){ return []; }
+}
+
+function toggleStarWord(wordObj){
+  let list = getStarredWords();
+  const idx = list.findIndex(item => item.w.toLowerCase() === wordObj.w.toLowerCase());
+  if(idx !== -1){
+    list.splice(idx, 1);
+  } else {
+    list.push(wordObj);
+    if(typeof createParticles === 'function'){
+      createParticles(window.innerWidth / 2, window.innerHeight / 2, '#eab308', 8, 'burst');
+    }
+  }
+  try{ localStorage.setItem('fe_starred_words', JSON.stringify(list)); }catch(e){}
+  updateStatsDashboardUI();
+  if(typeof renderVocabCards === 'function') renderVocabCards();
+}
+
+// ==============================================
+// 9. SIDE-BY-SIDE AUDIO COMPARISON (#done)
+// ==============================================
+let isRefAudioPlaying = false;
+function playReferenceAudio(){
+  if(!('speechSynthesis' in window)){
+    alert("Brauzeringiz ovoz sintezini qo'llab-quvvatlamaydi.");
+    return;
+  }
+  const refBtn = $('playRefDone');
+  if(speechSynthesis.speaking){
+    speechSynthesis.cancel();
+    isRefAudioPlaying = false;
+    if(refBtn) refBtn.innerHTML = "👩‍🏫 1. Namuna ovozi";
+    return;
+  }
+  if(recordedAudio && !recordedAudio.paused){
+    recordedAudio.pause();
+    recordedAudio.currentTime = 0;
+    if($('playRecDone')) $('playRecDone').textContent = "▶ O‘z ovozingizni eshiting";
+  }
+
+  loadFemaleVoice();
+  const textToRead = (cur && cur[3]) ? cur[3] : ($('ins') ? $('ins').innerText : '');
+  if(!textToRead) return;
+
+  const u = new SpeechSynthesisUtterance(textToRead);
+  if(femaleVoice) u.voice = femaleVoice;
+  u.lang = 'en-US';
+  u.rate = (typeof playbackSpeed !== 'undefined' ? playbackSpeed : 1.0);
+  u.onstart = () => {
+    isRefAudioPlaying = true;
+    if(refBtn) refBtn.innerHTML = "⏹️ Namunani to'xtatish";
+  };
+  u.onend = () => {
+    isRefAudioPlaying = false;
+    if(refBtn) refBtn.innerHTML = "👩‍🏫 1. Namuna ovozi";
+  };
+  u.onerror = () => {
+    isRefAudioPlaying = false;
+    if(refBtn) refBtn.innerHTML = "👩‍🏫 1. Namuna ovozi";
+  };
+  speechSynthesis.speak(u);
+}
+
+if($('playRefDone')){
+  $('playRefDone').onclick = playReferenceAudio;
+}
+
+// Initial UI sync
+updateStatsDashboardUI();
 
 </script>
 
