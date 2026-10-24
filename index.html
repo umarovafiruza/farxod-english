@@ -2,10 +2,10 @@
 <html lang="uz">
 <head>
 <meta charset="utf-8">
-<title>Speak Fast and Clear</title>
+<title>Speak Fast and Clear — Shadowing & Fluency Studio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#ffffff;
@@ -15,6 +15,9 @@
   --card:#f8fafc;
   --active:#0f172a;
   --active-fg:#ffffff;
+  --primary:#2563eb;
+  --primary-bg:#eff6ff;
+  --accent:#7c3aed;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -28,6 +31,9 @@
     --card:#131c2e;
     --active:#f8fafc;
     --active-fg:#0b0f17;
+    --primary:#3b82f6;
+    --primary-bg:#1e293b;
+    --accent:#a78bfa;
     color-scheme:dark;
   }
 }
@@ -39,6 +45,9 @@
   --card:#131c2e;
   --active:#f8fafc;
   --active-fg:#0b0f17;
+  --primary:#3b82f6;
+  --primary-bg:#1e293b;
+  --accent:#a78bfa;
   color-scheme:dark;
 }
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
@@ -67,51 +76,96 @@ button:hover{border-color:var(--mute)}
 button.solid{background:var(--active);color:var(--active-fg);border-color:var(--active)}
 button.ghost{border-color:var(--line);color:var(--mute)}
 button.active{background:var(--active);color:var(--active-fg);border-color:var(--active)}
+button.primary-btn{background:var(--primary);color:#ffffff;border-color:var(--primary)}
 button.small{padding:.35em .85em;min-height:36px;font-size:.85rem}
 button:focus-visible,input:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 button:active{transform:scale(.98)}
 
 /* Bosh sahifa */
 #home{overflow-y:auto;padding-bottom:2.5rem}
-h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;margin:2.5rem 0 .4rem}
-.sub{color:var(--mute);margin-bottom:1.8rem;line-height:1.55;font-size:.95rem}
+h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:700;letter-spacing:-.025em;margin:2.5rem 0 .4rem}
+.sub{color:var(--mute);margin-bottom:1.5rem;line-height:1.55;font-size:.95rem}
 
-.topic-list{display:flex;flex-direction:column;gap:.4rem}
+/* Kategoriyalar filtri */
+.cats-wrap{margin-bottom:1.2rem;display:flex;flex-direction:column;gap:.65rem}
+.cats-bar{display:flex;gap:.45rem;overflow-x:auto;padding-bottom:.3rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.cats-bar::-webkit-scrollbar{display:none}
+.cat-pill{
+  flex-shrink:0;
+  padding:.42em .95em;
+  min-height:36px;
+  font-size:.82rem;
+  font-weight:600;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--mute);
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.cat-pill:hover{border-color:var(--mute);color:var(--fg)}
+.cat-pill.active{background:var(--active);color:var(--active-fg);border-color:var(--active)}
+
+.cat-desc{
+  font-size:.84rem;
+  line-height:1.5;
+  color:var(--mute);
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:.75rem 1rem;
+  transition:all .2s ease;
+}
+.cat-desc strong{color:var(--fg);font-weight:600}
+
+.topic-list{display:flex;flex-direction:column;gap:.45rem}
 .topic{
   display:flex;
   align-items:center;
-  gap:1rem;
+  gap:.85rem;
   width:100%;
   text-align:left;
   background:var(--card);
   border:1px solid var(--line);
   border-radius:12px;
-  padding:1rem 1.1rem;
+  padding:.95rem 1.1rem;
   min-height:58px;
 }
 .topic:hover{border-color:var(--mute);background:var(--bg)}
 .topic .n{color:var(--mute);font-size:.85rem;font-variant-numeric:tabular-nums;font-weight:500;min-width:1.6rem}
 .topic .t{flex:1;font-size:clamp(1rem,3vw,1.15rem);font-weight:500}
+.topic .meta{display:flex;align-items:center;gap:.4rem}
 .topic .l{
-  font-size:.75rem;
-  font-weight:600;
-  padding:.2em .6em;
+  font-size:.72rem;
+  font-weight:700;
+  padding:.22em .55em;
   border-radius:6px;
   background:var(--bg);
   border:1px solid var(--line);
   color:var(--mute);
   letter-spacing:.04em;
 }
+.topic .cat-tag{
+  font-size:.7rem;
+  font-weight:600;
+  padding:.22em .55em;
+  border-radius:6px;
+  background:var(--primary-bg);
+  color:var(--primary);
+  border:1px solid transparent;
+}
+.topic[data-cat="shadowing"] .cat-tag{color:#8b5cf6;background:#f5f3ff}
 
 /* O'qish ekrani */
 #reader{display:none;height:100%;flex-direction:column}
 .bar{display:flex;justify-content:space-between;align-items:center;padding:.85rem 0;gap:.5rem;border-bottom:1px solid var(--line)}
-.bar .title{font-weight:500;font-size:.95rem;color:var(--mute);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-center{display:flex;flex-direction:column;align-items:center;gap:.15rem;overflow:hidden;text-align:center}
+.bar .title{font-weight:600;font-size:.95rem;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px}
+.bar .cat-badge{font-size:.72rem;color:var(--mute);font-weight:500}
 
 #stage{position:relative;flex:1;min-height:0;overflow:hidden}
 
 :root{
-  /* Markazda to'q qora va tiniq; yuqori va pastda asta-sekin oq fonga erib ketish */
   --ms:linear-gradient(to bottom,
     rgba(0,0,0,0) 0%,
     rgba(0,0,0,0) 20%,
@@ -168,11 +222,12 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
   transform:translate3d(0,0,0);
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
-  font-size:clamp(1.45rem,4.8vw,2.3rem);
-  line-height:1.8;
-  font-weight:550;
+  font-size:clamp(1.45rem,4.8vw,2.2rem);
+  line-height:1.75;
+  font-weight:600;
   letter-spacing:-.01em;
-  max-width:18ch;text-wrap:balance;
+  max-width:18ch;
+  text-wrap:balance;
   margin:0 auto;
   text-align:center;
   overflow-wrap:break-word;
@@ -181,7 +236,7 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
 .in p:last-child{margin-bottom:0}
 
 /* Status Bar */
-.status-bar{display:flex;justify-content:center;align-items:center;min-height:26px;gap:.6rem;margin-bottom:.2rem}
+.status-bar{display:flex;justify-content:center;align-items:center;min-height:26px;gap:.6rem;margin-bottom:.2rem;flex-wrap:wrap}
 .status-pill{
   display:inline-flex;
   align-items:center;
@@ -189,7 +244,7 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
   padding:.22em .75em;
   border-radius:999px;
   font-size:.78rem;
-  font-weight:500;
+  font-weight:550;
   background:var(--card);
   border:1px solid var(--line);
   color:var(--fg);
@@ -197,6 +252,7 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
 }
 .status-pill .dot{width:8px;height:8px;border-radius:50%;background:#ef4444}
 .status-pill.speaking .dot{background:#22c55e;box-shadow:0 0 8px #22c55e}
+.status-pill.shadow-active{border-color:#a78bfa;color:#7c3aed;background:#f5f3ff}
 .status-pill.rec{border-color:#fca5a5;color:#ef4444}
 .status-pill .rec-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
@@ -229,7 +285,7 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
   gap:1rem;
   background:var(--bg);
   font-size:1.35rem;
-  font-weight:500;
+  font-weight:600;
   text-align:center;
   padding:1.5rem;
   z-index:10;
@@ -241,14 +297,31 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
 
 <div class="wrap" id="home">
   <h1>Speak Fast & Clear</h1>
-  <p class="sub">10 ta sara mavzu (A1 — B2). Matn to‘g‘ridan-to‘g‘ri sizga murojaat qiladi — ovoz chiqarib, har bir so‘zni his qilib o‘qing.</p>
+  <p class="sub">Ovoz chiqarib o‘qish, Shadowing va talaffuz ravonligini oshirish ilovasi. Kerakli kategoriyani tanlang.</p>
+  
+  <div class="cats-wrap">
+    <div class="cats-bar" id="catsBar">
+      <button class="cat-pill active" data-cat="all" type="button">✨ Barchasi</button>
+      <button class="cat-pill" data-cat="shadowing" type="button">🎙️ Shadowing</button>
+      <button class="cat-pill" data-cat="motivatsiya" type="button">🔥 Motivatsiya</button>
+      <button class="cat-pill" data-cat="tinchlanish" type="button">🌿 Tinchlanish</button>
+      <button class="cat-pill" data-cat="kundalik" type="button">💬 Kundalik</button>
+    </div>
+    <div class="cat-desc" id="catDesc">
+      <strong>Shadowing:</strong> Matnni ovoz chiqarib o‘qish, smooth scroll (silliq siljish). Namuna ovoziga parallel ravishda ergashib talaffuz qiling va nutq ritmini o‘zlashtiring.
+    </div>
+  </div>
+
   <div class="topic-list" id="list"></div>
 </div>
 
 <div class="wrap" id="reader">
   <div class="bar">
     <button class="ghost small" id="back" type="button">← Ortga</button>
-    <span class="title" id="ttl"></span>
+    <div class="bar-center">
+      <span class="title" id="ttl"></span>
+      <span class="cat-badge" id="catBadge">🎙️ Shadowing & Smooth Scroll</span>
+    </div>
     <button class="ghost small" id="listen" type="button" title="Opaning ovozi bilan namuna eshitish">👩‍🏫 Namuna ovozi</button>
   </div>
 
@@ -269,6 +342,9 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
   </div>
 
   <div class="status-bar" id="statusBar">
+    <span id="shadowStatus" class="status-pill shadow-active" style="display:none;">
+      <span>🎙️ Shadowing faol (namuna bilan birga o‘qing)</span>
+    </span>
     <span id="micStatus" class="status-pill" style="display:none;">
       <span class="dot"></span><span id="micText">Jimlik (gapiring...)</span>
     </span>
@@ -278,27 +354,24 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
   </div>
 
   <div class="ctrl">
-    <!-- Asosiy tugmalar -->
     <div class="row">
       <button class="solid" id="go" type="button">Start</button>
+      <button class="ghost" id="shadowBtn" type="button" title="Shadowing: Silliq siljish va ovoz chiqarib ergashish">🎙️ Shadowing</button>
       <button class="ghost" id="micBtn" type="button" title="Mikrofon: faqat gapirganda matn siljiydi">🎤 Ovoz bilan</button>
-      <button class="ghost" id="recBtn" type="button" title="O‘zingizni yozib oling va xatolarni eshiting">🎙 Yozish</button>
+      <button class="ghost" id="recBtn" type="button" title="O‘zingizni yozib oling va xatolarni eshiting">🔴 Yozish</button>
     </div>
 
-    <!-- Yozib olingan ovozni eshitish -->
     <div class="row" id="recPlayerRow" style="display:none;">
       <button class="solid small" id="playRecBtn" type="button">▶ O‘z ovozingizni eshiting</button>
       <button class="ghost small" id="delRecBtn" type="button" title="O‘chirish">✕</button>
     </div>
 
-    <!-- Tezlik tanlash -->
     <div class="speed-presets">
       <button class="ghost sp-preset" id="spSlow" type="button">Sekin</button>
       <button class="ghost sp-preset active" id="spMid" type="button">O‘rta</button>
       <button class="ghost sp-preset" id="spFast" type="button">Tez</button>
     </div>
 
-    <!-- Tezlik slayderi -->
     <div class="spd-bar">
       <span class="spd-lbl">30</span>
       <input type="range" id="spd" min="30" max="250" value="100" step="5" aria-label="O‘qish tezligi">
@@ -306,7 +379,6 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
     </div>
     <div class="hint"><span class="wpm" id="wpm">100</span> so‘z / daqiqa</div>
 
-    <!-- Lofi musiqa -->
     <div class="mus-bar">
       <button class="ghost small" id="mt" type="button">🎵 Lofi on</button>
       <label class="vol-control" title="Musiqa ovozi">
@@ -321,23 +393,56 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:600;letter-spacing:-.025em;ma
 </div>
 
 <script>
-// 10 ta sara matn (A1 - B2)
+// Mavzular va Kategoriyalar (Shadowing, Motivatsiya, Tinchlanish, Kundalik)
 const TOPICS=[
-["You Are Enough","A1","Stop for a moment. Look at yourself. You are trying so hard every day. It is okay to be tired. You do not have to be perfect. You do not have to please everyone. Right here, right now, you are safe. Take a deep breath. You are doing well, and you are enough."],
-["Just For Today","A1","Do not worry about tomorrow. Tomorrow will wait for you. Think only about this moment. You had a long day. Put your phone down. Let your hands relax. Drink some clean water. You survived today, and that is a big win. Smile a little bit. You are going to be okay."],
-["A Soft Voice","A1","Be gentle with yourself. You are learning new things every day. Sometimes you make mistakes. That is normal. That is how you grow. Do not be angry with your heart. You are a good person. You have a warm heart. Tell yourself: I forgive myself. I am ready to try again."],
-["Heavy Days Pass","A2","I know today was heavy. I know your chest feels tight and full of questions. But remember: bad days do not stay forever. Storms always run out of rain. You have walked through hard times before, and you made it. This pain is not your home; it is just a passing cloud. Rest your mind tonight. The sun will rise again for you."],
-["Believe In Your Step","A2","Do not compare your life with other people. Their path is theirs, and your path is yours. You do not need a big plan today. You only need one small step forward. Open your door. Look ahead with courage. You are stronger than your doubts. Every small effort you make counts. Trust yourself and keep walking."],
-["It Is Okay To Cry","A2","You have been strong for too long. You carry so many silent burdens on your shoulders. If you need to cry, let the tears fall. Tears do not mean you are weak; they mean you have cared deeply. Wash away the sadness inside. Let your body let go of the pain. After the rain falls, the ground becomes green and fresh. You will heal soon."],
-["Rise From Ashes","B1","When everything falls apart, something inside you is being rebuilt. Failure is not the end of your story; it is the moment where your real strength begins. The greatest people you admire were broken many times before they succeeded. Do not give up now. Dust yourself off, look into the mirror, and say: I am still here. Your comeback will be louder than your setback."],
-["Silent Battles","B1","Nobody knows how much you fight in silence. Nobody sees the quiet tears you wipe away before you smile at the world. But I see your courage. I see how hard you try even when you feel completely empty. Keep holding on. Your patience is building a future you will be proud of. The dark nights are shaping your brightest morning."],
-["Unshakable","B2","You cannot control the waves around you, but you can always master the ship of your own mind. When life feels unpredictable and noisy, retreat into your inner quiet. Nothing outside can defeat you unless you surrender from within. Ground your spirit in gratitude. Hold your head high with quiet dignity. You are far more resilient than any storm life throws your way."],
-["Stand In Your Light","B2","Stop shrinking yourself just to make insecure people comfortable. You do not need anyone permission to shine brightly. Own your voice, celebrate your journey, and never apologize for growing into a stronger version of who you were. The world needs your genuine warmth and your honest truth. Stand firmly in your light, and let your confidence illuminate the path ahead."]
+  // Shadowing: matnni ovoz chiqarib o'qish, smooth scroll
+  ["Shadowing: Rhythm & Flow","A1","shadowing","Listen to my voice. Speak each word with me. Do not wait for me to finish. Speak at the same time. Feel the rhythm of the words. English moves like a song. Up and down, smooth and clear. You are doing it. Keep going."],
+  ["Shadowing: Natural Connections","A2","shadowing","Words in English connect together. We do not stop after every word. The words dance into one another. Listen closely to how they flow. Repeat right behind me. One small step, one clear breath. Your pronunciation gets sharper every minute. Trust your ear and shadow along."],
+  ["Shadowing: The Power of Pauses","B1","shadowing","Great speakers know how to pause. A pause gives you time to breathe and think. Notice where my voice slows down, and notice where it gently rises. Follow my tempo. Do not worry about mistakes; your tongue is building new muscle memory right now. Shadow each sentence with calm certainty."],
+  ["Shadowing: Master Your Cadence","B2","shadowing","Fluency is not about speaking quickly; it is about effortless rhythm and emotional clarity. When you shadow a native voice, you internalize sentence stress and natural intonation without memorizing rules. Match my pitch, breathe naturally, and speak with unwavering confidence."],
+
+  // Motivatsiya
+  ["You Are Enough","A1","motivatsiya","Stop for a moment. Look at yourself. You are trying so hard every day. It is okay to be tired. You do not have to be perfect. You do not have to please everyone. Right here, right now, you are safe. Take a deep breath. You are doing well, and you are enough."],
+  ["Believe In Your Step","A2","motivatsiya","Do not compare your life with other people. Their path is theirs, and your path is yours. You do not need a big plan today. You only need one small step forward. Open your door. Look ahead with courage. You are stronger than your doubts. Every small effort you make counts. Trust yourself and keep walking."],
+  ["Rise From Ashes","B1","motivatsiya","When everything falls apart, something inside you is being rebuilt. Failure is not the end of your story; it is the moment where your real strength begins. The greatest people you admire were broken many times before they succeeded. Do not give up now. Dust yourself off, look into the mirror, and say: I am still here. Your comeback will be louder than your setback."],
+  ["Silent Battles","B1","motivatsiya","Nobody knows how much you fight in silence. Nobody sees the quiet tears you wipe away before you smile at the world. But I see your courage. I see how hard you try even when you feel completely empty. Keep holding on. Your patience is building a future you will be proud of. The dark nights are shaping your brightest morning."],
+  ["Unshakable","B2","motivatsiya","You cannot control the waves around you, but you can always master the ship of your own mind. When life feels unpredictable and noisy, retreat into your inner quiet. Nothing outside can defeat you unless you surrender from within. Ground your spirit in gratitude. Hold your head high with quiet dignity. You are far more resilient than any storm life throws your way."],
+  ["Stand In Your Light","B2","motivatsiya","Stop shrinking yourself just to make insecure people comfortable. You do not need anyone permission to shine brightly. Own your voice, celebrate your journey, and never apologize for growing into a stronger version of who you were. The world needs your genuine warmth and your honest truth. Stand firmly in your light, and let your confidence illuminate the path ahead."],
+
+  // Tinchlanish
+  ["Just For Today","A1","tinchlanish","Do not worry about tomorrow. Tomorrow will wait for you. Think only about this moment. You had a long day. Put your phone down. Let your hands relax. Drink some clean water. You survived today, and that is a big win. Smile a little bit. You are going to be okay."],
+  ["A Soft Voice","A1","tinchlanish","Be gentle with yourself. You are learning new things every day. Sometimes you make mistakes. That is normal. That is how you grow. Do not be angry with your heart. You are a good person. You have a warm heart. Tell yourself: I forgive myself. I am ready to try again."],
+  ["Heavy Days Pass","A2","tinchlanish","I know today was heavy. I know your chest feels tight and full of questions. But remember: bad days do not stay forever. Storms always run out of rain. You have walked through hard times before, and you made it. This pain is not your home; it is just a passing cloud. Rest your mind tonight. The sun will rise again for you."],
+  ["It Is Okay To Cry","A2","tinchlanish","You have been strong for too long. You carry so many silent burdens on your shoulders. If you need to cry, let the tears fall. Tears do not mean you are weak; they mean you have cared deeply. Wash away the sadness inside. Let your body let go of the pain. After the rain falls, the ground becomes green and fresh. You will heal soon."],
+  ["Rain On The Window","A2","tinchlanish","Listen to the rain. It falls softly on the window. Drop by drop, the day grows quiet. You have nowhere to be. You have nothing to prove. The water washes the street, and the air feels clean and fresh. Breathe in slowly. Breathe out slowly. The rain is gentle, and so are you."],
+
+  // Kundalik
+  ["Coffee & Morning Thoughts","A1","kundalik","Every morning gives you a fresh start. You wake up, pour a warm cup of coffee or tea, and look out the window. Say good morning to yourself. Today is a brand new page. You can make it whatever you want."],
+  ["Meeting An Old Friend","A2","kundalik","It is so good to see you again. How have you been? Time moves so fast, but good friendships never change. Let us sit down, take our time, and talk about everything that has happened with an open heart."],
+  ["A Calm Evening Walk","B1","kundalik","Let us take a slow walk together without any destination. The evening air is cool and peaceful. Streetlights are beginning to turn on. We leave behind the rush of the workday and simply enjoy the quiet rhythm of our own footsteps."]
 ];
+
+const CAT_LABELS = {
+  all: "Barchasi",
+  shadowing: "🎙️ Shadowing",
+  motivatsiya: "🔥 Motivatsiya",
+  tinchlanish: "🌿 Tinchlanish",
+  kundalik: "💬 Kundalik"
+};
+
+const CAT_DESCRIPTIONS = {
+  all: "<strong>Barcha mavzular:</strong> Ovoz chiqarib o‘qish, Shadowing, motivatsiya va tinchlantiruvchi darajali matnlar (A1 — B2).",
+  shadowing: "<strong>Shadowing:</strong> Matnni ovoz chiqarib o‘qish, smooth scroll (silliq siljish). Namuna ovoziga parallel ergashib talaffuz qiling va nutq ritmini o‘zlashtiring.",
+  motivatsiya: "<strong>Motivatsiya:</strong> O‘ziga ishonch, siqilgan yoki charchagan paytda ruhiy kuch beruvchi hissiy murojaatlar.",
+  tinchlanish: "<strong>Tinchlanish:</strong> Dam olish, nafas rostlash va mayin lofi fonida yengil o‘qish.",
+  kundalik: "<strong>Kundalik muloqot:</strong> Odamlar bilan erkin gaplashishda ishlatiladigan eng kerakli iboralar va suhbatlar."
+};
 
 const $=id=>document.getElementById(id);
 const T=$('text'),home=$('home'),reader=$('reader'),ins=[...document.querySelectorAll('.in')];
 let cur=null,wpm=100,run=false,pos=0,last=0,raf=null,vel=0,max=1,pxw=1,ended=false;
+let activeCat = 'all';
+let isShadowMode = false;
 
 // Mikrofon va yozib olish
 let micStream=null,audioCtx=null,micAnalyser=null,micData=null,micMode=false;
@@ -365,23 +470,45 @@ function layout(){
   ins.forEach(e=>{e.style.padding=pad+'px 0'});
   const th=ins[0].offsetHeight-2*pad;
   max=Math.max(1,th);
-  pxw=th/cur[2].split(/\\s+/).length;
+  pxw=th/cur[3].split(/\s+/).length;
 }
 
-// Bosh sahifa ro'yxati
-TOPICS.forEach((t,i)=>{
-  const b=document.createElement('button');
-  b.className='topic';
-  b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${t[0]}</span><span class="l">${t[1]}</span>`;
-  b.onclick=()=>open(i);
-  $('list').appendChild(b);
+// Bosh sahifa ro'yxatini chiqarish
+function renderTopicList(){
+  const list=$('list');
+  list.innerHTML='';
+  TOPICS.forEach((t,i)=>{
+    if(activeCat!=='all'&&t[2]!==activeCat)return;
+    const b=document.createElement('button');
+    b.className='topic';
+    b.dataset.cat=t[2];
+    b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${t[0]}</span><span class="meta"><span class="cat-tag">${CAT_LABELS[t[2]]||t[2]}</span><span class="l">${t[1]}</span></span>`;
+    b.onclick=()=>open(i);
+    list.appendChild(b);
+  });
+}
+renderTopicList();
+
+// Kategoriya tanlash
+document.querySelectorAll('.cat-pill').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.cat-pill').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat=btn.dataset.cat;
+    $('catDesc').innerHTML=CAT_DESCRIPTIONS[activeCat]||'';
+    renderTopicList();
+  };
 });
 
 function open(i){
   cur=TOPICS[i];
   $('ttl').textContent=cur[0];
-  const html=cur[2].split(/(?<=\\.)\\s+/).reduce((a,s,k)=>{(k%2?a[a.length-1]+=' '+s:a.push(s));return a},[]).map(p=>`<p>${p}</p>`).join('');
+  $('catBadge').textContent=(CAT_LABELS[cur[2]]||cur[2])+' · Silliq siljish';
+
+  // Matnni taxminan 4 so'zdan ixcham qatorlarga ajratish
+  const html=cur[3].split(/(?<=\.)\s+/).reduce((a,s,k)=>{(k%2?a[a.length-1]+=' '+s:a.push(s));return a},[]).map(p=>`<p>${p}</p>`).join('');
   ins.forEach(e=>e.innerHTML=html);
+
   home.style.display='none';
   reader.style.display='flex';
   $('done').style.display='none';
@@ -394,6 +521,15 @@ function open(i){
   setSpeed(100);
   preset(i);
   startMusic();
+
+  if(cur[2]==='shadowing'){
+    $('shadowBtn').classList.add('primary-btn');
+  }else{
+    $('shadowBtn').classList.remove('primary-btn');
+  }
+  isShadowMode=false;
+  $('shadowBtn').classList.remove('active');
+  $('shadowStatus').style.display='none';
 
   layout();
   if(document.fonts)document.fonts.ready.then(()=>{const r=pos/max;layout();pos=r*max;render()});
@@ -446,6 +582,7 @@ function tick(t){
     ended=true;
     toggle(false);
     stopRecording();
+    if('speechSynthesis' in window)speechSynthesis.cancel();
     $('done').style.display='flex';
   }
   raf=requestAnimationFrame(tick);
@@ -459,7 +596,24 @@ function toggle(force){
 }
 $('go').onclick=()=>toggle();
 
-// Mikrofon
+// Shadowing rejimi: silliq siljish bilan birga namuna ovoziga ergashish
+function toggleShadowing(){
+  isShadowMode=!isShadowMode;
+  $('shadowBtn').classList.toggle('active', isShadowMode);
+  if(isShadowMode){
+    $('shadowStatus').style.display='inline-flex';
+    if(!run)toggle(true);
+    startReferenceVoice();
+  }else{
+    $('shadowStatus').style.display='none';
+    if('speechSynthesis' in window&&speechSynthesis.speaking)speechSynthesis.cancel();
+    $('listen').textContent='👩‍🏫 Namuna ovozi';
+    $('listen').classList.remove('solid');
+  }
+}
+$('shadowBtn').onclick=toggleShadowing;
+
+// Mikrofon (Jimlikni sezish)
 async function initMic(){
   if(micStream)return true;
   try{
@@ -576,7 +730,7 @@ function stopRecording(){
   }
   isRecording=false;
   $('recBtn').classList.remove('active');
-  $('recBtn').textContent='🎙 Yozish';
+  $('recBtn').textContent='🔴 Yozish';
   $('recStatus').style.display='none';
 }
 
@@ -606,22 +760,22 @@ $('delRecBtn').onclick=()=>{
 };
 
 // Namuna ovozi
-function toggleReferenceVoice(){
+function startReferenceVoice(){
   if(!('speechSynthesis' in window))return;
-  if(speechSynthesis.speaking){
-    speechSynthesis.cancel();
-    $('listen').textContent='👩‍🏫 Namuna ovozi';
-    $('listen').classList.remove('solid');
-    return;
-  }
+  if(speechSynthesis.speaking)speechSynthesis.cancel();
   loadFemaleVoice();
-  const u=new SpeechSynthesisUtterance(cur[2]);
+  const u=new SpeechSynthesisUtterance(cur[3]);
   if(femaleVoice)u.voice=femaleVoice;
   u.lang='en-US';
   u.rate=Math.max(0.65,Math.min(1.6,wpm/100));
   u.onend=()=>{
     $('listen').textContent='👩‍🏫 Namuna ovozi';
     $('listen').classList.remove('solid');
+    if(isShadowMode){
+      isShadowMode=false;
+      $('shadowBtn').classList.remove('active');
+      $('shadowStatus').style.display='none';
+    }
   };
   u.onerror=()=>{
     $('listen').textContent='👩‍🏫 Namuna ovozi';
@@ -630,6 +784,22 @@ function toggleReferenceVoice(){
   $('listen').textContent='⏹ To‘xtatish';
   $('listen').classList.add('solid');
   speechSynthesis.speak(u);
+}
+
+function toggleReferenceVoice(){
+  if(!('speechSynthesis' in window))return;
+  if(speechSynthesis.speaking){
+    speechSynthesis.cancel();
+    $('listen').textContent='👩‍🏫 Namuna ovozi';
+    $('listen').classList.remove('solid');
+    if(isShadowMode){
+      isShadowMode=false;
+      $('shadowBtn').classList.remove('active');
+      $('shadowStatus').style.display='none';
+    }
+    return;
+  }
+  startReferenceVoice();
 }
 $('listen').onclick=toggleReferenceVoice;
 
@@ -647,7 +817,7 @@ $('back').onclick=()=>{
   toggle(false);
   stopRecording();
   if(raf)cancelAnimationFrame(raf);
-  speechSynthesis.cancel();
+  if('speechSynthesis' in window)speechSynthesis.cancel();
   stopMusic();
   reader.style.display='none';
   home.style.display='block';

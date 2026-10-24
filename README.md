@@ -1,48 +1,49 @@
-# Speak Up — English Reading, Vocabulary & Comprehension Studio
+# Farxod English — Speak Fast & Clear (Shadowing & Fluency Studio)
 
-A minimalist, high-performance web application designed to help English learners practice reading out loud with a moving teleprompter, master 1,200 advanced B2 vocabulary items, and test their reading comprehension across 50 topics with interactive quizzes.
+Ingliz tilida ovoz chiqarib o‘qish, talaffuz ravonligini oshirish va Shadowing texnikasini amalda qo‘llash uchun yaratilgan zamonaviy web ilova.
 
-## ✨ Features
+## 🌟 Asosiy Kategoriyalar
 
-- **Three Integrated Learning Modes**:
-  - 📖 **Practice Mode**: Fluid, auto-scrolling teleprompter with focus line, speed pacing cues, and adjustable WPM (40–260) across 50 diverse topics.
-  - 📚 **Vocabulary Mode**: Curated **B2 Upper-Intermediate** vocabulary cards across all 50 topics (**1,200 words total**) featuring:
-    - Target word with part of speech
-    - Accurate Uzbek translations
-    - Audio pronunciation button (Web Speech API)
-    - Contextual example sentences with highlighted keywords
-    - Uzbek example translations
-    - Real-time live search & quick part-of-speech filters (All, Nouns, Verbs, Adjectives, Phrases/Idioms).
-  - 📝 **Reading & Comprehension Mode**:
-    - **50 Enriched Reading Passages** (~150–200 words each) formatted in clean, readable typography.
-    - Pure, focused reading and thinking experience (distraction-free without audio buttons).
-    - Estimated reading time badges (e.g. `⏱️ 1.5 min read`).
-    - **170 Comprehension Questions** across 50 topics (Multiple Choice + True / False).
-    - **Instant Interactive Feedback**: Selected options turn green/red immediately with clear contextual explanations citing the passage.
-    - **Final Score Card & Retry**: Shows accuracy score, motivational feedback, and allows one-click quiz retrying.
-- **Responsive Design**: Flawlessly adapts to any screen:
-  - 🖥️ Large Monitors & Ultrawide displays (centered, distraction-free reading studio)
-  - 💻 Laptops (comfortable viewing distance, keyboard shortcuts)
-  - 📱 Tablets & Mobile phones (dynamic text chunking, generous breathing room, touch-friendly 44px+ controls)
-- **Zero-backend / Serverless**: 100% client-side HTML5, CSS3, and modern vanilla JavaScript.
+- **🎙️ Shadowing (Ovoz chiqarib o‘qish & Smooth scroll)**:
+  - Matn silliq siljiydi (smooth scroll, titramasdan ravon harakatlanish).
+  - Namuna ovoziga parallel ergashib, bir vaqtda ovoz chiqarib o‘qish (Shadowing texnikasi).
+  - Nutq ritmi, gap ohangi va to‘g‘ri pauzalarni tabiiy o‘zlashtirish uchun maxsus tuzilgan darajali matnlar (A1 — B2).
+- **🔥 Motivatsiya**:
+  - Foydalanuvchiga to‘g‘ridan-to‘g‘ri murojaat qiluvchi, o‘ziga bo‘lgan ishonchni mustahkamlovchi va ruhiy dalda beruvchi matnlar.
+- **🌿 Tinchlanish (Mind & Rest)**:
+  - Mayin foniy Lofi musiqa jo‘rligida charchoqni chiqaruvchi va sokinlik baxsh etuvchi mavzular.
+- **💬 Kundalik muloqot**:
+  - Kundalik hayot va suhbatlarda eng ko‘p qo‘llaniladigan tayanch iboralar va dialoglar.
 
-## ⌨️ Keyboard Shortcuts
+---
 
-| Key | Action |
-| --- | --- |
-| `Space` | Start / Pause scrolling (Practice mode) |
-| `R` | Restart teleprompter from beginning |
-| `P` | Switch to **Practice** tab |
-| `V` | Switch to **Vocabulary** tab |
-| `D` | Switch to **Reading** tab |
-| `Esc` | Return to topics list |
-| `↑` / `→` | Increase speed by 5 WPM |
-| `↓` / `←` | Decrease speed by 5 WPM |
+## ⚡ Asosiy Imkoniyatlar
 
-## 🚀 Getting Started
+1. **Silliq siljish (Smooth Scroll)**:
+   - Matn ekranning markazida qulay o‘qilish uchun titramasdan ravon harakatlanadi.
+2. **Ixcham qatorlar (~4 ta so‘z)**:
+   - Ko‘z toliqmasligi uchun matn kengligi maxsus cheklangan (`max-width: 18ch; text-wrap: balance;`).
+3. **Optik fokus (Markazda tiniq, chetlarda erish)**:
+   - Markazdagi faol qator to‘q qora va tiniq ko‘rinadi; yuqori va pastki qatorlar esa asta-sekin fonga erib xiralashadi.
+4. **🎤 Ovoz bilan o‘qish (Jimlikni sezish)**:
+   - Mikrofon orqali gapirishingizni kuzatadi: foydalanuvchi gapirsa matn siljiydi, 1.5 soniyadan ortiq jim qolsa avtomatik to‘xtaydi.
+5. **🔴 O‘z ovozini yozib eshitish (Self-recording)**:
+   - O‘qish jarayonida ovozni yozib oladi va keyinchalik xatolarni tekshirish uchun darhol qayta eshitish imkonini beradi.
+6. **👩‍🏫 Namuna ovozi (Reference Voice)**:
+   - Toza inglizcha talaffuzdagi audio namuna.
+7. **🎵 Brauzerda generatsiya bo‘luvchi Lofi musiqa**:
+   - Web Audio API orqali hech qanday tashqi audio fayllarsiz ishlovchi 5 xil ambient kuy va ovoz balandligi sozlamasi.
+8. **Tezlikni boshqarish (30 dan 250 WPM gacha)**:
+   - Sekin (60), O‘rta (100), Tez (140) tezkor tugmalari va silliq slayder.
 
-Simply open `index.html` or `Speak Up.html` in any modern web browser or run via local server:
+---
+
+## 🚀 Ishga tushirish
+
+Ilovani to‘g‘ridan-to‘g‘ri brauzerda ochishingiz yoki mahalliy server orqali ishlatishingiz mumkin:
 ```bash
-python -m http.server 8080
+python -m http.server 3000
 ```
-and navigate to `http://localhost:8080`.
+Brauzerda: `http://localhost:3000/index.html`
+
+🌐 **Jonli havola (GitHub Pages)**: [https://umarovafiruza.github.io/farxod-english/](https://umarovafiruza.github.io/farxod-english/)
