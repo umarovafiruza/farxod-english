@@ -1,43 +1,65 @@
-# Farxod English — Shadowing, Listening & Vocabulary Studio
+# Farxod English — 5-in-1 English Mastery Studio
 
-Ingliz tilini har tomonlama o‘rganish va nutqni erkin rivojlantirish uchun yaratilgan 3 ta asosiy bo‘limdan iborat zamonaviy web ilova.
+Ingliz tilini har tomonlama mustahkamlash, erkin gapirish, tinglab tushunish, so‘z boyligini oshirish va grammatikani sinash uchun yaratilgan 5 ta maxsus bo‘limdan iborat to‘liq web studiya.
 
 ---
 
-## 🌟 3 Asosiy Bo‘lim (Modes)
+## 🌟 5 Asosiy Bo‘lim (Categories & Modes)
 
 ### 1. 🎙️ Shadowing — Matnni ovoz chiqarib o‘qish, smooth scroll
-- **Silliq siljish (Smooth scroll)**: Matn ekranning markazida titramasdan, bir tekis ravon harakatlanadi (30 dan 250 WPM gacha sozlanadi).
-- **Ixcham qatorlar (~4 ta so‘z)**: O‘qish oson va ko‘zni toliqtirmaydigan qilib formatlangan (`max-width: 18ch; text-wrap: balance;`).
-- **Optik fokus**: O‘qilayotgan faol qator markazda to‘q qora va tiniq ko‘rinadi, yuqori va pastki qatorlar esa asta-sekin fonga erib xiralashadi.
-- **🎤 Ovoz bilan o‘qish (Jimlikni sezish)**: Foydalanuvchi gapirganda matn siljiydi, 1.5 soniyadan ortiq jim qolsa matn avtomatik to‘xtaydi.
-- **🔴 O‘z ovozini yozib eshitish**: O‘qish jarayonida ovozingiz yoziladi va o‘z xatolaringizni tekshirish uchun qayta eshitish mumkin.
-- **🎙️ Shadowing rejimi**: Namuna ovozi bilan bir vaqtda matnga ergashib ovoz chiqarib o‘qish.
-- **🎵 Foniy Lofi musiqa**: Web Audio orqali brauzerning o‘zida generatsiya bo‘luvchi ambient kuylar.
-- **Kategoriyalar**: Barchasi, Shadowing, Motivatsiya, Tinchlanish, Kundalik muloqot (A1 — B2 darajalari).
+* **Silliq siljish (Smooth scroll)**: Matn ekranning markazida titramasdan, bir tekis ravon harakatlanadi (30 dan 250 WPM gacha sozlanadi).
+* **Ixcham qatorlar (~4 ta so‘z)**: Markazda to‘q qora va ravshan fokus, chetlarda esa fonga erib xiralashish effekti (`max-width: 18ch; text-wrap: balance;`).
+* **Interaktiv imkoniyatlar**:
+  - `[ 🎙️ Shadowing ]`: Namuna ovozi bilan bir vaqtda matnga ergashib ovoz chiqarib o‘qish.
+  - `[ 🎤 Ovoz bilan ]`: Jimlikni sezuvchi mikrofon (gapirsangiz siljiydi, 1.5s jim qolsangiz to‘xtaydi).
+  - `[ 🔴 Yozish ]`: O‘z ovozingizni yozib olib, xatolaringizni qayta eshitish.
+  - `[ 🎵 Lofi on ]`: 5 xil foniy ambient musiqa generatori.
+* **Mavzular**: Shadowing, Motivatsiya, Tinchlanish, Kundalik muloqot (A1 — B2 darajalari).
 
 ---
 
 ### 2. 🎧 Listening — Audio tinglash va savollarga javob berish
-- **50 ta boyitilgan mavzu**: Real hayotiy, dolzarb va qiziqarli mavzulardagi matnlar (~150–200 so‘z).
-- **Audio pleyer**: Toza inglizcha talaffuz (TTS Audio), tinglash tezligini boshqarish (`0.85x`, `1.0x`, `1.15x`) va vizual to‘lqin animatsiyasi.
-- **Matnni tushunish savollari (Comprehension Questions)**:
-  - 170 ta savol (Multiple Choice va True / False).
-  - Tanlangan javob darhol to‘g‘ri (yashil) yoki noto‘g‘ri (qizil) rangga kiradi.
-  - Har bir savol ostida matnga tayangan batafsil tushuntirish (*Explanation*) chiqadi.
-  - Final natija paneli: to‘plangan ball, foiz va qaytadan yechish imkoniyati.
+* **50 ta boyitilgan audio mavzu**: Real hayotiy, dolzarb va qiziqarli mavzulardagi matnlar (~150–200 so‘z).
+* **Audio pleyer**: Toza inglizcha talaffuz (TTS Audio), tinglash tezligini boshqarish (`0.85x`, `1.0x`, `1.15x`) va vizual to‘lqin animatsiyasi.
+* **Matnni tushunish savollari (Comprehension Questions)**:
+  - 170 ta test savoli (Multiple Choice va True / False).
+  - Tanlangan javob darhol yashil (to‘g‘ri) yoki qizil (noto‘g‘ri) rangga kiradi.
+  - Har bir savol ostida matnga asoslangan batafsil tushuntirish (*Explanation*) chiqadi.
 
 ---
 
 ### 3. 📚 Vocabulary — So‘zlar, misollar va tarjimalar
-- **1,200 ta B2 darajadagi so‘z**: 50 ta mavzu bo‘yicha ajratilgan eng kerakli so‘zlar bazasi.
-- **Har bir so‘z kartochkasida**:
+* **1,200 ta B2 darajadagi so‘z**: 50 ta mavzu bo‘yicha to‘liq taqsimlangan boy lug‘at bazasi.
+* **Har bir so‘z kartochkasida**:
   - So‘z va uning so‘z turkumi (*noun, verb, adjective, phrase*).
   - **🔊 Audio talaffuz tugmasi**: Toza inglizcha talaffuzni eshitish.
   - **O‘zbekcha aniq tarjimasi**.
   - **Inglizcha misol jumla**.
   - **Misol jumlaning o‘zbekcha tarjimasi**.
-- **Jonli qidiruv va filtrlar**: So‘z yoki tarjima bo‘yicha lahzalik qidiruv va so‘z turkumi bo‘yicha filtrlar.
+* **Tezkor qidiruv & Filtrlar**: So‘z yoki tarjima bo‘yicha lahzalik qidiruv hamda so‘z turkumi bo‘yicha filtrlar.
+
+---
+
+### 4. 📖 Reading — Matn o‘qish va tushunishni tekshirish
+* **50 ta o‘qish matni**: Qiziqarli ilmiy, falsafiy va hayotiy mavzulardagi to‘liq matnlar.
+* **O‘qish tezligi o‘lchagichi (Reading Speed / WPM Tracker)**:
+  - `[ ⏱️ O‘qishni boshlash ]` tugmasi bilan taymer boshlanadi.
+  - O‘qib bo‘lgach `[ ✓ O‘qib bo‘ldim ]` bosiladi va ilova o‘qish tezligini daqiqasiga so‘zlar sonida (WPM) hisoblab beradi (masalan, `🚀 220 WPM`).
+* **Tushunishni tekshirish savollari**: Matn yuzasidan savollarga javob berib, tushunish foizini bilib olish.
+
+---
+
+### 5. ⚡ Quiz — Grammatika va lug‘at bo‘yicha testlar (Tezlik rejimi bilan)
+* **Tezlik / Vaqt chegarasi (Speed Mode)**:
+  - `⚡ 10 soniya (Tez)`
+  - `⏱️ 20 soniya (O‘rta)`
+  - `⏳ 30 soniya (Sekin)`
+  - `♾️ Cheklovsiz`
+* **Test turlari**:
+  - `🔥 Aralash`: Grammatika va yangi so‘zlar aralash holda.
+  - `📚 Lug‘at`: So‘z ma’nosi va gapdagi kontekst bo‘shliqlarini to‘ldirish.
+  - `📝 Grammatika`: B1-B2 zamonlar, shart mayllari (Conditionals), majhullik nisbati (Passive voice), Inversion va iboralar.
+* **Jonli taymer & Streak**: Har bir savol uchun rangini o‘zgartiruvchi vaqt chizig‘i, ketma-ket to‘g‘ri javoblar streaki va tushuntirishlar.
 
 ---
 

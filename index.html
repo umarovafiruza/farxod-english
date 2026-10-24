@@ -2,11 +2,11 @@
 <html lang="uz">
 <head>
 <meta charset="utf-8">
-<title>FarxodEnglish — Shadowing, Listening & Vocabulary Studio</title>
+<title>FarxodEnglish — Shadowing, Listening, Vocabulary, Reading & Quiz</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Load Datasets -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Datasets -->
 <script src="vocab_data.js"></script>
 <script src="reading_data.js"></script>
 <style>
@@ -25,6 +25,8 @@
   --success-bg:#f0fdf4;
   --danger:#dc2626;
   --danger-bg:#fef2f2;
+  --warning:#d97706;
+  --warning-bg:#fffbeb;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -45,6 +47,8 @@
     --success-bg:#14532d20;
     --danger:#ef4444;
     --danger-bg:#7f1d1d20;
+    --warning:#f59e0b;
+    --warning-bg:#78350f20;
     color-scheme:dark;
   }
 }
@@ -63,26 +67,40 @@
   --success-bg:#14532d20;
   --danger:#ef4444;
   --danger-bg:#7f1d1d20;
+  --warning:#f59e0b;
+  --warning-bg:#78350f20;
   color-scheme:dark;
 }
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 
-.wrap{position:relative;max-width:720px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:0 1.25rem}
+.wrap{position:relative;max-width:760px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:0 1.25rem}
 
-/* Header & Main Tabs */
-.app-header{padding:1.4rem 0 1rem;display:flex;flex-direction:column;gap:.9rem;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:50}
+/* Header & Tabs */
+.app-header{padding:1.2rem 0 1rem;display:flex;flex-direction:column;gap:.85rem;position:sticky;top:0;background:var(--bg);z-index:50;border-bottom:1px solid var(--line)}
 .top-brand{display:flex;justify-content:space-between;align-items:center}
-.brand-title{font-size:1.35rem;font-weight:700;letter-spacing:-.025em;display:flex;align-items:center;gap:.4rem}
-.brand-tag{font-size:.7rem;font-weight:700;padding:.2em .6em;border-radius:999px;background:var(--primary-bg);color:var(--primary);letter-spacing:.04em;text-transform:uppercase}
+.brand-title{font-size:1.35rem;font-weight:800;letter-spacing:-.025em;display:flex;align-items:center;gap:.4rem}
+.brand-tag{font-size:.68rem;font-weight:700;padding:.2em .6em;border-radius:999px;background:var(--primary-bg);color:var(--primary);letter-spacing:.04em;text-transform:uppercase}
 
-.main-tabs{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}
+.main-tabs{
+  display:flex;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:3px;
+  gap:3px;
+}
+.main-tabs::-webkit-scrollbar{display:none}
 .main-tab{
-  padding:.55em .8em;
-  font-size:.84rem;
+  flex:1 0 auto;
+  padding:.55em .85em;
+  font-size:.82rem;
   font-weight:600;
-  border-radius:9px;
+  border-radius:10px;
   border:0;
   background:transparent;
   color:var(--mute);
@@ -95,7 +113,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
   gap:.35rem;
 }
 .main-tab:hover{color:var(--fg)}
-.main-tab.active{background:var(--active);color:var(--active-fg);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.main-tab.active{background:var(--active);color:var(--active-fg);box-shadow:0 1px 3px rgba(0,0,0,0.12)}
 
 button{
   font:inherit;
@@ -118,19 +136,21 @@ button.solid{background:var(--active);color:var(--active-fg);border-color:var(--
 button.ghost{border-color:var(--line);color:var(--mute)}
 button.active{background:var(--active);color:var(--active-fg);border-color:var(--active)}
 button.primary-btn{background:var(--primary);color:#ffffff;border-color:var(--primary)}
-button.small{padding:.35em .85em;min-height:36px;font-size:.85rem}
+button.small{padding:.35em .85em;min-height:36px;font-size:.84rem}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 button:active{transform:scale(.98)}
 
-/* View Containers */
-.view-panel{display:none;padding:1.4rem 0 3rem;flex-direction:column}
+/* View Panels */
+.view-panel{display:none;padding:1.4rem 0 3.5rem;flex-direction:column}
 .view-panel.active{display:flex}
 
-.view-head{margin-bottom:1.4rem}
-.view-title{font-size:clamp(1.5rem,4.5vw,2rem);font-weight:700;letter-spacing:-.025em;margin-bottom:.35rem}
-.view-desc{font-size:.9rem;color:var(--mute);line-height:1.55}
+.view-head{margin-bottom:1.3rem}
+.view-title{font-size:clamp(1.45rem,4vw,1.9rem);font-weight:700;letter-spacing:-.025em;margin-bottom:.3rem}
+.view-desc{font-size:.88rem;color:var(--mute);line-height:1.55}
 
-/* 1. SHADOWING VIEW */
+/* ========================================================
+   1. SHADOWING STYLES
+   ======================================================== */
 .cats-wrap{margin-bottom:1.2rem;display:flex;flex-direction:column;gap:.65rem}
 .cats-bar{display:flex;gap:.45rem;overflow-x:auto;padding-bottom:.3rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .cats-bar::-webkit-scrollbar{display:none}
@@ -158,7 +178,6 @@ button:active{transform:scale(.98)}
   border:1px solid var(--line);
   border-radius:10px;
   padding:.75rem 1rem;
-  transition:all .2s ease;
 }
 .cat-desc strong{color:var(--fg);font-weight:600}
 
@@ -199,7 +218,7 @@ button:active{transform:scale(.98)}
 }
 .topic[data-cat="shadowing"] .cat-tag{color:#8b5cf6;background:#f5f3ff}
 
-/* Shadowing Reader Modal/Overlay */
+/* Shadowing Reader Modal */
 #reader{display:none;position:fixed;inset:0;background:var(--bg);z-index:100;height:100%;flex-direction:column;padding:0 1.25rem}
 #reader.on{display:flex}
 .bar{display:flex;justify-content:space-between;align-items:center;padding:.85rem 0;gap:.5rem;border-bottom:1px solid var(--line)}
@@ -307,7 +326,9 @@ button:active{transform:scale(.98)}
 }
 #done .rec-player{margin:.4rem 0}
 
-/* 2. LISTENING VIEW */
+/* ========================================================
+   2. LISTENING & 4. READING SHARED STYLES
+   ======================================================== */
 .selector-box{display:flex;gap:.6rem;margin-bottom:1.2rem;align-items:center;flex-wrap:wrap}
 .styled-select{
   flex:1;
@@ -322,7 +343,7 @@ button:active{transform:scale(.98)}
   cursor:pointer;
 }
 
-.listen-audio-bar{
+.feature-audio-bar{
   background:var(--card);
   border:1px solid var(--line);
   border-radius:14px;
@@ -332,7 +353,7 @@ button:active{transform:scale(.98)}
   gap:.85rem;
   margin-bottom:1.4rem;
 }
-.listen-audio-top{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
+.audio-bar-row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
 .audio-state{font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:.4rem}
 .audio-wave{display:inline-flex;align-items:center;gap:3px;height:14px}
 .audio-wave span{width:3px;height:100%;background:var(--primary);border-radius:2px;animation:wave 1s infinite ease-in-out}
@@ -351,9 +372,33 @@ button:active{transform:scale(.98)}
 }
 .passage-card p{margin-bottom:1em}
 .passage-card p:last-child{margin-bottom:0}
-.passage-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.8rem;border-bottom:1px solid var(--line)}
+.passage-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.8rem;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:.5rem}
 .passage-title{font-size:1.15rem;font-weight:700}
 .passage-badge{font-size:.75rem;font-weight:600;padding:.2em .6em;border-radius:6px;background:var(--primary-bg);color:var(--primary)}
+
+/* Reading Speed Tracker Bar */
+.speed-tracker-bar{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1rem 1.25rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:.8rem;
+  margin-bottom:1.4rem;
+  flex-wrap:wrap;
+}
+.tracker-status{font-size:.88rem;font-weight:600}
+.wpm-result-badge{
+  font-size:.85rem;
+  font-weight:700;
+  padding:.35em .8em;
+  border-radius:999px;
+  background:var(--success-bg);
+  color:var(--success);
+  border:1px solid var(--success);
+}
 
 .quiz-section{display:flex;flex-direction:column;gap:1.2rem}
 .quiz-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:.5rem;border-bottom:1px solid var(--line)}
@@ -422,7 +467,9 @@ button:active{transform:scale(.98)}
 .score-box.show{display:flex}
 .score-title{font-size:1.3rem;font-weight:700;color:var(--primary)}
 
-/* 3. VOCABULARY VIEW */
+/* ========================================================
+   3. VOCABULARY STYLES
+   ======================================================== */
 .vocab-search-bar{display:flex;gap:.6rem;margin-bottom:.85rem}
 .vocab-search-input{
   flex:1;
@@ -482,12 +529,118 @@ button:active{transform:scale(.98)}
 .v-ex-wrap{background:var(--bg);border-radius:8px;padding:.65rem .85rem;border-left:3px solid var(--line);display:flex;flex-direction:column;gap:.25rem}
 .v-ex{font-size:.88rem;color:var(--fg);line-height:1.5}
 .v-ex-tr{font-size:.82rem;color:var(--mute);line-height:1.45}
+
+/* ========================================================
+   5. QUIZ STYLES (Grammatika va Lug'at testlari + Tezlik)
+   ======================================================== */
+.quiz-controls-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1.1rem 1.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  margin-bottom:1.4rem;
+}
+.quiz-ctrl-row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
+.quiz-ctrl-label{font-size:.85rem;font-weight:600;color:var(--mute)}
+
+.speed-chips{display:flex;gap:.35rem;flex-wrap:wrap}
+.spd-chip{
+  padding:.35em .8em;
+  font-size:.8rem;
+  font-weight:600;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--bg);
+  color:var(--mute);
+  cursor:pointer;
+}
+.spd-chip.active{background:var(--active);color:var(--active-fg);border-color:var(--active)}
+
+/* Active Quiz Container */
+.quiz-arena{
+  display:none;
+  flex-direction:column;
+  gap:1rem;
+}
+.quiz-arena.active{display:flex}
+
+.quiz-timer-wrap{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:.75rem 1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.4rem;
+}
+.timer-header{display:flex;justify-content:space-between;font-size:.82rem;font-weight:600}
+.timer-bar-track{width:100%;height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.timer-bar-fill{height:100%;width:100%;background:var(--primary);transition:width .2s linear, background-color .3s}
+
+.quiz-live-stats{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;font-weight:600}
+.streak-badge{color:var(--warning);display:inline-flex;align-items:center;gap:.25rem}
+
+.quiz-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1.3rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+.quiz-type-tag{
+  font-size:.72rem;
+  font-weight:700;
+  padding:.2em .6em;
+  border-radius:6px;
+  background:var(--primary-bg);
+  color:var(--primary);
+  width:fit-content;
+  text-transform:uppercase;
+}
+.quiz-question-text{font-size:1.1rem;font-weight:700;line-height:1.5}
+.quiz-options-list{display:flex;flex-direction:column;gap:.5rem}
+.quiz-opt-btn{
+  width:100%;
+  text-align:left;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:.85rem 1.1rem;
+  font-size:.92rem;
+  line-height:1.45;
+  cursor:pointer;
+  transition:all .15s ease;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.quiz-opt-btn:hover:not(:disabled){border-color:var(--mute);background:var(--card)}
+.quiz-opt-btn.correct{background:var(--success-bg);border-color:var(--success);color:var(--success);font-weight:700}
+.quiz-opt-btn.incorrect{background:var(--danger-bg);border-color:var(--danger);color:var(--danger)}
+
+.quiz-feedback{
+  display:none;
+  padding:.85rem 1rem;
+  border-radius:10px;
+  background:var(--bg);
+  border-left:4px solid var(--primary);
+  font-size:.88rem;
+  line-height:1.5;
+  color:var(--mute);
+}
+.quiz-feedback.show{display:block}
+.quiz-feedback strong{color:var(--fg);display:block;margin-bottom:.25rem}
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <!-- Brand & Main Tabs -->
+  <!-- Main Header & 5 Navigation Tabs -->
   <header class="app-header">
     <div class="top-brand">
       <div class="brand-title">
@@ -499,6 +652,8 @@ button:active{transform:scale(.98)}
       <button class="main-tab active" id="tabShadowing" type="button">🎙️ Shadowing</button>
       <button class="main-tab" id="tabListening" type="button">🎧 Listening</button>
       <button class="main-tab" id="tabVocab" type="button">📚 Vocabulary</button>
+      <button class="main-tab" id="tabReading" type="button">📖 Reading</button>
+      <button class="main-tab" id="tabQuiz" type="button">⚡ Quiz</button>
     </nav>
   </header>
 
@@ -532,7 +687,7 @@ button:active{transform:scale(.98)}
   <!-- ============================================== -->
   <section class="view-panel" id="viewListening">
     <div class="view-head">
-      <h2 class="view-title">Listening & Savollar</h2>
+      <h2 class="view-title">Listening — Tinglash va Savollar</h2>
       <p class="view-desc">Ingliz tilidagi audio matnni diqqat bilan tinglang, so‘ngra matn tushunish darajangizni interaktiv test savollari orqali tekshiring.</p>
     </div>
 
@@ -542,14 +697,14 @@ button:active{transform:scale(.98)}
     </div>
 
     <!-- Audio Player -->
-    <div class="listen-audio-bar">
-      <div class="listen-audio-top">
+    <div class="feature-audio-bar">
+      <div class="audio-bar-row">
         <div class="audio-state">
           <span id="audioWave" class="audio-wave" style="display:none;"><span></span><span></span><span></span></span>
           <span id="audioStatusText">Audio tinglashga tayyor</span>
         </div>
         <div style="display:flex;gap:.5rem;align-items:center;">
-          <select id="listenSpeedSelect" style="padding:.25em .5em;font-size:.8rem;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--fg)">
+          <select id="listenSpeedSelect" style="padding:.3em .6em;font-size:.82rem;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--fg)">
             <option value="0.85">0.85x (Sekin)</option>
             <option value="1.0" selected>1.0x (Normal)</option>
             <option value="1.15">1.15x (Tez)</option>
@@ -571,15 +726,15 @@ button:active{transform:scale(.98)}
     <!-- Questions -->
     <div class="quiz-section">
       <div class="quiz-head">
-        <h3>Matn bo‘yicha savollar</h3>
-        <span class="quiz-count" id="quizCountText">0 / 0 javob berildi</span>
+        <h3>Matn bo‘yicha tushunish savollari</h3>
+        <span class="quiz-count" id="listenQuizCountText">0 / 0 javob berildi</span>
       </div>
-      <div id="quizQuestionsContainer"></div>
+      <div id="listenQuestionsContainer"></div>
       
-      <div class="score-box" id="quizScoreBox">
-        <div class="score-title" id="quizScoreTitle"></div>
-        <p id="quizScoreDesc" style="font-size:.9rem;color:var(--mute)"></p>
-        <button class="solid small" id="quizRetryBtn" type="button">↺ Qaytadan yechish</button>
+      <div class="score-box" id="listenScoreBox">
+        <div class="score-title" id="listenScoreTitle"></div>
+        <p id="listenScoreDesc" style="font-size:.9rem;color:var(--mute)"></p>
+        <button class="solid small" id="listenRetryBtn" type="button">↺ Qaytadan yechish</button>
       </div>
     </div>
   </section>
@@ -589,7 +744,7 @@ button:active{transform:scale(.98)}
   <!-- ============================================== -->
   <section class="view-panel" id="viewVocab">
     <div class="view-head">
-      <h2 class="view-title">Vocabulary & Misollar</h2>
+      <h2 class="view-title">Vocabulary — So‘zlar, Misollar va Tarjimalar</h2>
       <p class="view-desc">B2 darajadagi 1,200 ta eng muhim so‘z, ularning o‘zbekcha aniq tarjimasi, audio talaffuzi va hayotiy misol jumlalari.</p>
     </div>
 
@@ -611,6 +766,129 @@ button:active{transform:scale(.98)}
     </div>
 
     <div class="vocab-grid" id="vocabGrid"></div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- 4. READING VIEW (Matn o'qish va tushunishni tekshirish + WPM tezlik) -->
+  <!-- ============================================== -->
+  <section class="view-panel" id="viewReading">
+    <div class="view-head">
+      <h2 class="view-title">Reading — Matn O‘qish va Tushunish</h2>
+      <p class="view-desc">Matnni o‘qib chiqing, o‘qish tezligingizni (WPM) o‘lchang va tushunish darajangizni testlar orqali tekshiring.</p>
+    </div>
+
+    <div class="selector-box">
+      <label for="readTopicSelect" style="font-size:.85rem;font-weight:600;color:var(--mute)">Mavzu:</label>
+      <select class="styled-select" id="readTopicSelect"></select>
+    </div>
+
+    <!-- Reading Speed Stopwatch -->
+    <div class="speed-tracker-bar">
+      <div class="tracker-status">
+        <span id="readingSpeedStatusText">O‘qish tezligingizni hisoblang:</span>
+      </div>
+      <div style="display:flex;gap:.5rem;align-items:center;">
+        <span id="readingWpmBadge" class="wpm-result-badge" style="display:none;">0 WPM</span>
+        <button class="solid small" id="readingStartBtn" type="button">⏱️ O‘qishni boshlash</button>
+      </div>
+    </div>
+
+    <!-- Reading Passage -->
+    <div class="passage-card" id="readingPassageCard">
+      <div class="passage-meta">
+        <div class="passage-title" id="readingPassageTitle"></div>
+        <div class="passage-badge" id="readingWordCount"></div>
+      </div>
+      <div id="readingPassageText"></div>
+    </div>
+
+    <!-- Reading Comprehension Questions -->
+    <div class="quiz-section">
+      <div class="quiz-head">
+        <h3>Matn tushunish savollari</h3>
+        <span class="quiz-count" id="readingQuizCountText">0 / 0 javob berildi</span>
+      </div>
+      <div id="readingQuestionsContainer"></div>
+      
+      <div class="score-box" id="readingScoreBox">
+        <div class="score-title" id="readingScoreTitle"></div>
+        <p id="readingScoreDesc" style="font-size:.9rem;color:var(--mute)"></p>
+        <button class="solid small" id="readingRetryBtn" type="button">↺ Qaytadan yechish</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- 5. QUIZ VIEW (Grammatika va Lug'at testlari + Tezlik) -->
+  <!-- ============================================== -->
+  <section class="view-panel" id="viewQuiz">
+    <div class="view-head">
+      <h2 class="view-title">Quiz — Grammatika va Lug‘at Testlari</h2>
+      <p class="view-desc">Tezlik bilan grammatika va yangi so‘zlar bo‘yicha bilimlaringizni sinab ko‘ring. Vaqt chegarasini o‘zingiz belgilang.</p>
+    </div>
+
+    <!-- Quiz Settings -->
+    <div class="quiz-controls-card">
+      <div class="quiz-ctrl-row">
+        <span class="quiz-ctrl-label">Test turi:</span>
+        <div class="speed-chips" id="quizTypeChips">
+          <button class="spd-chip active" data-type="mixed" type="button">🔥 Aralash</button>
+          <button class="spd-chip" data-type="vocab" type="button">📚 Lug‘at</button>
+          <button class="spd-chip" data-type="grammar" type="button">📝 Grammatika</button>
+        </div>
+      </div>
+      <div class="quiz-ctrl-row">
+        <span class="quiz-ctrl-label">Tezlik / Vaqt chegarasi:</span>
+        <div class="speed-chips" id="quizSpeedChips">
+          <button class="spd-chip" data-sec="10" type="button">⚡ 10 soniya (Tez)</button>
+          <button class="spd-chip active" data-sec="20" type="button">⏱️ 20 soniya</button>
+          <button class="spd-chip" data-sec="30" type="button">⏳ 30 soniya</button>
+          <button class="spd-chip" data-sec="0" type="button">♾️ Cheklovsiz</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:.4rem">
+        <button class="solid" id="startQuizBtn" type="button" style="min-width:180px">▶ Testni boshlash</button>
+      </div>
+    </div>
+
+    <!-- Active Quiz Arena -->
+    <div class="quiz-arena" id="quizArena">
+      <div class="quiz-timer-wrap" id="quizTimerWrap">
+        <div class="timer-header">
+          <span>Qolgan vaqt: <strong id="quizTimeRemaining">20s</strong></span>
+          <span class="streak-badge" id="quizStreakText">🔥 Streak: 0</span>
+        </div>
+        <div class="timer-bar-track">
+          <div class="timer-bar-fill" id="quizTimerBar"></div>
+        </div>
+      </div>
+
+      <div class="quiz-live-stats">
+        <span>Savol: <strong id="quizProgressNum">1 / 10</strong></span>
+        <span>To‘g‘ri javoblar: <strong id="quizCorrectCount" style="color:var(--success)">0</strong></span>
+      </div>
+
+      <div class="quiz-card">
+        <span class="quiz-type-tag" id="quizItemType">Grammar</span>
+        <div class="quiz-question-text" id="quizQuestionText"></div>
+        <div class="quiz-options-list" id="quizOptionsList"></div>
+        <div class="quiz-feedback" id="quizFeedbackBox">
+          <strong id="quizFeedbackTitle"></strong>
+          <span id="quizFeedbackExplanation"></span>
+        </div>
+      </div>
+      
+      <div style="display:flex;justify-content:flex-end">
+        <button class="solid small" id="quizNextBtn" type="button" style="display:none;">Keyingi savol →</button>
+      </div>
+    </div>
+
+    <!-- Quiz Final Score -->
+    <div class="score-box" id="quizFinalScoreBox">
+      <div class="score-title" id="quizFinalScoreTitle"></div>
+      <p id="quizFinalScoreDesc" style="font-size:.9rem;color:var(--mute)"></p>
+      <button class="solid small" id="quizRestartBtn" type="button">↺ Qaytadan boshlash</button>
+    </div>
   </section>
 </div>
 
@@ -745,39 +1023,45 @@ const CAT_DESCRIPTIONS = {
 const $=id=>document.getElementById(id);
 
 // ==============================================
-// TAB SWITCHING (Shadowing, Listening, Vocabulary)
+// 5 TABS NAVIGATION (Shadowing, Listening, Vocab, Reading, Quiz)
 // ==============================================
-const tabShadowing = $('tabShadowing');
-const tabListening = $('tabListening');
-const tabVocab = $('tabVocab');
-const viewShadowing = $('viewShadowing');
-const viewListening = $('viewListening');
-const viewVocab = $('viewVocab');
+const tabs = {
+  shadowing: $('tabShadowing'),
+  listening: $('tabListening'),
+  vocab: $('tabVocab'),
+  reading: $('tabReading'),
+  quiz: $('tabQuiz')
+};
+const views = {
+  shadowing: $('viewShadowing'),
+  listening: $('viewListening'),
+  vocab: $('viewVocab'),
+  reading: $('viewReading'),
+  quiz: $('viewQuiz')
+};
 
 function switchMainTab(mode){
-  [tabShadowing, tabListening, tabVocab].forEach(b=>b.classList.remove('active'));
-  [viewShadowing, viewListening, viewVocab].forEach(p=>p.classList.remove('active'));
+  Object.values(tabs).forEach(b=>b.classList.remove('active'));
+  Object.values(views).forEach(v=>v.classList.remove('active'));
   
-  // Stop ongoing audios if switching tabs
   if('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
   if(listenAudioPlaying) stopListenAudio();
+  if(quizTimerInterval) clearInterval(quizTimerInterval);
 
-  if(mode === 'shadowing'){
-    tabShadowing.classList.add('active');
-    viewShadowing.classList.add('active');
-  } else if(mode === 'listening'){
-    tabListening.classList.add('active');
-    viewListening.classList.add('active');
-    initListeningView();
-  } else if(mode === 'vocab'){
-    tabVocab.classList.add('active');
-    viewVocab.classList.add('active');
-    initVocabView();
+  if(tabs[mode] && views[mode]){
+    tabs[mode].classList.add('active');
+    views[mode].classList.add('active');
   }
+
+  if(mode === 'listening') initListeningView();
+  else if(mode === 'vocab') initVocabView();
+  else if(mode === 'reading') initReadingView();
+  else if(mode === 'quiz') initQuizView();
 }
-tabShadowing.onclick = () => switchMainTab('shadowing');
-tabListening.onclick = () => switchMainTab('listening');
-tabVocab.onclick = () => switchMainTab('vocab');
+
+Object.keys(tabs).forEach(k => {
+  tabs[k].onclick = () => switchMainTab(k);
+});
 
 // ==============================================
 // 1. SHADOWING ENGINE
@@ -1228,7 +1512,7 @@ $('mt').onclick=()=>{
 };
 
 // ==============================================
-// 2. LISTENING LOGIC (Audio tinglash va savollarga javob berish)
+// 2. LISTENING LOGIC
 // ==============================================
 let currentListenTopicIdx = 0;
 let listenAudioPlaying = false;
@@ -1273,15 +1557,14 @@ function loadListeningTopic(idx){
 }
 
 function renderListeningQuiz(questions){
-  const container = $('quizQuestionsContainer');
+  const container = $('listenQuestionsContainer');
   container.innerHTML = '';
-  $('quizScoreBox').classList.remove('show');
-  $('quizCountText').textContent = `0 / ${questions.length} javob berildi`;
+  $('listenScoreBox').classList.remove('show');
+  $('listenQuizCountText').textContent = `0 / ${questions.length} javob berildi`;
 
   questions.forEach((q, qIdx)=>{
     const card = document.createElement('div');
     card.className = 'q-card';
-    card.id = `q-card-${q.id}`;
 
     const head = document.createElement('div');
     head.className = 'q-title';
@@ -1297,7 +1580,7 @@ function renderListeningQuiz(questions){
       btn.className = 'opt-btn';
       const letterChar = (q.type === 'tf') ? (optIdx === 0 ? '✓' : '✗') : letters[optIdx];
       btn.innerHTML = `<span class="opt-letter">${letterChar}</span><span>${optStr}</span>`;
-      btn.onclick = () => handleQuizAnswer(q, optIdx, card, questions);
+      btn.onclick = () => handleListenQuizAnswer(q, optIdx, card, questions);
       optList.appendChild(btn);
     });
     card.appendChild(optList);
@@ -1311,7 +1594,7 @@ function renderListeningQuiz(questions){
   });
 }
 
-function handleQuizAnswer(q, chosenIdx, card, allQuestions){
+function handleListenQuizAnswer(q, chosenIdx, card, allQuestions){
   if(listenQuizAnswers[q.id]) return;
   const isCorrect = (chosenIdx === q.answer);
   listenQuizAnswers[q.id] = { chosen: chosenIdx, isCorrect: isCorrect };
@@ -1330,7 +1613,7 @@ function handleQuizAnswer(q, chosenIdx, card, allQuestions){
   if(exp) exp.classList.add('show');
 
   const answered = Object.keys(listenQuizAnswers).length;
-  $('quizCountText').textContent = `${answered} / ${allQuestions.length} javob berildi`;
+  $('listenQuizCountText').textContent = `${answered} / ${allQuestions.length} javob berildi`;
 
   if(answered === allQuestions.length){
     let correctCount = 0;
@@ -1338,20 +1621,19 @@ function handleQuizAnswer(q, chosenIdx, card, allQuestions){
       if(listenQuizAnswers[item.id] && listenQuizAnswers[item.id].isCorrect) correctCount++;
     });
     const percent = Math.round((correctCount / allQuestions.length) * 100);
-    $('quizScoreTitle').textContent = `🎯 Natijangiz: ${correctCount} / ${allQuestions.length} to‘g‘ri (${percent}%)`;
-    $('quizScoreDesc').textContent = percent >= 80 ? "Ajoyib natija! Matnni chuqur tushundingiz." : "Yaxshi urinish! Tushuntirishlarni qayta ko‘rib, natijangizni yanada yaxshilashingiz mumkin.";
-    $('quizScoreBox').classList.add('show');
+    $('listenScoreTitle').textContent = `🎯 Natijangiz: ${correctCount} / ${allQuestions.length} to‘g‘ri (${percent}%)`;
+    $('listenScoreDesc').textContent = percent >= 80 ? "Ajoyib tinglash qobiliyati! Matnni to‘liq tushundingiz." : "Yaxshi urinish! Tushuntirishlarni o‘qib, yana bir marta tinglab ko‘ring.";
+    $('listenScoreBox').classList.add('show');
   }
 }
 
-$('quizRetryBtn').onclick = () => {
+$('listenRetryBtn').onclick = () => {
   if(window.READING_DATA && window.READING_DATA[currentListenTopicIdx]){
     listenQuizAnswers = {};
     renderListeningQuiz(window.READING_DATA[currentListenTopicIdx].questions);
   }
 };
 
-// Audio Player for Listening
 function playListenAudio(){
   if(!('speechSynthesis' in window)) return;
   if(speechSynthesis.speaking) speechSynthesis.cancel();
@@ -1394,7 +1676,7 @@ $('listenPlayBtn').onclick = () => {
 };
 
 // ==============================================
-// 3. VOCABULARY LOGIC (So'zlar, misollar va tarjimalar)
+// 3. VOCABULARY LOGIC
 // ==============================================
 let currentVocabTopicIdx = 0;
 let currentVocabPos = 'all';
@@ -1505,6 +1787,482 @@ function speakSingleWord(word){
   u.rate = 0.9;
   speechSynthesis.speak(u);
 }
+
+// ==============================================
+// 4. READING LOGIC (Matn o'qish va tushunishni tekshirish + WPM hisoblagich)
+// ==============================================
+let currentReadTopicIdx = 0;
+let readingStartTime = 0;
+let readingTimerActive = false;
+let readingQuizAnswers = {};
+
+function initReadingView(){
+  const sel = $('readTopicSelect');
+  if(sel.options.length === 0 && window.READING_DATA){
+    window.READING_DATA.forEach((item, idx)=>{
+      const opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = `${idx + 1}. ${item.title}`;
+      sel.appendChild(opt);
+    });
+    sel.onchange = () => {
+      currentReadTopicIdx = +sel.value;
+      loadReadingTopic(currentReadTopicIdx);
+    };
+  }
+  loadReadingTopic(currentReadTopicIdx);
+}
+
+function loadReadingTopic(idx){
+  if(!window.READING_DATA || !window.READING_DATA[idx]) return;
+  const data = window.READING_DATA[idx];
+
+  $('readingPassageTitle').textContent = data.title;
+  
+  const pContainer = $('readingPassageText');
+  pContainer.innerHTML = '';
+  let totalWords = 0;
+  data.paragraphs.forEach(pText => {
+    totalWords += pText.split(/\s+/).length;
+    const p = document.createElement('p');
+    p.textContent = pText;
+    pContainer.appendChild(p);
+  });
+  $('readingWordCount').textContent = `📄 ${totalWords} ta so‘z`;
+
+  // Reset speed tracker
+  readingTimerActive = false;
+  $('readingStartBtn').textContent = '⏱️ O‘qishni boshlash';
+  $('readingStartBtn').classList.remove('solid');
+  $('readingWpmBadge').style.display = 'none';
+  $('readingSpeedStatusText').textContent = 'O‘qish tezligingizni (WPM) o‘lchang:';
+
+  readingQuizAnswers = {};
+  renderReadingQuiz(data.questions);
+}
+
+$('readingStartBtn').onclick = () => {
+  if(!readingTimerActive){
+    readingStartTime = performance.now();
+    readingTimerActive = true;
+    $('readingStartBtn').textContent = '✓ O‘qib bo‘ldim';
+    $('readingStartBtn').classList.add('solid');
+    $('readingSpeedStatusText').textContent = 'Vaqt ketmoqda... Diqqat bilan o‘qing!';
+    $('readingWpmBadge').style.display = 'none';
+  } else {
+    const elapsedSeconds = (performance.now() - readingStartTime) / 1000;
+    readingTimerActive = false;
+    $('readingStartBtn').textContent = '↺ Qaytadan o‘lchash';
+    $('readingStartBtn').classList.remove('solid');
+    
+    const data = window.READING_DATA[currentReadTopicIdx];
+    const words = data ? data.paragraphs.join(' ').split(/\s+/).length : 150;
+    const wpm = Math.round((words / elapsedSeconds) * 60);
+
+    $('readingSpeedStatusText').textContent = `${Math.round(elapsedSeconds)} soniyada o‘qildi:`;
+    $('readingWpmBadge').textContent = `🚀 ${wpm} WPM (so‘z/daqiqa)`;
+    $('readingWpmBadge').style.display = 'inline-flex';
+  }
+};
+
+function renderReadingQuiz(questions){
+  const container = $('readingQuestionsContainer');
+  container.innerHTML = '';
+  $('readingScoreBox').classList.remove('show');
+  $('readingQuizCountText').textContent = `0 / ${questions.length} javob berildi`;
+
+  questions.forEach((q, qIdx)=>{
+    const card = document.createElement('div');
+    card.className = 'q-card';
+
+    const head = document.createElement('div');
+    head.className = 'q-title';
+    head.innerHTML = `<span class="q-num">${qIdx + 1}.</span><span>${q.question}</span>`;
+    card.appendChild(head);
+
+    const optList = document.createElement('div');
+    optList.className = 'opt-list';
+
+    const letters = ['A', 'B', 'C', 'D'];
+    q.options.forEach((optStr, optIdx)=>{
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      const letterChar = (q.type === 'tf') ? (optIdx === 0 ? '✓' : '✗') : letters[optIdx];
+      btn.innerHTML = `<span class="opt-letter">${letterChar}</span><span>${optStr}</span>`;
+      btn.onclick = () => handleReadingQuizAnswer(q, optIdx, card, questions);
+      optList.appendChild(btn);
+    });
+    card.appendChild(optList);
+
+    const exp = document.createElement('div');
+    exp.className = 'q-exp';
+    exp.innerHTML = `<strong>Tushuntirish:</strong>${q.explanation}`;
+    card.appendChild(exp);
+
+    container.appendChild(card);
+  });
+}
+
+function handleReadingQuizAnswer(q, chosenIdx, card, allQuestions){
+  if(readingQuizAnswers[q.id]) return;
+  const isCorrect = (chosenIdx === q.answer);
+  readingQuizAnswers[q.id] = { chosen: chosenIdx, isCorrect: isCorrect };
+
+  const buttons = card.querySelectorAll('.opt-btn');
+  buttons.forEach((btn, idx)=>{
+    btn.disabled = true;
+    if(idx === q.answer){
+      btn.classList.add('correct');
+    } else if(idx === chosenIdx && !isCorrect){
+      btn.classList.add('incorrect');
+    }
+  });
+
+  const exp = card.querySelector('.q-exp');
+  if(exp) exp.classList.add('show');
+
+  const answered = Object.keys(readingQuizAnswers).length;
+  $('readingQuizCountText').textContent = `${answered} / ${allQuestions.length} javob berildi`;
+
+  if(answered === allQuestions.length){
+    let correctCount = 0;
+    allQuestions.forEach(item => {
+      if(readingQuizAnswers[item.id] && readingQuizAnswers[item.id].isCorrect) correctCount++;
+    });
+    const percent = Math.round((correctCount / allQuestions.length) * 100);
+    $('readingScoreTitle').textContent = `🎯 Natijangiz: ${correctCount} / ${allQuestions.length} to‘g‘ri (${percent}%)`;
+    $('readingScoreDesc').textContent = percent >= 80 ? "Ajoyib tushunish ko‘rsatkichi! Matn mohiyatini juda yaxshi o‘zlashtirdingiz." : "Yaxshi urinish! Noto‘g‘ri javoblar izohini ko‘rib chiqib qayta urinib ko‘ring.";
+    $('readingScoreBox').classList.add('show');
+  }
+}
+
+$('readingRetryBtn').onclick = () => {
+  if(window.READING_DATA && window.READING_DATA[currentReadTopicIdx]){
+    readingQuizAnswers = {};
+    renderReadingQuiz(window.READING_DATA[currentReadTopicIdx].questions);
+  }
+};
+
+// ==============================================
+// 5. QUIZ LOGIC (Grammatika & Lug'at + Tezlik)
+// ==============================================
+const GRAMMAR_BANK = [
+  {
+    type: "Grammar",
+    q: "If I ___ more time yesterday, I would have joined your English club.",
+    opts: ["had had", "have had", "had", "would have"],
+    ans: 0,
+    exp: "Third Conditional (o‘tgan zamondagi nereal shart): If + Past Perfect (had had), would have + V3."
+  },
+  {
+    type: "Grammar",
+    q: "She is really looking forward to ___ her new classmates in London.",
+    opts: ["meet", "meeting", "met", "have met"],
+    ans: 1,
+    exp: "'Look forward to' iborasidan keyin doimo Gerund (V-ing) ishlatiladi: look forward to meeting."
+  },
+  {
+    type: "Grammar",
+    q: "The new community library ___ by the mayor next Monday.",
+    opts: ["will be opened", "will open", "is opening", "has opened"],
+    ans: 0,
+    exp: "Future Simple Passive: will be + V3 (will be opened)."
+  },
+  {
+    type: "Grammar",
+    q: "I wish I ___ harder when I was preparing for the IELTS exam.",
+    opts: ["studied", "had studied", "would study", "have studied"],
+    ans: 1,
+    exp: "O‘tgan zamondagi afsuslar uchun: Wish + Past Perfect (had studied) qo‘llaniladi."
+  },
+  {
+    type: "Grammar",
+    q: "Neither the manager nor the employees ___ aware of the upcoming change.",
+    opts: ["was", "were", "is", "has been"],
+    ans: 1,
+    exp: "'Neither... nor' qoidasida fe'l ikkinchi (yaqinroq turgan) otga moslashadi: employees were."
+  },
+  {
+    type: "Grammar",
+    q: "Scarcely ___ the house when it started raining heavily.",
+    opts: ["I had left", "had I left", "did I leave", "I left"],
+    ans: 1,
+    exp: "Inversion: Gap boshida 'Scarcely / Hardly' kelsa, yordamchi fe'l egadan oldinga o‘tadi (had I left)."
+  },
+  {
+    type: "Grammar",
+    q: "You had better ___ an umbrella, as the dark clouds look threatening.",
+    opts: ["take", "to take", "taking", "took"],
+    ans: 0,
+    exp: "'Had better' iborasidan keyin 'to'siz sof fe'l (Bare Infinitive: take) ishlatiladi."
+  },
+  {
+    type: "Grammar",
+    q: "Despite ___ exhausted, he managed to complete the coding project on time.",
+    opts: ["he was", "being", "be", "been"],
+    ans: 1,
+    exp: "'Despite' predlogidan keyin ot yoki Gerund (being exhausted) keladi."
+  },
+  {
+    type: "Grammar",
+    q: "By this time next year, she ___ her Master's degree in Computer Science.",
+    opts: ["will finish", "will have finished", "is finishing", "finishes"],
+    ans: 1,
+    exp: "Future Perfect (By this time next year): will have + V3 (will have finished)."
+  },
+  {
+    type: "Grammar",
+    q: "He suggested that she ___ a doctor immediately.",
+    opts: ["see", "sees", "saw", "must see"],
+    ans: 0,
+    exp: "Subjunctive mood: suggest that someone + base form of verb (see)."
+  }
+];
+
+let quizSelectedType = 'mixed';
+let quizSelectedSec = 20; // 0 = unlimited
+let currentQuizRound = [];
+let currentQuizIdx = 0;
+let quizScore = 0;
+let quizStreak = 0;
+let quizTimerInterval = null;
+let quizTimeLeft = 20;
+
+function initQuizView(){
+  // Setup type chips
+  $('quizTypeChips').querySelectorAll('.spd-chip').forEach(btn => {
+    btn.onclick = () => {
+      $('quizTypeChips').querySelectorAll('.spd-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      quizSelectedType = btn.dataset.type;
+    };
+  });
+
+  // Setup speed chips
+  $('quizSpeedChips').querySelectorAll('.spd-chip').forEach(btn => {
+    btn.onclick = () => {
+      $('quizSpeedChips').querySelectorAll('.spd-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      quizSelectedSec = +btn.dataset.sec;
+    };
+  });
+}
+
+function generateQuizRound(){
+  const round = [];
+
+  // Generate dynamic vocabulary questions from window.VOCAB_DATA
+  if(window.VOCAB_DATA && (quizSelectedType === 'mixed' || quizSelectedType === 'vocab')){
+    const allVocab = [];
+    window.VOCAB_DATA.forEach(topicList => topicList.forEach(item => allVocab.push(item)));
+    
+    // Pick random vocab items
+    const vocabCount = (quizSelectedType === 'vocab') ? 10 : 5;
+    const shuffled = [...allVocab].sort(() => 0.5 - Math.random());
+    
+    for(let i = 0; i < Math.min(vocabCount, shuffled.length); i++){
+      const target = shuffled[i];
+      // Pick 3 wrong options
+      const wrongPool = allVocab.filter(v => v.w !== target.w && v.tr !== target.tr);
+      const wrong3 = [...wrongPool].sort(() => 0.5 - Math.random()).slice(0, 3);
+      
+      const isSentenceFill = (Math.random() > 0.5);
+      if(isSentenceFill && target.ex){
+        // Sentence fill gap
+        const regex = new RegExp(`\\b${target.w}\\b`, 'i');
+        const blankedSentence = target.ex.replace(regex, '_______');
+        const opts = [target.w, ...wrong3.map(w => w.w)].sort(() => 0.5 - Math.random());
+        round.push({
+          type: "Vocabulary (Context)",
+          q: `Gapdagi bo‘shliqqa to‘g‘ri keluvchi so‘zni toping:\n"${blankedSentence}"`,
+          opts: opts,
+          ans: opts.indexOf(target.w),
+          exp: `To‘g‘ri javob: "${target.w}" (${target.tr}). Misol: "${target.ex}" (${target.exTr}).`
+        });
+      } else {
+        // Direct meaning
+        const opts = [target.tr, ...wrong3.map(w => w.tr)].sort(() => 0.5 - Math.random());
+        round.push({
+          type: "Vocabulary (Meaning)",
+          q: `"${target.w}" so‘zining to‘g‘ri tarjimasini toping:`,
+          opts: opts,
+          ans: opts.indexOf(target.tr),
+          exp: `To‘g‘ri javob: "${target.w}" — ${target.tr}. Misol: "${target.ex}"`
+        });
+      }
+    }
+  }
+
+  // Add grammar questions
+  if(quizSelectedType === 'mixed' || quizSelectedType === 'grammar'){
+    const grammarCount = (quizSelectedType === 'grammar') ? 10 : (10 - round.length);
+    const shuffledGrammar = [...GRAMMAR_BANK].sort(() => 0.5 - Math.random()).slice(0, grammarCount);
+    shuffledGrammar.forEach(g => round.push(g));
+  }
+
+  return round.sort(() => 0.5 - Math.random()).slice(0, 10);
+}
+
+$('startQuizBtn').onclick = () => {
+  currentQuizRound = generateQuizRound();
+  if(currentQuizRound.length === 0){
+    alert("Test ma'lumotlari yuklanmadi.");
+    return;
+  }
+  currentQuizIdx = 0;
+  quizScore = 0;
+  quizStreak = 0;
+  
+  $('quizFinalScoreBox').classList.remove('show');
+  $('quizArena').classList.add('active');
+  $('quizTimerWrap').style.display = (quizSelectedSec > 0) ? 'flex' : 'none';
+
+  loadQuizQuestion(0);
+};
+
+function loadQuizQuestion(idx){
+  if(idx >= currentQuizRound.length){
+    finishQuizRound();
+    return;
+  }
+  currentQuizIdx = idx;
+  const item = currentQuizRound[idx];
+
+  $('quizProgressNum').textContent = `${idx + 1} / ${currentQuizRound.length}`;
+  $('quizCorrectCount').textContent = quizScore;
+  $('quizStreakText').textContent = `🔥 Streak: ${quizStreak}`;
+  $('quizItemType').textContent = item.type;
+  $('quizQuestionText').textContent = item.q;
+  $('quizFeedbackBox').classList.remove('show');
+  $('quizNextBtn').style.display = 'none';
+
+  const optContainer = $('quizOptionsList');
+  optContainer.innerHTML = '';
+
+  const letters = ['A', 'B', 'C', 'D'];
+  item.opts.forEach((optText, optIdx)=>{
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt-btn';
+    btn.innerHTML = `<span style="font-weight:700;color:var(--mute);min-width:20px">${letters[optIdx]}</span><span>${optText}</span>`;
+    btn.onclick = () => handleQuizOptionClick(item, optIdx, btn);
+    optContainer.appendChild(btn);
+  });
+
+  // Start countdown timer if speed enabled
+  if(quizSelectedSec > 0){
+    startQuizTimer();
+  }
+}
+
+function startQuizTimer(){
+  if(quizTimerInterval) clearInterval(quizTimerInterval);
+  quizTimeLeft = quizSelectedSec;
+  updateTimerUI();
+
+  quizTimerInterval = setInterval(() => {
+    quizTimeLeft -= 0.1;
+    if(quizTimeLeft <= 0){
+      clearInterval(quizTimerInterval);
+      quizTimeLeft = 0;
+      updateTimerUI();
+      handleQuizTimeout();
+    } else {
+      updateTimerUI();
+    }
+  }, 100);
+}
+
+function updateTimerUI(){
+  const secInt = Math.ceil(quizTimeLeft);
+  $('quizTimeRemaining').textContent = `${secInt}s`;
+  const pct = Math.max(0, (quizTimeLeft / quizSelectedSec) * 100);
+  const bar = $('quizTimerBar');
+  bar.style.width = `${pct}%`;
+  if(pct > 50) bar.style.backgroundColor = 'var(--primary)';
+  else if(pct > 20) bar.style.backgroundColor = 'var(--warning)';
+  else bar.style.backgroundColor = 'var(--danger)';
+}
+
+function handleQuizOptionClick(item, chosenIdx, clickedBtn){
+  if(quizTimerInterval) clearInterval(quizTimerInterval);
+
+  const isCorrect = (chosenIdx === item.ans);
+  if(isCorrect){
+    quizScore++;
+    quizStreak++;
+  } else {
+    quizStreak = 0;
+  }
+  $('quizCorrectCount').textContent = quizScore;
+  $('quizStreakText').textContent = `🔥 Streak: ${quizStreak}`;
+
+  const allBtns = $('quizOptionsList').querySelectorAll('.quiz-opt-btn');
+  allBtns.forEach((btn, idx)=>{
+    btn.disabled = true;
+    if(idx === item.ans){
+      btn.classList.add('correct');
+    } else if(idx === chosenIdx && !isCorrect){
+      btn.classList.add('incorrect');
+    }
+  });
+
+  showQuizFeedback(isCorrect ? "To‘g‘ri! 🎉" : "Noto‘g‘ri ❌", item.exp);
+}
+
+function handleQuizTimeout(){
+  const item = currentQuizRound[currentQuizIdx];
+  quizStreak = 0;
+  $('quizStreakText').textContent = `🔥 Streak: 0`;
+
+  const allBtns = $('quizOptionsList').querySelectorAll('.quiz-opt-btn');
+  allBtns.forEach((btn, idx)=>{
+    btn.disabled = true;
+    if(idx === item.ans){
+      btn.classList.add('correct');
+    }
+  });
+
+  showQuizFeedback("Vaqt tugadi! ⏱️", item.exp);
+}
+
+function showQuizFeedback(title, exp){
+  $('quizFeedbackTitle').textContent = title;
+  $('quizFeedbackExplanation').textContent = exp;
+  $('quizFeedbackBox').classList.add('show');
+  
+  if(currentQuizIdx < currentQuizRound.length - 1){
+    $('quizNextBtn').textContent = 'Keyingi savol →';
+  } else {
+    $('quizNextBtn').textContent = 'Natijani ko‘rish 🎯';
+  }
+  $('quizNextBtn').style.display = 'inline-flex';
+}
+
+$('quizNextBtn').onclick = () => {
+  loadQuizQuestion(currentQuizIdx + 1);
+};
+
+function finishQuizRound(){
+  if(quizTimerInterval) clearInterval(quizTimerInterval);
+  $('quizArena').classList.remove('active');
+  
+  const total = currentQuizRound.length;
+  const pct = Math.round((quizScore / total) * 100);
+  $('quizFinalScoreTitle').textContent = `🎯 Test yakunlandi: ${quizScore} / ${total} (${pct}%)`;
+  
+  let msg = "";
+  if(pct === 100) msg = "Daho natija! Barcha savollarga benuqson javob berdingiz! 🏆";
+  else if(pct >= 80) msg = "Ajoyib natija! Grammatika va lug‘at boyligingiz yuqori darajada. 🌟";
+  else if(pct >= 60) msg = "Yaxshi ko‘rsatkich! Xatolaringiz ustida ishlab tezlikni oshiring. 👍";
+  else msg = "Yana mashq qiling! Qaytadan urinib natijangizni yaxshilashingiz mumkin. 💪";
+  
+  $('quizFinalScoreDesc').textContent = msg;
+  $('quizFinalScoreBox').classList.add('show');
+}
+
+$('quizRestartBtn').onclick = () => {
+  $('startQuizBtn').click();
+};
 </script>
 </body>
 </html>
