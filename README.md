@@ -8,16 +8,18 @@ Ingliz tilini har tomonlama mustahkamlash, erkin gapirish, tinglab tushunish, so
 
 ### 1. 🎙️ Shadowing — Matnni ovoz chiqarib o‘qish, smooth scroll
 * **Silliq siljish (Smooth scroll)**: 30 dan 250 WPM gacha sozlanadigan, bir tekis ravon harakatlanuvchi matn.
-* **✨ Effekt darajasi (Optik fokus)**:
-  - `✨ Kuchli (Deep)`: Markazdagi faol qator o‘ta to‘q qora va ravshan, yuqori va pastki qatorlar chuqur xiralashadi.
+* **✨ Fokus effekti darajalari**:
+  - `✨ Kuchli (Deep)`: Markazdagi qator o‘ta to‘q qora va ravshan, yuqori va pastki qatorlar chuqur xiralashadi.
   - `✨ O‘rtacha (Medium)`: Muvozanatli standart optik fokus.
-  - `✨ Mayin (Soft)`: Yengilroq xiralashish effekti.
-  - `✨ Oddiy (Off)`: Fokus maskasisiz, toza to‘liq matn.
-* **🌧️ Fon effekti darajasi (Ambient Atmosphere)**:
+  - `✨ Mayin (Soft)`: Yengil xiralashish.
+  - `✨ Oddiy (Off)`: Fokus maskasisiz toza matn.
+* **🌧️ Fon atmosferasi darajalari**:
   - `🌧️ Yomg‘ir (Rain)`: Mayin lofi yomg‘ir tomchilari.
   - `❄️ Qor (Snow)`: Sekin tushuvchi qor parchalari.
   - `✨ Mayin (Glow)`: Mayin suzuvchi lofi nurlari.
   - `🚫 O‘chiq (Off)`: Chalg‘itmaydigan toza fon.
+* **🧘 Breathe (Nafas mashqi)**:
+  - O‘qish va Shadowingdan oldin nutqni erkinlashtirish va ovoz titrashini yo‘qotish uchun interaktiv nafas mashqi (`4s Nafas olish -> 2s Ushlab turish -> 4s Sekin chiqarish`).
 * **Interaktiv qurollar**:
   - `[ 🎙️ Shadowing ]`: Namuna ovozi bilan bir vaqtda matnga ergashib ovoz chiqarib o‘qish.
   - `[ 🎤 Ovoz bilan ]`: Jimlikni sezuvchi mikrofon (gapirsangiz siljiydi, 1.5s jim qolsangiz to‘xtaydi).
@@ -68,6 +70,14 @@ Ingliz tilini har tomonlama mustahkamlash, erkin gapirish, tinglab tushunish, so
   - `📚 Lug‘at`: So‘z ma’nosi va kontekstdagi bo‘shliqni to‘ldirish.
   - `📝 Grammatika`: Zamonlar, Conditionals, Passive voice, Inversion, Gerunds va iboralar.
 * **Jonli taymer & Streak**: Har bir savol uchun rangini o‘zgartiruvchi vaqt chizig‘i, ketma-ket to‘g‘ri javoblar streaki (`🔥 Streak: 5`), tushuntirishlar va yakuniy ball.
+
+---
+
+## 🛠️ Optimallashtirilgan Arxitektura
+
+- **`createParticles(x, y, color, count, type)`**: Qotmasdan va xotirani band qilmasdan ishlovchi yengil zarrachalar generatori.
+- **`animate(now)`**: 60fps to‘liq apparat tezlanishidagi birlashgan animatsiya sikli (`requestAnimationFrame`).
+- **`breathe(action)`**: Ovoz erkinligi va nafasni to‘g‘rilash uchun interaktiv vizual mashq boshqaruvi.
 
 ---
 
