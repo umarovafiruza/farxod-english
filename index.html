@@ -2,10 +2,13 @@
 <html lang="uz">
 <head>
 <meta charset="utf-8">
-<title>Speak Fast and Clear — Shadowing & Fluency Studio</title>
+<title>FarxodEnglish — Shadowing, Listening & Vocabulary Studio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Load Datasets -->
+<script src="vocab_data.js"></script>
+<script src="reading_data.js"></script>
 <style>
 :root{
   --bg:#ffffff;
@@ -18,6 +21,10 @@
   --primary:#2563eb;
   --primary-bg:#eff6ff;
   --accent:#7c3aed;
+  --success:#16a34a;
+  --success-bg:#f0fdf4;
+  --danger:#dc2626;
+  --danger-bg:#fef2f2;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -34,6 +41,10 @@
     --primary:#3b82f6;
     --primary-bg:#1e293b;
     --accent:#a78bfa;
+    --success:#22c55e;
+    --success-bg:#14532d20;
+    --danger:#ef4444;
+    --danger-bg:#7f1d1d20;
     color-scheme:dark;
   }
 }
@@ -48,13 +59,43 @@
   --primary:#3b82f6;
   --primary-bg:#1e293b;
   --accent:#a78bfa;
+  --success:#22c55e;
+  --success-bg:#14532d20;
+  --danger:#ef4444;
+  --danger-bg:#7f1d1d20;
   color-scheme:dark;
 }
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 
-.wrap{position:relative;max-width:680px;margin:0 auto;height:100%;display:flex;flex-direction:column;padding:0 1.25rem}
+.wrap{position:relative;max-width:720px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:0 1.25rem}
+
+/* Header & Main Tabs */
+.app-header{padding:1.4rem 0 1rem;display:flex;flex-direction:column;gap:.9rem;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:50}
+.top-brand{display:flex;justify-content:space-between;align-items:center}
+.brand-title{font-size:1.35rem;font-weight:700;letter-spacing:-.025em;display:flex;align-items:center;gap:.4rem}
+.brand-tag{font-size:.7rem;font-weight:700;padding:.2em .6em;border-radius:999px;background:var(--primary-bg);color:var(--primary);letter-spacing:.04em;text-transform:uppercase}
+
+.main-tabs{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}
+.main-tab{
+  padding:.55em .8em;
+  font-size:.84rem;
+  font-weight:600;
+  border-radius:9px;
+  border:0;
+  background:transparent;
+  color:var(--mute);
+  cursor:pointer;
+  transition:all .15s ease;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.35rem;
+}
+.main-tab:hover{color:var(--fg)}
+.main-tab.active{background:var(--active);color:var(--active-fg);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 
 button{
   font:inherit;
@@ -78,15 +119,18 @@ button.ghost{border-color:var(--line);color:var(--mute)}
 button.active{background:var(--active);color:var(--active-fg);border-color:var(--active)}
 button.primary-btn{background:var(--primary);color:#ffffff;border-color:var(--primary)}
 button.small{padding:.35em .85em;min-height:36px;font-size:.85rem}
-button:focus-visible,input:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 button:active{transform:scale(.98)}
 
-/* Bosh sahifa */
-#home{overflow-y:auto;padding-bottom:2.5rem}
-h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:700;letter-spacing:-.025em;margin:2.5rem 0 .4rem}
-.sub{color:var(--mute);margin-bottom:1.5rem;line-height:1.55;font-size:.95rem}
+/* View Containers */
+.view-panel{display:none;padding:1.4rem 0 3rem;flex-direction:column}
+.view-panel.active{display:flex}
 
-/* Kategoriyalar filtri */
+.view-head{margin-bottom:1.4rem}
+.view-title{font-size:clamp(1.5rem,4.5vw,2rem);font-weight:700;letter-spacing:-.025em;margin-bottom:.35rem}
+.view-desc{font-size:.9rem;color:var(--mute);line-height:1.55}
+
+/* 1. SHADOWING VIEW */
 .cats-wrap{margin-bottom:1.2rem;display:flex;flex-direction:column;gap:.65rem}
 .cats-bar{display:flex;gap:.45rem;overflow-x:auto;padding-bottom:.3rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .cats-bar::-webkit-scrollbar{display:none}
@@ -152,12 +196,12 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:700;letter-spacing:-.025em;ma
   border-radius:6px;
   background:var(--primary-bg);
   color:var(--primary);
-  border:1px solid transparent;
 }
 .topic[data-cat="shadowing"] .cat-tag{color:#8b5cf6;background:#f5f3ff}
 
-/* O'qish ekrani */
-#reader{display:none;height:100%;flex-direction:column}
+/* Shadowing Reader Modal/Overlay */
+#reader{display:none;position:fixed;inset:0;background:var(--bg);z-index:100;height:100%;flex-direction:column;padding:0 1.25rem}
+#reader.on{display:flex}
 .bar{display:flex;justify-content:space-between;align-items:center;padding:.85rem 0;gap:.5rem;border-bottom:1px solid var(--line)}
 .bar-center{display:flex;flex-direction:column;align-items:center;gap:.15rem;overflow:hidden;text-align:center}
 .bar .title{font-weight:600;font-size:.95rem;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px}
@@ -166,37 +210,9 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:700;letter-spacing:-.025em;ma
 #stage{position:relative;flex:1;min-height:0;overflow:hidden}
 
 :root{
-  --ms:linear-gradient(to bottom,
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,0) 20%,
-    rgba(0,0,0,.2) 32%,
-    #000 44%,
-    #000 56%,
-    rgba(0,0,0,.2) 68%,
-    rgba(0,0,0,0) 80%,
-    rgba(0,0,0,0) 100%);
-  --mm:linear-gradient(to bottom,
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.15) 15%,
-    rgba(0,0,0,.75) 28%,
-    rgba(0,0,0,.5) 38%,
-    rgba(0,0,0,0) 45%,
-    rgba(0,0,0,0) 55%,
-    rgba(0,0,0,.5) 62%,
-    rgba(0,0,0,.75) 72%,
-    rgba(0,0,0,.15) 85%,
-    rgba(0,0,0,0) 100%);
-  --mf:linear-gradient(to bottom,
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.4) 10%,
-    rgba(0,0,0,.65) 20%,
-    rgba(0,0,0,.2) 32%,
-    rgba(0,0,0,0) 40%,
-    rgba(0,0,0,0) 60%,
-    rgba(0,0,0,.2) 68%,
-    rgba(0,0,0,.65) 80%,
-    rgba(0,0,0,.4) 90%,
-    rgba(0,0,0,0) 100%);
+  --ms:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 20%,rgba(0,0,0,.2) 32%,#000 44%,#000 56%,rgba(0,0,0,.2) 68%,rgba(0,0,0,0) 80%,rgba(0,0,0,0) 100%);
+  --mm:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.15) 15%,rgba(0,0,0,.75) 28%,rgba(0,0,0,.5) 38%,rgba(0,0,0,0) 45%,rgba(0,0,0,0) 55%,rgba(0,0,0,.5) 62%,rgba(0,0,0,.75) 72%,rgba(0,0,0,.15) 85%,rgba(0,0,0,0) 100%);
+  --mf:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.4) 10%,rgba(0,0,0,.65) 20%,rgba(0,0,0,.2) 32%,rgba(0,0,0,0) 40%,rgba(0,0,0,0) 60%,rgba(0,0,0,.2) 68%,rgba(0,0,0,.65) 80%,rgba(0,0,0,.4) 90%,rgba(0,0,0,0) 100%);
 }
 
 #text{
@@ -257,7 +273,6 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:700;letter-spacing:-.025em;ma
 .status-pill .rec-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* Boshqaruv paneli */
 .ctrl{padding:.8rem 0 calc(1rem + env(safe-area-inset-bottom,16px));display:grid;gap:.65rem;border-top:1px solid var(--line)}
 .row{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;align-items:center}
 
@@ -291,31 +306,318 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:700;letter-spacing:-.025em;ma
   z-index:10;
 }
 #done .rec-player{margin:.4rem 0}
+
+/* 2. LISTENING VIEW */
+.selector-box{display:flex;gap:.6rem;margin-bottom:1.2rem;align-items:center;flex-wrap:wrap}
+.styled-select{
+  flex:1;
+  min-width:200px;
+  padding:.65em 1rem;
+  font-size:.9rem;
+  font-weight:500;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--fg);
+  cursor:pointer;
+}
+
+.listen-audio-bar{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1rem 1.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:.85rem;
+  margin-bottom:1.4rem;
+}
+.listen-audio-top{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
+.audio-state{font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:.4rem}
+.audio-wave{display:inline-flex;align-items:center;gap:3px;height:14px}
+.audio-wave span{width:3px;height:100%;background:var(--primary);border-radius:2px;animation:wave 1s infinite ease-in-out}
+.audio-wave span:nth-child(2){animation-delay:.2s}
+.audio-wave span:nth-child(3){animation-delay:.4s}
+@keyframes wave{0%,100%{height:4px}50%{height:14px}}
+
+.passage-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1.4rem;
+  margin-bottom:1.8rem;
+  line-height:1.75;
+  font-size:1.02rem;
+}
+.passage-card p{margin-bottom:1em}
+.passage-card p:last-child{margin-bottom:0}
+.passage-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.8rem;border-bottom:1px solid var(--line)}
+.passage-title{font-size:1.15rem;font-weight:700}
+.passage-badge{font-size:.75rem;font-weight:600;padding:.2em .6em;border-radius:6px;background:var(--primary-bg);color:var(--primary)}
+
+.quiz-section{display:flex;flex-direction:column;gap:1.2rem}
+.quiz-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:.5rem;border-bottom:1px solid var(--line)}
+.quiz-head h3{font-size:1.15rem;font-weight:700}
+.quiz-count{font-size:.85rem;color:var(--mute)}
+
+.q-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1.1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.85rem;
+}
+.q-title{font-weight:600;font-size:.95rem;line-height:1.5;display:flex;gap:.5rem}
+.q-num{color:var(--primary);font-weight:700}
+.opt-list{display:flex;flex-direction:column;gap:.45rem}
+.opt-btn{
+  width:100%;
+  text-align:left;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:.75rem 1rem;
+  font-size:.88rem;
+  line-height:1.4;
+  display:flex;
+  align-items:flex-start;
+  gap:.65rem;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.opt-btn:hover:not(:disabled){border-color:var(--mute);background:var(--card)}
+.opt-btn.correct{background:var(--success-bg);border-color:var(--success);color:var(--success);font-weight:600}
+.opt-btn.incorrect{background:var(--danger-bg);border-color:var(--danger);color:var(--danger)}
+.opt-letter{font-weight:700;color:var(--mute);min-width:18px}
+.opt-btn.correct .opt-letter{color:var(--success)}
+.opt-btn.incorrect .opt-letter{color:var(--danger)}
+
+.q-exp{
+  display:none;
+  padding:.75rem;
+  border-radius:8px;
+  background:var(--bg);
+  border-left:3px solid var(--primary);
+  font-size:.82rem;
+  color:var(--mute);
+  line-height:1.5;
+}
+.q-exp.show{display:block}
+.q-exp strong{color:var(--fg);display:block;margin-bottom:.2rem}
+
+.score-box{
+  display:none;
+  background:var(--primary-bg);
+  border:1px solid var(--primary);
+  border-radius:12px;
+  padding:1.25rem;
+  text-align:center;
+  flex-direction:column;
+  align-items:center;
+  gap:.65rem;
+  margin-top:.8rem;
+}
+.score-box.show{display:flex}
+.score-title{font-size:1.3rem;font-weight:700;color:var(--primary)}
+
+/* 3. VOCABULARY VIEW */
+.vocab-search-bar{display:flex;gap:.6rem;margin-bottom:.85rem}
+.vocab-search-input{
+  flex:1;
+  padding:.65em 1rem;
+  font-size:.9rem;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--fg);
+}
+.vocab-filters{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1.2rem;scrollbar-width:none}
+.vocab-filters::-webkit-scrollbar{display:none}
+.v-pill{
+  flex-shrink:0;
+  padding:.35em .8em;
+  font-size:.78rem;
+  font-weight:600;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--mute);
+  cursor:pointer;
+}
+.v-pill.active{background:var(--active);color:var(--active-fg);border-color:var(--active)}
+
+.vocab-grid{display:flex;flex-direction:column;gap:.65rem}
+.v-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:1.1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+  transition:all .15s ease;
+}
+.v-card:hover{border-color:var(--mute)}
+.v-top{display:flex;justify-content:space-between;align-items:center}
+.v-word-wrap{display:flex;align-items:baseline;gap:.5rem}
+.v-word{font-size:1.2rem;font-weight:700;color:var(--fg)}
+.v-pos{font-size:.75rem;font-style:italic;color:var(--mute)}
+.v-speak-btn{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--bg);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.95rem;
+  color:var(--mute);
+}
+.v-speak-btn:hover{color:var(--fg);border-color:var(--fg)}
+.v-trans{font-size:.95rem;font-weight:600;color:var(--primary)}
+.v-ex-wrap{background:var(--bg);border-radius:8px;padding:.65rem .85rem;border-left:3px solid var(--line);display:flex;flex-direction:column;gap:.25rem}
+.v-ex{font-size:.88rem;color:var(--fg);line-height:1.5}
+.v-ex-tr{font-size:.82rem;color:var(--mute);line-height:1.45}
 </style>
 </head>
 <body>
 
-<div class="wrap" id="home">
-  <h1>Speak Fast & Clear</h1>
-  <p class="sub">Ovoz chiqarib o‘qish, Shadowing va talaffuz ravonligini oshirish ilovasi. Kerakli kategoriyani tanlang.</p>
-  
-  <div class="cats-wrap">
-    <div class="cats-bar" id="catsBar">
-      <button class="cat-pill active" data-cat="all" type="button">✨ Barchasi</button>
-      <button class="cat-pill" data-cat="shadowing" type="button">🎙️ Shadowing</button>
-      <button class="cat-pill" data-cat="motivatsiya" type="button">🔥 Motivatsiya</button>
-      <button class="cat-pill" data-cat="tinchlanish" type="button">🌿 Tinchlanish</button>
-      <button class="cat-pill" data-cat="kundalik" type="button">💬 Kundalik</button>
+<div class="wrap">
+  <!-- Brand & Main Tabs -->
+  <header class="app-header">
+    <div class="top-brand">
+      <div class="brand-title">
+        <span>FarxodEnglish</span>
+        <span class="brand-tag">Studio</span>
+      </div>
     </div>
-    <div class="cat-desc" id="catDesc">
-      <strong>Shadowing:</strong> Matnni ovoz chiqarib o‘qish, smooth scroll (silliq siljish). Namuna ovoziga parallel ravishda ergashib talaffuz qiling va nutq ritmini o‘zlashtiring.
-    </div>
-  </div>
+    <nav class="main-tabs" role="tablist">
+      <button class="main-tab active" id="tabShadowing" type="button">🎙️ Shadowing</button>
+      <button class="main-tab" id="tabListening" type="button">🎧 Listening</button>
+      <button class="main-tab" id="tabVocab" type="button">📚 Vocabulary</button>
+    </nav>
+  </header>
 
-  <div class="topic-list" id="list"></div>
+  <!-- ============================================== -->
+  <!-- 1. SHADOWING VIEW -->
+  <!-- ============================================== -->
+  <section class="view-panel active" id="viewShadowing">
+    <div class="view-head">
+      <h2 class="view-title">Shadowing & Smooth Scroll</h2>
+      <p class="view-desc">Matnni ovoz chiqarib o‘qish, silliq siljish (smooth scroll). Namuna ovoziga parallel ergashib talaffuz qiling, jimlikni sezuvchi mikrofon va ovoz yozishdan foydalaning.</p>
+    </div>
+
+    <div class="cats-wrap">
+      <div class="cats-bar" id="catsBar">
+        <button class="cat-pill active" data-cat="all" type="button">✨ Barchasi</button>
+        <button class="cat-pill" data-cat="shadowing" type="button">🎙️ Shadowing</button>
+        <button class="cat-pill" data-cat="motivatsiya" type="button">🔥 Motivatsiya</button>
+        <button class="cat-pill" data-cat="tinchlanish" type="button">🌿 Tinchlanish</button>
+        <button class="cat-pill" data-cat="kundalik" type="button">💬 Kundalik</button>
+      </div>
+      <div class="cat-desc" id="catDesc">
+        <strong>Shadowing:</strong> Matnni ovoz chiqarib o‘qish, smooth scroll (silliq siljish). Namuna ovoziga parallel ravishda ergashib talaffuz qiling va nutq ritmini o‘zlashtiring.
+      </div>
+    </div>
+
+    <div class="topic-list" id="list"></div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- 2. LISTENING VIEW (Audio tinglash va savollarga javob berish) -->
+  <!-- ============================================== -->
+  <section class="view-panel" id="viewListening">
+    <div class="view-head">
+      <h2 class="view-title">Listening & Savollar</h2>
+      <p class="view-desc">Ingliz tilidagi audio matnni diqqat bilan tinglang, so‘ngra matn tushunish darajangizni interaktiv test savollari orqali tekshiring.</p>
+    </div>
+
+    <div class="selector-box">
+      <label for="listenTopicSelect" style="font-size:.85rem;font-weight:600;color:var(--mute)">Mavzu:</label>
+      <select class="styled-select" id="listenTopicSelect"></select>
+    </div>
+
+    <!-- Audio Player -->
+    <div class="listen-audio-bar">
+      <div class="listen-audio-top">
+        <div class="audio-state">
+          <span id="audioWave" class="audio-wave" style="display:none;"><span></span><span></span><span></span></span>
+          <span id="audioStatusText">Audio tinglashga tayyor</span>
+        </div>
+        <div style="display:flex;gap:.5rem;align-items:center;">
+          <select id="listenSpeedSelect" style="padding:.25em .5em;font-size:.8rem;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--fg)">
+            <option value="0.85">0.85x (Sekin)</option>
+            <option value="1.0" selected>1.0x (Normal)</option>
+            <option value="1.15">1.15x (Tez)</option>
+          </select>
+          <button class="solid small" id="listenPlayBtn" type="button">▶ Audio tinglash</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passage -->
+    <div class="passage-card">
+      <div class="passage-meta">
+        <div class="passage-title" id="listenPassageTitle"></div>
+        <div class="passage-badge" id="listenReadTime"></div>
+      </div>
+      <div id="listenPassageText"></div>
+    </div>
+
+    <!-- Questions -->
+    <div class="quiz-section">
+      <div class="quiz-head">
+        <h3>Matn bo‘yicha savollar</h3>
+        <span class="quiz-count" id="quizCountText">0 / 0 javob berildi</span>
+      </div>
+      <div id="quizQuestionsContainer"></div>
+      
+      <div class="score-box" id="quizScoreBox">
+        <div class="score-title" id="quizScoreTitle"></div>
+        <p id="quizScoreDesc" style="font-size:.9rem;color:var(--mute)"></p>
+        <button class="solid small" id="quizRetryBtn" type="button">↺ Qaytadan yechish</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- 3. VOCABULARY VIEW (So'zlar, misollar va tarjimalar) -->
+  <!-- ============================================== -->
+  <section class="view-panel" id="viewVocab">
+    <div class="view-head">
+      <h2 class="view-title">Vocabulary & Misollar</h2>
+      <p class="view-desc">B2 darajadagi 1,200 ta eng muhim so‘z, ularning o‘zbekcha aniq tarjimasi, audio talaffuzi va hayotiy misol jumlalari.</p>
+    </div>
+
+    <div class="selector-box">
+      <label for="vocabTopicSelect" style="font-size:.85rem;font-weight:600;color:var(--mute)">Mavzu:</label>
+      <select class="styled-select" id="vocabTopicSelect"></select>
+    </div>
+
+    <div class="vocab-search-bar">
+      <input type="text" class="vocab-search-input" id="vocabSearch" placeholder="So‘z yoki tarjimani qidirish...">
+    </div>
+
+    <div class="vocab-filters" id="vocabFilters">
+      <button class="v-pill active" data-pos="all" type="button">Barchasi</button>
+      <button class="v-pill" data-pos="n" type="button">Ot (Nouns)</button>
+      <button class="v-pill" data-pos="v" type="button">Fe'l (Verbs)</button>
+      <button class="v-pill" data-pos="adj" type="button">Sifat (Adjectives)</button>
+      <button class="v-pill" data-pos="phr" type="button">Iboralar (Phrases)</button>
+    </div>
+
+    <div class="vocab-grid" id="vocabGrid"></div>
+  </section>
 </div>
 
-<div class="wrap" id="reader">
+<!-- ============================================== -->
+<!-- SHADOWING READER STAGE (Modal Overlay) -->
+<!-- ============================================== -->
+<div id="reader">
   <div class="bar">
     <button class="ghost small" id="back" type="button">← Ortga</button>
     <div class="bar-center">
@@ -393,7 +695,9 @@ h1{font-size:clamp(1.75rem,5vw,2.4rem);font-weight:700;letter-spacing:-.025em;ma
 </div>
 
 <script>
-// Mavzular va Kategoriyalar (Shadowing, Motivatsiya, Tinchlanish, Kundalik)
+// ==============================================
+// TOPICS DATA FOR SHADOWING (A1 - B2)
+// ==============================================
 const TOPICS=[
   // Shadowing: matnni ovoz chiqarib o'qish, smooth scroll
   ["Shadowing: Rhythm & Flow","A1","shadowing","Listen to my voice. Speak each word with me. Do not wait for me to finish. Speak at the same time. Feel the rhythm of the words. English moves like a song. Up and down, smooth and clear. You are doing it. Keep going."],
@@ -439,17 +743,54 @@ const CAT_DESCRIPTIONS = {
 };
 
 const $=id=>document.getElementById(id);
-const T=$('text'),home=$('home'),reader=$('reader'),ins=[...document.querySelectorAll('.in')];
+
+// ==============================================
+// TAB SWITCHING (Shadowing, Listening, Vocabulary)
+// ==============================================
+const tabShadowing = $('tabShadowing');
+const tabListening = $('tabListening');
+const tabVocab = $('tabVocab');
+const viewShadowing = $('viewShadowing');
+const viewListening = $('viewListening');
+const viewVocab = $('viewVocab');
+
+function switchMainTab(mode){
+  [tabShadowing, tabListening, tabVocab].forEach(b=>b.classList.remove('active'));
+  [viewShadowing, viewListening, viewVocab].forEach(p=>p.classList.remove('active'));
+  
+  // Stop ongoing audios if switching tabs
+  if('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
+  if(listenAudioPlaying) stopListenAudio();
+
+  if(mode === 'shadowing'){
+    tabShadowing.classList.add('active');
+    viewShadowing.classList.add('active');
+  } else if(mode === 'listening'){
+    tabListening.classList.add('active');
+    viewListening.classList.add('active');
+    initListeningView();
+  } else if(mode === 'vocab'){
+    tabVocab.classList.add('active');
+    viewVocab.classList.add('active');
+    initVocabView();
+  }
+}
+tabShadowing.onclick = () => switchMainTab('shadowing');
+tabListening.onclick = () => switchMainTab('listening');
+tabVocab.onclick = () => switchMainTab('vocab');
+
+// ==============================================
+// 1. SHADOWING ENGINE
+// ==============================================
+const T_text=$('text'), reader=$('reader'), ins=[...document.querySelectorAll('.in')];
 let cur=null,wpm=100,run=false,pos=0,last=0,raf=null,vel=0,max=1,pxw=1,ended=false;
 let activeCat = 'all';
 let isShadowMode = false;
 
-// Mikrofon va yozib olish
 let micStream=null,audioCtx=null,micAnalyser=null,micData=null,micMode=false;
 let userSpeaking=false,lastSpokenTime=0;
 let mediaRecorder=null,recordedChunks=[],recordedAudio=null,isRecording=false;
 
-// Namuna ovozi
 let femaleVoice=null;
 function loadFemaleVoice(){
   if(!('speechSynthesis' in window))return;
@@ -466,14 +807,13 @@ if('speechSynthesis' in window){
 }
 
 function layout(){
-  const pad=T.clientHeight/2;
+  const pad=T_text.clientHeight/2;
   ins.forEach(e=>{e.style.padding=pad+'px 0'});
   const th=ins[0].offsetHeight-2*pad;
   max=Math.max(1,th);
   pxw=th/cur[3].split(/\s+/).length;
 }
 
-// Bosh sahifa ro'yxatini chiqarish
 function renderTopicList(){
   const list=$('list');
   list.innerHTML='';
@@ -483,13 +823,12 @@ function renderTopicList(){
     b.className='topic';
     b.dataset.cat=t[2];
     b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${t[0]}</span><span class="meta"><span class="cat-tag">${CAT_LABELS[t[2]]||t[2]}</span><span class="l">${t[1]}</span></span>`;
-    b.onclick=()=>open(i);
+    b.onclick=()=>openShadowing(i);
     list.appendChild(b);
   });
 }
 renderTopicList();
 
-// Kategoriya tanlash
 document.querySelectorAll('.cat-pill').forEach(btn=>{
   btn.onclick=()=>{
     document.querySelectorAll('.cat-pill').forEach(b=>b.classList.remove('active'));
@@ -500,17 +839,15 @@ document.querySelectorAll('.cat-pill').forEach(btn=>{
   };
 });
 
-function open(i){
+function openShadowing(i){
   cur=TOPICS[i];
   $('ttl').textContent=cur[0];
   $('catBadge').textContent=(CAT_LABELS[cur[2]]||cur[2])+' · Silliq siljish';
 
-  // Matnni taxminan 4 so'zdan ixcham qatorlarga ajratish
   const html=cur[3].split(/(?<=\.)\s+/).reduce((a,s,k)=>{(k%2?a[a.length-1]+=' '+s:a.push(s));return a},[]).map(p=>`<p>${p}</p>`).join('');
   ins.forEach(e=>e.innerHTML=html);
 
-  home.style.display='none';
-  reader.style.display='flex';
+  reader.classList.add('on');
   $('done').style.display='none';
   $('recPlayerRow').style.display='none';
   $('recPlayerDone').style.display='none';
@@ -596,7 +933,6 @@ function toggle(force){
 }
 $('go').onclick=()=>toggle();
 
-// Shadowing rejimi: silliq siljish bilan birga namuna ovoziga ergashish
 function toggleShadowing(){
   isShadowMode=!isShadowMode;
   $('shadowBtn').classList.toggle('active', isShadowMode);
@@ -613,7 +949,6 @@ function toggleShadowing(){
 }
 $('shadowBtn').onclick=toggleShadowing;
 
-// Mikrofon (Jimlikni sezish)
 async function initMic(){
   if(micStream)return true;
   try{
@@ -689,7 +1024,6 @@ function setMicStatusUI(speaking){
   }
 }
 
-// Ovoz yozish
 async function toggleRecording(){
   if(!isRecording){
     const ok=await initMic();
@@ -759,7 +1093,6 @@ $('delRecBtn').onclick=()=>{
   $('recPlayerDone').style.display='none';
 };
 
-// Namuna ovozi
 function startReferenceVoice(){
   if(!('speechSynthesis' in window))return;
   if(speechSynthesis.speaking)speechSynthesis.cancel();
@@ -803,14 +1136,13 @@ function toggleReferenceVoice(){
 }
 $('listen').onclick=toggleReferenceVoice;
 
-// Stage interaksiyalari
-T.addEventListener('wheel',e=>{e.preventDefault();pos=Math.max(0,Math.min(max,pos+e.deltaY));vel=0;render()},{passive:false});
+T_text.addEventListener('wheel',e=>{e.preventDefault();pos=Math.max(0,Math.min(max,pos+e.deltaY));vel=0;render()},{passive:false});
 let dy=null;
-T.addEventListener('pointerdown',e=>{dy=e.clientY;T.setPointerCapture(e.pointerId)});
-T.addEventListener('pointermove',e=>{if(dy===null)return;pos=Math.max(0,Math.min(max,pos-(e.clientY-dy)));dy=e.clientY;vel=0;render()});
-['pointerup','pointercancel'].forEach(n=>T.addEventListener(n,()=>{dy=null}));
+T_text.addEventListener('pointerdown',e=>{dy=e.clientY;T_text.setPointerCapture(e.pointerId)});
+T_text.addEventListener('pointermove',e=>{if(dy===null)return;pos=Math.max(0,Math.min(max,pos-(e.clientY-dy)));dy=e.clientY;vel=0;render()});
+['pointerup','pointercancel'].forEach(n=>T_text.addEventListener(n,()=>{dy=null}));
 
-addEventListener('resize',()=>{if(cur&&reader.style.display==='flex'){const r=pos/max;layout();pos=r*max;render()}});
+addEventListener('resize',()=>{if(cur&&reader.classList.contains('on')){const r=pos/max;layout();pos=r*max;render()}});
 $('again').onclick=()=>{$('done').style.display='none';pos=0;vel=0;ended=false;render();toggle(true)};
 $('backDone').onclick=()=>{$('back').click()};
 $('back').onclick=()=>{
@@ -819,12 +1151,10 @@ $('back').onclick=()=>{
   if(raf)cancelAnimationFrame(raf);
   if('speechSynthesis' in window)speechSynthesis.cancel();
   stopMusic();
-  reader.style.display='none';
-  home.style.display='block';
+  reader.classList.remove('on');
 };
-document.addEventListener('keydown',e=>{if(e.code==='Space'&&reader.style.display==='flex'){e.preventDefault();toggle()}});
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&reader.classList.contains('on')){e.preventDefault();toggle()}});
 
-/* Lofi generatori */
 const M=n=>440*Math.pow(2,(n-69)/12);
 const TR=[
 {n:'Rainy Window',c:[[53,57,60,64],[52,55,59,62],[50,53,57,60],[48,52,55,59]],d:4,b:1,m:0},
@@ -896,6 +1226,285 @@ $('mt').onclick=()=>{
   if(musicOn)startMusic();
   else{ctl();setTimeout(()=>{if(!musicOn)stopMusic()},600)}
 };
+
+// ==============================================
+// 2. LISTENING LOGIC (Audio tinglash va savollarga javob berish)
+// ==============================================
+let currentListenTopicIdx = 0;
+let listenAudioPlaying = false;
+let listenQuizAnswers = {};
+
+function initListeningView(){
+  const sel = $('listenTopicSelect');
+  if(sel.options.length === 0 && window.READING_DATA){
+    window.READING_DATA.forEach((item, idx)=>{
+      const opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = `${idx + 1}. ${item.title}`;
+      sel.appendChild(opt);
+    });
+    sel.onchange = () => {
+      currentListenTopicIdx = +sel.value;
+      loadListeningTopic(currentListenTopicIdx);
+    };
+  }
+  loadListeningTopic(currentListenTopicIdx);
+}
+
+function loadListeningTopic(idx){
+  if(!window.READING_DATA || !window.READING_DATA[idx]) return;
+  const data = window.READING_DATA[idx];
+  
+  if(listenAudioPlaying) stopListenAudio();
+
+  $('listenPassageTitle').textContent = data.title;
+  $('listenReadTime').textContent = data.readTime || '⏱️ 1.5 min read';
+  
+  const pContainer = $('listenPassageText');
+  pContainer.innerHTML = '';
+  data.paragraphs.forEach(pText => {
+    const p = document.createElement('p');
+    p.textContent = pText;
+    pContainer.appendChild(p);
+  });
+
+  listenQuizAnswers = {};
+  renderListeningQuiz(data.questions);
+}
+
+function renderListeningQuiz(questions){
+  const container = $('quizQuestionsContainer');
+  container.innerHTML = '';
+  $('quizScoreBox').classList.remove('show');
+  $('quizCountText').textContent = `0 / ${questions.length} javob berildi`;
+
+  questions.forEach((q, qIdx)=>{
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `q-card-${q.id}`;
+
+    const head = document.createElement('div');
+    head.className = 'q-title';
+    head.innerHTML = `<span class="q-num">${qIdx + 1}.</span><span>${q.question}</span>`;
+    card.appendChild(head);
+
+    const optList = document.createElement('div');
+    optList.className = 'opt-list';
+
+    const letters = ['A', 'B', 'C', 'D'];
+    q.options.forEach((optStr, optIdx)=>{
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      const letterChar = (q.type === 'tf') ? (optIdx === 0 ? '✓' : '✗') : letters[optIdx];
+      btn.innerHTML = `<span class="opt-letter">${letterChar}</span><span>${optStr}</span>`;
+      btn.onclick = () => handleQuizAnswer(q, optIdx, card, questions);
+      optList.appendChild(btn);
+    });
+    card.appendChild(optList);
+
+    const exp = document.createElement('div');
+    exp.className = 'q-exp';
+    exp.innerHTML = `<strong>Tushuntirish:</strong>${q.explanation}`;
+    card.appendChild(exp);
+
+    container.appendChild(card);
+  });
+}
+
+function handleQuizAnswer(q, chosenIdx, card, allQuestions){
+  if(listenQuizAnswers[q.id]) return;
+  const isCorrect = (chosenIdx === q.answer);
+  listenQuizAnswers[q.id] = { chosen: chosenIdx, isCorrect: isCorrect };
+
+  const buttons = card.querySelectorAll('.opt-btn');
+  buttons.forEach((btn, idx)=>{
+    btn.disabled = true;
+    if(idx === q.answer){
+      btn.classList.add('correct');
+    } else if(idx === chosenIdx && !isCorrect){
+      btn.classList.add('incorrect');
+    }
+  });
+
+  const exp = card.querySelector('.q-exp');
+  if(exp) exp.classList.add('show');
+
+  const answered = Object.keys(listenQuizAnswers).length;
+  $('quizCountText').textContent = `${answered} / ${allQuestions.length} javob berildi`;
+
+  if(answered === allQuestions.length){
+    let correctCount = 0;
+    allQuestions.forEach(item => {
+      if(listenQuizAnswers[item.id] && listenQuizAnswers[item.id].isCorrect) correctCount++;
+    });
+    const percent = Math.round((correctCount / allQuestions.length) * 100);
+    $('quizScoreTitle').textContent = `🎯 Natijangiz: ${correctCount} / ${allQuestions.length} to‘g‘ri (${percent}%)`;
+    $('quizScoreDesc').textContent = percent >= 80 ? "Ajoyib natija! Matnni chuqur tushundingiz." : "Yaxshi urinish! Tushuntirishlarni qayta ko‘rib, natijangizni yanada yaxshilashingiz mumkin.";
+    $('quizScoreBox').classList.add('show');
+  }
+}
+
+$('quizRetryBtn').onclick = () => {
+  if(window.READING_DATA && window.READING_DATA[currentListenTopicIdx]){
+    listenQuizAnswers = {};
+    renderListeningQuiz(window.READING_DATA[currentListenTopicIdx].questions);
+  }
+};
+
+// Audio Player for Listening
+function playListenAudio(){
+  if(!('speechSynthesis' in window)) return;
+  if(speechSynthesis.speaking) speechSynthesis.cancel();
+  loadFemaleVoice();
+
+  const data = window.READING_DATA[currentListenTopicIdx];
+  if(!data) return;
+  const fullText = data.paragraphs.join(' ');
+  const u = new SpeechSynthesisUtterance(fullText);
+  if(femaleVoice) u.voice = femaleVoice;
+  u.lang = 'en-US';
+  const speedRate = parseFloat($('listenSpeedSelect').value) || 1.0;
+  u.rate = speedRate;
+
+  u.onstart = () => {
+    listenAudioPlaying = true;
+    $('listenPlayBtn').textContent = '⏸ To‘xtatish';
+    $('listenPlayBtn').classList.add('solid');
+    $('audioWave').style.display = 'inline-flex';
+    $('audioStatusText').textContent = 'Audio yangramoqda... (diqqat bilan tinglang)';
+  };
+  u.onend = stopListenAudio;
+  u.onerror = stopListenAudio;
+
+  speechSynthesis.speak(u);
+}
+
+function stopListenAudio(){
+  if('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
+  listenAudioPlaying = false;
+  $('listenPlayBtn').textContent = '▶ Audio tinglash';
+  $('listenPlayBtn').classList.remove('solid');
+  $('audioWave').style.display = 'none';
+  $('audioStatusText').textContent = 'Audio tinglashga tayyor';
+}
+
+$('listenPlayBtn').onclick = () => {
+  if(listenAudioPlaying) stopListenAudio();
+  else playListenAudio();
+};
+
+// ==============================================
+// 3. VOCABULARY LOGIC (So'zlar, misollar va tarjimalar)
+// ==============================================
+let currentVocabTopicIdx = 0;
+let currentVocabPos = 'all';
+let currentVocabSearch = '';
+
+function initVocabView(){
+  const sel = $('vocabTopicSelect');
+  if(sel.options.length === 0 && window.READING_DATA){
+    window.READING_DATA.forEach((item, idx)=>{
+      const opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = `${idx + 1}. ${item.title}`;
+      sel.appendChild(opt);
+    });
+    sel.onchange = () => {
+      currentVocabTopicIdx = +sel.value;
+      renderVocabCards();
+    };
+  }
+  renderVocabCards();
+}
+
+document.querySelectorAll('.v-pill').forEach(btn=>{
+  btn.onclick = () => {
+    document.querySelectorAll('.v-pill').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentVocabPos = btn.dataset.pos;
+    renderVocabCards();
+  };
+});
+
+$('vocabSearch').oninput = e => {
+  currentVocabSearch = e.target.value.toLowerCase().trim();
+  renderVocabCards();
+};
+
+function renderVocabCards(){
+  const grid = $('vocabGrid');
+  grid.innerHTML = '';
+
+  if(!window.VOCAB_DATA || !window.VOCAB_DATA[currentVocabTopicIdx]){
+    grid.innerHTML = '<div style="color:var(--mute);text-align:center;padding:2rem;">Lug‘at ma’lumotlari yuklanmadi.</div>';
+    return;
+  }
+
+  const list = window.VOCAB_DATA[currentVocabTopicIdx];
+  const filtered = list.filter(item => {
+    if(currentVocabPos !== 'all' && item.pos !== currentVocabPos) return false;
+    if(currentVocabSearch){
+      const matchWord = item.w.toLowerCase().includes(currentVocabSearch);
+      const matchTr = item.tr.toLowerCase().includes(currentVocabSearch);
+      const matchEx = item.ex.toLowerCase().includes(currentVocabSearch);
+      if(!matchWord && !matchTr && !matchEx) return false;
+    }
+    return true;
+  });
+
+  if(filtered.length === 0){
+    grid.innerHTML = '<div style="color:var(--mute);text-align:center;padding:2rem;">Hech qanday so‘z topilmadi.</div>';
+    return;
+  }
+
+  const posLabels = { n: 'noun', v: 'verb', adj: 'adjective', phr: 'phrase' };
+
+  filtered.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'v-card';
+
+    const top = document.createElement('div');
+    top.className = 'v-top';
+
+    const wordWrap = document.createElement('div');
+    wordWrap.className = 'v-word-wrap';
+    wordWrap.innerHTML = `<span class="v-word">${item.w}</span><span class="v-pos">(${posLabels[item.pos]||item.pos})</span>`;
+
+    const speakBtn = document.createElement('button');
+    speakBtn.className = 'v-speak-btn';
+    speakBtn.type = 'button';
+    speakBtn.title = 'Talaffuzni eshitish';
+    speakBtn.innerHTML = '🔊';
+    speakBtn.onclick = () => speakSingleWord(item.w);
+
+    top.appendChild(wordWrap);
+    top.appendChild(speakBtn);
+    card.appendChild(top);
+
+    const trans = document.createElement('div');
+    trans.className = 'v-trans';
+    trans.textContent = item.tr;
+    card.appendChild(trans);
+
+    const exWrap = document.createElement('div');
+    exWrap.className = 'v-ex-wrap';
+    exWrap.innerHTML = `<div class="v-ex">"${item.ex}"</div><div class="v-ex-tr">${item.exTr}</div>`;
+    card.appendChild(exWrap);
+
+    grid.appendChild(card);
+  });
+}
+
+function speakSingleWord(word){
+  if(!('speechSynthesis' in window)) return;
+  if(speechSynthesis.speaking) speechSynthesis.cancel();
+  loadFemaleVoice();
+  const u = new SpeechSynthesisUtterance(word);
+  if(femaleVoice) u.voice = femaleVoice;
+  u.lang = 'en-US';
+  u.rate = 0.9;
+  speechSynthesis.speak(u);
+}
 </script>
 </body>
 </html>
