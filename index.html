@@ -635,9 +635,52 @@ button:active{transform:scale(.98)}
 }
 .quiz-feedback.show{display:block}
 .quiz-feedback strong{color:var(--fg);display:block;margin-bottom:.25rem}
+
+/* Ambient Atmosphere Canvas */
+#ambientCanvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:0;
+  opacity:.65;
+  transition:opacity .3s ease;
+}
+.wrap{position:relative;z-index:2}
+#reader{z-index:100}
+
+/* Optical Focus Effect Levels */
+#reader[data-fx="deep"] #lm .in{filter:blur(3.5px)}
+#reader[data-fx="deep"] #lf .in{filter:blur(9px)}
+#reader[data-fx="deep"] #text{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.1) 16%,#000 36%,#000 64%,rgba(0,0,0,0.1) 84%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.1) 16%,#000 36%,#000 64%,rgba(0,0,0,0.1) 84%,transparent 100%);
+}
+
+#reader[data-fx="medium"] #lm .in{filter:blur(2.2px)}
+#reader[data-fx="medium"] #lf .in{filter:blur(5.5px)}
+#reader[data-fx="medium"] #text{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 24%,#000 76%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 24%,#000 76%,transparent 100%);
+}
+
+#reader[data-fx="soft"] #lm .in{filter:blur(1.2px);opacity:.85}
+#reader[data-fx="soft"] #lf .in{filter:blur(3px);opacity:.6}
+#reader[data-fx="soft"] #text{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 12%,#000 88%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 12%,#000 88%,transparent 100%);
+}
+
+#reader[data-fx="off"] #lm,
+#reader[data-fx="off"] #lf{display:none}
+#reader[data-fx="off"] #ls{-webkit-mask-image:none;mask-image:none}
+#reader[data-fx="off"] #text{-webkit-mask-image:none;mask-image:none}
+
 </style>
 </head>
 <body>
+<canvas id="ambientCanvas" aria-hidden="true"></canvas>
 
 <div class="wrap">
   <!-- Main Header & 5 Navigation Tabs -->
@@ -902,6 +945,7 @@ button:active{transform:scale(.98)}
       <span class="title" id="ttl"></span>
       <span class="cat-badge" id="catBadge">🎙️ Shadowing & Smooth Scroll</span>
     </div>
+    <button class="ghost small" id="fxFocusBtn" type="button" title="Optik fokus effekti darajasi">✨ Fokus: Kuchli</button>
     <button class="ghost small" id="listen" type="button" title="Opaning ovozi bilan namuna eshitish">👩‍🏫 Namuna ovozi</button>
   </div>
 
@@ -967,6 +1011,7 @@ button:active{transform:scale(.98)}
         <span class="vol-icon">🔊</span>
       </label>
       <button class="ghost small" id="nx" type="button" title="Keyingi kuy">⏭</button>
+      <button class="ghost small" id="ambientFxBtn" type="button" title="Fon effekti: Yomg‘ir, Qor, Mayin, O‘chiq">🌧️ Fon: Yomg‘ir</button>
       <span class="tn" id="tn" style="display:none;"></span>
     </div>
   </div>
@@ -2263,6 +2308,153 @@ function finishQuizRound(){
 $('quizRestartBtn').onclick = () => {
   $('startQuizBtn').click();
 };
+
+// ==============================================
+// EFFEKT DARAJASI (FOCUS & AMBIENT ATMOSPHERE)
+// ==============================================
+const FX_FOCUS_LEVELS = [
+  { id: 'deep', label: '✨ Fokus: Kuchli' },
+  { id: 'medium', label: '✨ Fokus: O‘rtacha' },
+  { id: 'soft', label: '✨ Fokus: Mayin' },
+  { id: 'off', label: '✨ Fokus: Oddiy' }
+];
+let currentFocusFxIdx = 0;
+
+function setFocusEffect(idx){
+  currentFocusFxIdx = (idx + FX_FOCUS_LEVELS.length) % FX_FOCUS_LEVELS.length;
+  const item = FX_FOCUS_LEVELS[currentFocusFxIdx];
+  const rdr = $('reader');
+  if(rdr) rdr.setAttribute('data-fx', item.id);
+  const btn = $('fxFocusBtn');
+  if(btn) btn.textContent = item.label;
+  try{ localStorage.setItem('fe_fx_focus', currentFocusFxIdx); }catch(e){}
+}
+
+const fxFocusBtn = $('fxFocusBtn');
+if(fxFocusBtn){
+  fxFocusBtn.onclick = () => setFocusEffect(currentFocusFxIdx + 1);
+}
+
+// Load saved focus effect
+try{
+  const savedFx = localStorage.getItem('fe_fx_focus');
+  if(savedFx !== null) setFocusEffect(+savedFx);
+  else setFocusEffect(0);
+}catch(e){ setFocusEffect(0); }
+
+// Ambient Canvas Atmosphere (Yomg'ir, Qor, Mayin nurlar, O'chiq)
+const AMBIENT_FX_MODES = [
+  { id: 'rain', label: '🌧️ Fon: Yomg‘ir' },
+  { id: 'snow', label: '❄️ Fon: Qor' },
+  { id: 'glow', label: '✨ Fon: Mayin' },
+  { id: 'off', label: '🚫 Fon: O‘chiq' }
+];
+let currentAmbientFxIdx = 0;
+
+function setAmbientEffect(idx){
+  currentAmbientFxIdx = (idx + AMBIENT_FX_MODES.length) % AMBIENT_FX_MODES.length;
+  const mode = AMBIENT_FX_MODES[currentAmbientFxIdx];
+  const btn = $('ambientFxBtn');
+  if(btn) btn.textContent = mode.label;
+  const cvs = $('ambientCanvas');
+  if(cvs) cvs.style.opacity = (mode.id === 'off') ? '0' : '0.65';
+  try{ localStorage.setItem('fe_fx_ambient', currentAmbientFxIdx); }catch(e){}
+}
+
+const ambientFxBtn = $('ambientFxBtn');
+if(ambientFxBtn){
+  ambientFxBtn.onclick = () => setAmbientEffect(currentAmbientFxIdx + 1);
+}
+
+try{
+  const savedAmb = localStorage.getItem('fe_fx_ambient');
+  if(savedAmb !== null) setAmbientEffect(+savedAmb);
+  else setAmbientEffect(0);
+}catch(e){ setAmbientEffect(0); }
+
+// Canvas Animation Engine (60fps, high performance, subtle lofi vibe)
+(function initAmbientAtmosphere(){
+  const canvas = $('ambientCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W = window.innerWidth, H = window.innerHeight;
+  let particles = [];
+
+  function resize(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    initParticles();
+  }
+
+  function initParticles(){
+    particles = [];
+    const count = Math.min(90, Math.round(W * H / 12000));
+    for(let i = 0; i < count; i++){
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        speed: 1.5 + Math.random() * 4,
+        size: 1 + Math.random() * 2.5,
+        alpha: 0.2 + Math.random() * 0.45,
+        drift: (Math.random() - 0.5) * 0.6
+      });
+    }
+  }
+
+  let lastTime = performance.now();
+  function loop(now){
+    const dt = Math.min(0.05, (now - lastTime) / 1000);
+    lastTime = now;
+    ctx.clearRect(0, 0, W, H);
+
+    const mode = AMBIENT_FX_MODES[currentAmbientFxIdx].id;
+    if(mode !== 'off'){
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+                     (!document.documentElement.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+      particles.forEach(p => {
+        if(mode === 'rain'){
+          p.y += p.speed * dt * 280;
+          p.x += dt * 35;
+          if(p.y > H + 20){ p.y = -20; p.x = Math.random() * W; }
+          ctx.strokeStyle = isDark ? `rgba(180, 210, 240, ${p.alpha * 0.6})` : `rgba(70, 100, 140, ${p.alpha * 0.45})`;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x - 3, p.y - 14);
+          ctx.stroke();
+        } else if(mode === 'snow'){
+          p.y += p.speed * dt * 30;
+          p.x += Math.sin(p.y * 0.02) * 0.7;
+          if(p.y > H + 10){ p.y = -10; p.x = Math.random() * W; }
+          ctx.fillStyle = isDark ? `rgba(255, 255, 255, ${p.alpha * 0.85})` : `rgba(120, 150, 180, ${p.alpha * 0.5})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 1.2, 0, Math.PI * 2);
+          ctx.fill();
+        } else if(mode === 'glow'){
+          p.y -= p.speed * dt * 15;
+          p.x += p.drift;
+          if(p.y < -10){ p.y = H + 10; p.x = Math.random() * W; }
+          ctx.fillStyle = isDark ? `rgba(167, 139, 250, ${p.alpha * 0.4})` : `rgba(37, 99, 235, ${p.alpha * 0.25})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(loop);
+})();
+
 </script>
 </body>
 </html>

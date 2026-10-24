@@ -7,14 +7,22 @@ Ingliz tilini har tomonlama mustahkamlash, erkin gapirish, tinglab tushunish, so
 ## 🌟 5 Asosiy Bo‘lim (Categories & Modes)
 
 ### 1. 🎙️ Shadowing — Matnni ovoz chiqarib o‘qish, smooth scroll
-* **Silliq siljish (Smooth scroll)**: Matn ekranning markazida titramasdan, bir tekis ravon harakatlanadi (30 dan 250 WPM gacha sozlanadi).
-* **Ixcham qatorlar (~4 ta so‘z)**: Markazda to‘q qora va ravshan fokus, chetlarda esa fonga erib xiralashish effekti (`max-width: 18ch; text-wrap: balance;`).
-* **Interaktiv imkoniyatlar**:
+* **Silliq siljish (Smooth scroll)**: 30 dan 250 WPM gacha sozlanadigan, bir tekis ravon harakatlanuvchi matn.
+* **✨ Effekt darajasi (Optik fokus)**:
+  - `✨ Kuchli (Deep)`: Markazdagi faol qator o‘ta to‘q qora va ravshan, yuqori va pastki qatorlar chuqur xiralashadi.
+  - `✨ O‘rtacha (Medium)`: Muvozanatli standart optik fokus.
+  - `✨ Mayin (Soft)`: Yengilroq xiralashish effekti.
+  - `✨ Oddiy (Off)`: Fokus maskasisiz, toza to‘liq matn.
+* **🌧️ Fon effekti darajasi (Ambient Atmosphere)**:
+  - `🌧️ Yomg‘ir (Rain)`: Mayin lofi yomg‘ir tomchilari.
+  - `❄️ Qor (Snow)`: Sekin tushuvchi qor parchalari.
+  - `✨ Mayin (Glow)`: Mayin suzuvchi lofi nurlari.
+  - `🚫 O‘chiq (Off)`: Chalg‘itmaydigan toza fon.
+* **Interaktiv qurollar**:
   - `[ 🎙️ Shadowing ]`: Namuna ovozi bilan bir vaqtda matnga ergashib ovoz chiqarib o‘qish.
   - `[ 🎤 Ovoz bilan ]`: Jimlikni sezuvchi mikrofon (gapirsangiz siljiydi, 1.5s jim qolsangiz to‘xtaydi).
   - `[ 🔴 Yozish ]`: O‘z ovozingizni yozib olib, xatolaringizni qayta eshitish.
   - `[ 🎵 Lofi on ]`: 5 xil foniy ambient musiqa generatori.
-* **Mavzular**: Shadowing, Motivatsiya, Tinchlanish, Kundalik muloqot (A1 — B2 darajalari).
 
 ---
 
@@ -41,10 +49,10 @@ Ingliz tilini har tomonlama mustahkamlash, erkin gapirish, tinglab tushunish, so
 ---
 
 ### 4. 📖 Reading — Matn o‘qish va tushunishni tekshirish
-* **50 ta o‘qish matni**: Qiziqarli ilmiy, falsafiy va hayotiy mavzulardagi to‘liq matnlar.
+* **50 ta o‘qish matni**: Qiziqarli ilmiy, psixologik va hayotiy mavzulardagi to‘liq matnlar.
 * **O‘qish tezligi o‘lchagichi (Reading Speed / WPM Tracker)**:
   - `[ ⏱️ O‘qishni boshlash ]` tugmasi bilan taymer boshlanadi.
-  - O‘qib bo‘lgach `[ ✓ O‘qib bo‘ldim ]` bosiladi va ilova o‘qish tezligini daqiqasiga so‘zlar sonida (WPM) hisoblab beradi (masalan, `🚀 220 WPM`).
+  - O‘qib bo‘lgach `[ ✓ O‘qib bo‘ldim ]` bosiladi va ilova sizning aniq o‘qish tezligingizni (WPM — so‘z/daqiqa) hisoblab beradi (masalan, `🚀 220 WPM`).
 * **Tushunishni tekshirish savollari**: Matn yuzasidan savollarga javob berib, tushunish foizini bilib olish.
 
 ---
@@ -57,9 +65,9 @@ Ingliz tilini har tomonlama mustahkamlash, erkin gapirish, tinglab tushunish, so
   - `♾️ Cheklovsiz`
 * **Test turlari**:
   - `🔥 Aralash`: Grammatika va yangi so‘zlar aralash holda.
-  - `📚 Lug‘at`: So‘z ma’nosi va gapdagi kontekst bo‘shliqlarini to‘ldirish.
-  - `📝 Grammatika`: B1-B2 zamonlar, shart mayllari (Conditionals), majhullik nisbati (Passive voice), Inversion va iboralar.
-* **Jonli taymer & Streak**: Har bir savol uchun rangini o‘zgartiruvchi vaqt chizig‘i, ketma-ket to‘g‘ri javoblar streaki va tushuntirishlar.
+  - `📚 Lug‘at`: So‘z ma’nosi va kontekstdagi bo‘shliqni to‘ldirish.
+  - `📝 Grammatika`: Zamonlar, Conditionals, Passive voice, Inversion, Gerunds va iboralar.
+* **Jonli taymer & Streak**: Har bir savol uchun rangini o‘zgartiruvchi vaqt chizig‘i, ketma-ket to‘g‘ri javoblar streaki (`🔥 Streak: 5`), tushuntirishlar va yakuniy ball.
 
 ---
 
